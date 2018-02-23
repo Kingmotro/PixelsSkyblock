@@ -1,4 +1,4 @@
 Pixels Skyblock documentation.
 
-To get mor information : https://discord.gg/WjMmYD7
+To get more information : https://discord.gg/WjMmYD7
 
