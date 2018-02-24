@@ -28,7 +28,7 @@ public class DatabaseManager {
 	 * 
 	 */
 	
-	private static String BDD_name = "";
+	private static String BDD_name = "SKYBLOCK";
 	private static String BDD_host = "127.0.0.1:3306";
 	private static String BDD_username = "";
 	private static String BDD_password = "";
@@ -36,7 +36,7 @@ public class DatabaseManager {
 	private static Statement stmt = null;
 	
 	public static void createDatabase(){
-		
+		//TODO : requête pour créer les tables si elles existent pas.
 	}
 	
 	public static SPlayer getPlayer(String UUID){
@@ -47,7 +47,7 @@ public class DatabaseManager {
 		 * 
 		 * Requête pour obtenir les données de la table PLAYERS
 		 * Requête pour obtenir les données de la table PLAYER_DATA
-		 * 
+		 * Requête pour obtenir les données de la table PLAYER_RIGHTS
 		 */
 		
 		p.setData(UUID, getIsland(p));  
@@ -69,13 +69,13 @@ public class DatabaseManager {
 		String sql = "INSERT INTO";
 
 		try {
-
 			// Connection
 			conn  = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt  = conn.createStatement();
 			// Request
 			stmt.executeQuery(sql);
-			//pas oublier de close
+			
+			// !!! pas oublier de close !!!
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
