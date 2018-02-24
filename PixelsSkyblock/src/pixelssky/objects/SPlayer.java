@@ -3,6 +3,7 @@ package pixelssky.objects;
 import java.util.ArrayList;
 import pixelssky.utils.StringConverter;
 
+/*AKEKOUKOU*/
 
 public class SPlayer{
 	private String UUID;
