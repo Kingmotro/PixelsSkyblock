@@ -1,6 +1,8 @@
 package pixelssky.objects;
 
 import java.util.ArrayList;
+import pixelssky.utils.StringConverter;
+
 
 public class SPlayer{
 	private String UUID;
@@ -15,5 +17,41 @@ public class SPlayer{
 	{
 		//TODO : Load or create player data
 	}
+	public void saveData(){
+		//TODO : Save all player data, UUID, Island ID and rights
+		//Note : Data has to be saved in string
+		//Note : Rights has to be saved in string
+		String dataOutput = "";
+		String rightsOutput = "";
+		
+		for(Data d: data){
+			dataOutput += d.getDataName() + ";" + StringConverter.getDataToString(d.getData());
+		}
+		
+	}
+	public String getUUID(){
+		return UUID;
+	}
+	
+	public Data getData(String dataName)
+	{
+		for(Data d:data){
+			if(d.getDataName().equals(d))
+			{
+				return d;
+			}
+		}
+		return null;
+	}
+	
+	public void addOrSetData(String dataName, Object data){
+		Data d = getData(dataName);
+		if(d == null){
+			this.data.add(new Data(dataName, data));
+		}else{
+			d.setData(data);
+		}
+	}
+	
 	
 }
