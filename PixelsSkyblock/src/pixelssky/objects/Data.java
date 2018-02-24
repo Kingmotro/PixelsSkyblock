@@ -1,6 +1,6 @@
 package pixelssky.objects;
 
-import org.bukkit.Location;
+import pixelssky.utils.StringConverter;
 
 public class Data {
 	
@@ -24,6 +24,11 @@ public class Data {
 	
 	public void setData(Object data){
 		this.data = data;
+	}
+	
+	public String toString()
+	{
+		return StringConverter.getDataToString(data);
 	}
 	
 }

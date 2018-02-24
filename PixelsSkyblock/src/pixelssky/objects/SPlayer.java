@@ -18,15 +18,17 @@ public class SPlayer{
 	{
 		//TODO : Load or create player data
 	}
+	
 	public void saveData(){
 		//TODO : Save all player data, UUID, Island ID and rights
 		//Note : Data has to be saved in string
 		//Note : Rights has to be saved in string
-		String dataOutput = "";
-		String rightsOutput = "";
 		
 		for(Data d: data){
-			dataOutput += d.getDataName() + ";" + StringConverter.getDataToString(d.getData());
+			
+		}		
+		for(Right r: rights){
+			
 		}
 		
 	}
