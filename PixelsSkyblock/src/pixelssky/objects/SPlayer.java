@@ -10,8 +10,12 @@ public class SPlayer {
 	private ArrayList<Right> rights;
 	private Island island;
 	private ScoreboardObject sb;
+	private int id;
 	
 	// TODO : Get and set
+	public int getID(){
+		return id;
+	}
 	public void addRight(Right r) {
 		if(!rights.contains(r)){
 			rights.add(r);
@@ -36,7 +40,7 @@ public class SPlayer {
 		return sb;
 	}
 	
-	public void setData(String UUID, Island i){
+	public void init(int id, String UUID, Island i){
 		this.UUID = UUID;
 		island = i;
 	}

@@ -2,6 +2,7 @@ package pixelssky.managers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -20,16 +21,16 @@ public class DatabaseManager {
 	
 	/*Structure de la BDD :
 	 * Tables :
-	 * PLAYERS : 		ID : auto increment; UUID : text; ISLAND_ID: int;
-	 * PLAYER_DATA : 	ID : auto increment; PLAYER_ID : int; DATA_NAME : text; DATA_CONTENT : text;
-	 * PLAYER_RIGHTS :	ID : auto increment; PLAYER_ID : int; RIGHT_NAME : text;
-	 * ISLAND : 		ID : auto increment; PLAYERS_ID : text; ISLAND_CENTER : text; ISLAND_SPAWN : text; ISLAND_LEVEL : double;
-	 * ISLAND_DATA : 	ID : auto increment; ISLAND_ID : int; DATA_NAME : text; DATA_CONTENT : text;
+	 * Joueurs 					PLAYERS : 		ID : auto increment; UUID : text; ISLAND_ID: int;
+	 * Données joueurs			PLAYER_DATA : 	ID : auto increment; PLAYER_ID : int; DATA_NAME : text; DATA_CONTENT : text;
+	 * Droits Joueurs			PLAYER_RIGHTS :	ID : auto increment; PLAYER_ID : int; RIGHT_NAME : text;
+	 * Iles						ISLAND : 		ID : auto increment; PLAYERS_ID : text; ISLAND_CENTER : text; ISLAND_SPAWN : text; ISLAND_LEVEL : double;
+	 * Données Challenges Ile	ISLAND_DATA : 	ID : auto increment; ISLAND_ID : int; DATA_NAME : text; DATA_CONTENT : text;
 	 * 
 	 */
 	
 	private static String BDD_name = "SKYBLOCK";
-	private static String BDD_host = "127.0.0.1:3306";
+	private static String BDD_host = "jdbc:mysql://localhost:3306/SKYBLOCK";
 	private static String BDD_username = "";
 	private static String BDD_password = "";
 	private static Connection conn = null;
@@ -50,14 +51,41 @@ public class DatabaseManager {
 		 * Requête pour obtenir les données de la table PLAYER_RIGHTS
 		 */
 		
-		p.setData(UUID, getIsland(p));  
+		try {
+			// Connection
+			conn  = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt  = conn.createStatement();
+			// Request
+			ResultSet res = stmt.executeQuery( "SELECT *  FROM PLAYERS WHERE `PLAYERS`.`UUID` = "+ p.getUUID() + ";" );
+
+			if(res.getFetchSize() == 0){
+				//Si le joueur n'existe pas dans la BDD on le créé
+				conn.close();
+				p.init(0 ,UUID, null);  
+				p.addOrSetData("DonnéeVide", null);
+				p.addRight(Right.getRight("island.invite"));
+				setPlayerData(p);
+				
+			}else{
+				//Chargement des éléments de base
+				while ( res.next() ) {
+					p.init(res.getInt("ID"), UUID, getIsland(res.getInt("ISLAND_ID")));
+				}
+				conn.close();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
 		p.addOrSetData("DonnéeVide", null);
 		p.addRight(Right.getRight("TypeDeDroit.Droit"));
 		
 		return p;
 	}
 	
-	public static Island getIsland(SPlayer p){
+	public static Island getIsland(int ID){
 		//TODO : renvoyer les données de l'île à partir d'un joueur
 		// return null si le joueur n'a pas d'île.
 		return null;
@@ -65,17 +93,36 @@ public class DatabaseManager {
 	
 	public static void setPlayerData(SPlayer p){
 		//TODO faire un update ou insert
-		
-		String sql = "INSERT INTO";
-
 		try {
 			// Connection
 			conn  = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt  = conn.createStatement();
 			// Request
-			stmt.executeQuery(sql);
+			ResultSet res = stmt.executeQuery( "SELECT ID  FROM PLAYERS WHERE `PLAYERS`.`UUID` = "+ p.getUUID() + ";" );
+			int nb_val = 0;
+			int playerID = Integer.MIN_VALUE;
 			
-			// !!! pas oublier de close !!!
+			while ( res.next() ) {
+				nb_val +=1;
+			    playerID = res.getInt("ID");
+			}
+			
+			if(nb_val == 0){
+				//Si le joueur n'existe pas dans la BDD on le créé
+				stmt.executeUpdate( "INSERT INTO PLAYERS (UUID, ISLAND_ID) VALUES ('"+ p.getUUID() + "', '"+ p.getIsland().getID() + "');" );
+				//On met à jour le player avec le nouvel ID
+				ResultSet res2 = stmt.executeQuery( "SELECT ID FROM PLAYERS WHERE `PLAYERS`.`UUID` = "+ p.getUUID() + ";" );
+				while ( res2.next() ) {
+				    playerID = res.getInt("ID");
+				}
+				p.init(playerID, p.getUUID(),p.getIsland());
+			}else{
+				//On met à jour
+				stmt.executeUpdate("UPDATE `players` SET `ISLAND_ID` = '"+ p.getIsland().getID() + "' WHERE `PLAYERS`.`ID` = "+ playerID + ";");
+			}
+			
+			
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
