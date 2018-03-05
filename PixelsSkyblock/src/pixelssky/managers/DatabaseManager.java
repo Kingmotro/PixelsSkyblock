@@ -97,7 +97,7 @@ public class DatabaseManager {
 		// return null si le joueur n'a pas d'île.
 		return null;
 	}
-
+//564654
 	public static void setPlayerData(SPlayer p) {
 		// TODO faire un update ou insert
 
