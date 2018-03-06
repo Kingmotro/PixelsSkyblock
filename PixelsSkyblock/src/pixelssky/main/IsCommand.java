@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.SPlayer;
 
@@ -16,6 +17,9 @@ public class IsCommand implements CommandExecutor {
 		
 		Player pl = (Player) arg0;
 		SPlayer p = PlayersManager.getSPlayer(pl);
+		
+		pl.sendMessage("ID : "+ p.getID());
+		
 		if(arg3.length == 0){
 			if(p.getIsland() == null)
 			{

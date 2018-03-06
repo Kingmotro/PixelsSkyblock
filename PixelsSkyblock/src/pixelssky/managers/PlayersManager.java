@@ -1,27 +1,37 @@
 package pixelssky.managers;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 import org.bukkit.entity.Player;
 
 import pixelssky.objects.SPlayer;
 
 public class PlayersManager {
-	public static TreeMap<String, SPlayer> players = new TreeMap<String, SPlayer>();
+
+	public static ArrayList<SPlayer> players = new ArrayList<SPlayer>();
 
 	public static void setPlayer(SPlayer p){
-		if(players.containsKey(p.getUUID())){
+		if(players.contains(p)){
 			players.remove(p.getUUID());
 		}
-		players.put(p.getUUID(), p);
+		players.add(p);
 	}
 
 	public static SPlayer getSPlayer(Player p){
-		return players.get(p.getUniqueId().toString());
+
+		for(SPlayer pl: players){
+			p.sendMessage(pl.getUUID());
+			if(pl.getUUID().equals(p.getUniqueId().toString()))
+			{
+				return pl;
+			}
+		}
+		return DatabaseManager.getPlayer(p.getUniqueId().toString());
 	}
-	
-	public static void removePlayer(String UUID){
-		players.remove(UUID);
+
+	public static void removePlayer(Player p){
+
+		players.remove(getSPlayer(p));
+
 	}
 }
