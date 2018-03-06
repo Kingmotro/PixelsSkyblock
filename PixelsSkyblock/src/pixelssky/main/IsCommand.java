@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.SPlayer;
+import pixelssky.utils.Inventories;
 
 public class IsCommand implements CommandExecutor {
 
@@ -18,17 +19,16 @@ public class IsCommand implements CommandExecutor {
 		Player pl = (Player) arg0;
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		
-		pl.sendMessage("ID : "+ p.getID());
-		
 		if(arg3.length == 0){
 			if(p.getIsland() == null)
 			{
 				//ouvrir pour créer île
+				pl.openInventory(Inventories.getCreateIslandMenu(p));
 			}else
 			{
-				
+				//Ouvrir inventaire de base
 			}	
-			//Ouvrir inventaire de base
+			
 		}else{
 			
 		}
