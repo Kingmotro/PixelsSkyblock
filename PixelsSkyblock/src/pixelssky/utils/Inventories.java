@@ -35,7 +35,7 @@ public class Inventories {
 		lore.add("§cSi vous prennez cette île vous serez");
 		lore.add("§cclassé derrière les îles de base");
 		
-		inv.setItem(3 , Items.get("§5§lÎle de base", Material.GOLD_INGOT,(byte) 0, lore));
+		inv.setItem(3 , Items.get("§5§lÎle facile", Material.GOLD_INGOT,(byte) 0, lore));
 		
 		lore = new ArrayList<String>();
 		lore.add("§a§l Ressources : §b★★★");
