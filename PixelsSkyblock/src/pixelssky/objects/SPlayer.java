@@ -16,6 +16,15 @@ public class SPlayer {
 	public int getID(){
 		return id;
 	}
+	
+	public ArrayList<Right> getRights() {
+		return rights;		
+	}
+	
+	public ArrayList<Data> getData() {
+		return data;		
+	}
+	
 	public void addRight(Right r) {
 		if(!rights.contains(r)){
 			rights.add(r);
