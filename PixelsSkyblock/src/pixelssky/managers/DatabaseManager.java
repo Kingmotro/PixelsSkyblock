@@ -34,8 +34,8 @@ public class DatabaseManager {
 	 */
 
 	private static String BDD_name = "SKYBLOCK";
-	private static String BDD_host = "jdbc:mysql://localhost:3306/SKYBLOCK";
-	private static String BDD_username = "";
+	private static String BDD_host = "jdbc:mysql://localhost:3306/pixelsskyblock";
+	private static String BDD_username = "root";
 	private static String BDD_password = "";
 	private static Connection conn = null;
 	private static Statement stmt = null;
@@ -61,33 +61,36 @@ public class DatabaseManager {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request
-			ResultSet res = stmt.executeQuery("SELECT *  FROM PLAYERS WHERE `PLAYERS`.`UUID` = " + p.getUUID() + ";");
-
-			if (res.getFetchSize() == 0) {
+			ResultSet res = stmt.executeQuery("SELECT * FROM `players` WHERE `UUID` LIKE '" + UUID + "';");
+			
+			if(!res.isBeforeFirst()) {
 				// Si le joueur n'existe pas dans la BDD on le créé
 				p.init(0, UUID, null);
 				p.addOrSetData("DonnéeVide", null);
 				p.addRight(Right.getRight("island.invite"));
+				System.out.println("4");
+				
+				stmt.executeUpdate("INSERT INTO `players` (`ID`, `UUID`, `ISLAND_ID`) VALUES (NULL, '" + p.getUUID() + "', '0');");
+				System.out.println("5");
+				conn.close();
 				setPlayerData(p);
-				stmt.executeQuery("INSERT INTO `PAYERS` (`UUID`, `ISLAND_ID`) VALUES ( " + p.getUUID() + ", '"
-						+ p.getIsland().getID() + "');");
-
 			} else {
 				// Chargement des éléments de base
 				while (res.next()) {
 					p.init(res.getInt("ID"), UUID, getIsland(res.getInt("ISLAND_ID")));
 				}
-
+				conn.close();
 			}
-			conn.close();
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			System.out.println("ERREUR GETPLAYER : " + e.toString());
 		}
 
-		p.addOrSetData("DonnéeVide", null);
-		p.addRight(Right.getRight("TypeDeDroit.Droit"));
+		//p.addOrSetData("DonnéeVide", null);
+		//p.addRight(Right.getRight("TypeDeDroit.Droit"));
 
 		return p;
 	}
@@ -97,7 +100,7 @@ public class DatabaseManager {
 		// return null si le joueur n'a pas d'île.
 		return null;
 	}
-//564654
+
 	public static void setPlayerData(SPlayer p) {
 		// TODO faire un update ou insert
 
@@ -107,7 +110,7 @@ public class DatabaseManager {
 			stmt = conn.createStatement();
 			// Request
 			ResultSet res = stmt
-					.executeQuery("SELECT *  FROM PLAYERS_DATA WHERE `PLAYERS_DATA`.`ID` = " + p.getID() + ";");
+					.executeQuery("SELECT * FROM PLAYER_DATA WHERE `PLAYER_DATA`.`ID` = " + p.getID() + ";");
 
 			ArrayList<Data> pData = p.getData();
 
@@ -132,14 +135,14 @@ public class DatabaseManager {
 					if (alreadyIn[i]) {
 
 						d = pData.get(i);
-						stmt.executeQuery("UPDATE PLAYERS_DATA SET DATA_CONTENT = '" + d.getData()
-								+ "' WHERE `PLAYERS_DATA`.`DATA_NAME` = '" + d.getDataName()
-								+ "' AND `PLAYERS_DATA`.`ID` = " + p.getID() + "';");
+						stmt.executeUpdate("UPDATE PLAYER_DATA SET DATA_CONTENT = '" + d.getData()
+								+ "' WHERE `PLAYER_DATA`.`DATA_NAME` = '" + d.getDataName()
+								+ "' AND `PLAYER_DATA`.`ID` = " + p.getID() + "';");
 
 					} else {
 
-						stmt.executeQuery(
-								"INSERT INTO `PLAYERS_DATA` (`PLAYER_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
+						stmt.executeUpdate(
+								"INSERT INTO `PLAYER_DATA` (`PLAYER_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
 										+ p.getID() + "', '" + d.getDataName() + "', '" + p.getID() + "');");
 
 					}
