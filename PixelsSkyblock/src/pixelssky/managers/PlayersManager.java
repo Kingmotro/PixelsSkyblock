@@ -29,7 +29,7 @@ public class PlayersManager {
 	}
 
 	public static void removePlayer(Player p){
-
+		
 		players.remove(getSPlayer(p));
 
 	}

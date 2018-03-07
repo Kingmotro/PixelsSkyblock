@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import pixelssky.objects.SPlayer;
 
 public class Inventories {
+	
 	public static Inventory getCreateIslandMenu(SPlayer p){
 		Inventory inv = Bukkit.createInventory(null, 9, "§6✚ §3Créer une nouvelle île");
 
@@ -50,4 +52,11 @@ public class Inventories {
 		
 		return inv;
 	}
+	
+	public static void run_createIslandMenu(InventoryClickEvent event){
+		
+		event.getWhoClicked().sendMessage("Clic sur item : " + event.getSlot() + " item : " + event.getInventory().getItem(event.getSlot()).getI18NDisplayName());
+		
+	}
+
 }
