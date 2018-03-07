@@ -6,8 +6,8 @@ import pixelssky.managers.DatabaseManager;
 
 public class SPlayer {
 	private String UUID;
-	private ArrayList<Data> data;
-	private ArrayList<Right> rights;
+	private ArrayList<Data> data = new ArrayList<Data>();
+	private ArrayList<Right> rights = new ArrayList<Right>();
 	private Island island;
 	private ScoreboardObject sb;
 	private int id;
@@ -52,6 +52,7 @@ public class SPlayer {
 	public void init(int id, String UUID, Island i){
 		this.UUID = UUID;
 		island = i;
+		this.id = id;
 	}
 	
 	public String getUUID() {

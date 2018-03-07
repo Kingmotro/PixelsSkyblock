@@ -1,0 +1,12 @@
+name: PixelsSkyblock
+version: 1.0.1
+description: PixelsSkyblock
+authors: [Dudullle, aaa49, mcgarret2410]
+main: pixelssky.main.main
+commands:
+   is:
+     description: Commande principale.
+     aliases: [i, island]
+   pxs:
+     description: Commande admin.
+     permission: pxs.admin
