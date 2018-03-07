@@ -39,6 +39,9 @@ public class IsCommand implements CommandExecutor {
 		{
 			pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
 			p.getIsland().setHome(pl.getLocation());
+		}else if(arg3[0].equals("level"))
+		{
+			p.getIsland().calculateLevel(pl);
 		}
 		
 		return true;

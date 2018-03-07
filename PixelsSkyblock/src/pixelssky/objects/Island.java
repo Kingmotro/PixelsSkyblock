@@ -2,7 +2,9 @@ package pixelssky.objects;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import pixelssky.utils.Locations;
 
@@ -12,7 +14,12 @@ public class Island {
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
-	
+	/*IMPORTANT 
+	 * Placement des îles :
+	 * Carré de 501 de côté
+	 * <--- 250 blocs ---><CENTRE><--- 250 blocs --->
+	 * 
+	 * */
 	
 	public Island(int ID, String playersID, String isCenter, String isSpawn, double d){
 		this.ID = ID;
@@ -66,5 +73,27 @@ public class Island {
 	
 	public Double getLevel(){
 		return isLevel;
+	}
+	
+	public void calculateLevel(Player p){
+		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+			@Override
+			public void run() 
+			{
+				for(int x = isCenter.getBlockX() - 250; x < isCenter.getBlockX() + 250; x++){
+					for(int z = isCenter.getBlockX() - 250; z < isCenter.getBlockX() + 250; z++){
+						for(int y = 0; y < 256; y++){
+							try {
+								p.sendTitle("ID " + x +","+ y +","+ z,"" + Bukkit.getWorld("world").getBlockAt(x, y, z).getTypeId());
+							
+								wait(100);
+							} catch (Exception e) {
+							
+							}
+						}
+					}
+				}
+			}
+		});
 	}
 }
