@@ -17,20 +17,22 @@ import pixelssky.objects.SPlayer;
 import pixelssky.utils.Inventories;
 
 public class EventListener implements Listener {
-	
+
 	@EventHandler(priority = EventPriority.HIGH)
-    public void loginEvent(PlayerLoginEvent event) {
-        Player pl = event.getPlayer();
-        SPlayer p = DatabaseManager.getPlayer(pl.getUniqueId().toString());
-        PlayersManager.setPlayer(p);
-    }
-	
+	public void loginEvent(PlayerLoginEvent event) {
+		Player pl = event.getPlayer();
+		SPlayer p = DatabaseManager.getPlayer(pl.getUniqueId().toString());
+		PlayersManager.setPlayer(p);
+		p.addOrSetData("Donnee 1", "3842");
+	}
+
 	@EventHandler(priority = EventPriority.HIGH)
-    public void quitEvent(PlayerQuitEvent event) {
-        Player pl = event.getPlayer();
-        PlayersManager.removePlayer(pl);
-    }
-	
+	public void quitEvent(PlayerQuitEvent event) {
+		Player pl = event.getPlayer();
+		PlayersManager.getSPlayer(pl).saveData();
+		PlayersManager.removePlayer(pl);
+	}
+
 	@EventHandler
 	public void invEvent(InventoryClickEvent event){
 		if(event.getInventory().getName().equals("§6✚ §3Créer une nouvelle île")){
@@ -38,5 +40,5 @@ public class EventListener implements Listener {
 			Inventories.run_createIslandMenu(event);
 		}
 	}
-	
+
 }

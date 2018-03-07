@@ -87,7 +87,7 @@ public class SPlayer {
 
 	public void saveData() {
 		// TODO : Save all player data, UUID, Island ID and rights
-		DatabaseManager.setPlayerData(this);
+		DatabaseManager.writePlayerData(this);
 	}
 
 

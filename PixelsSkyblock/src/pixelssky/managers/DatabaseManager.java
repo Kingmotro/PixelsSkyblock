@@ -73,11 +73,12 @@ public class DatabaseManager {
 				stmt.executeUpdate("INSERT INTO `players` (`ID`, `UUID`, `ISLAND_ID`) VALUES (NULL, '" + p.getUUID() + "', '0');");
 				System.out.println("5");
 				conn.close();
-				setPlayerData(p);
+				readPlayerData(p);
 			} else {
 				// Chargement des éléments de base
 				while (res.next()) {
 					p.init(res.getInt("ID"), UUID, getIsland(res.getInt("ISLAND_ID")));
+					readPlayerData(p);
 				}
 				conn.close();
 			}
@@ -100,10 +101,45 @@ public class DatabaseManager {
 		// return null si le joueur n'a pas d'île.
 		return null;
 	}
-
-	public static void setPlayerData(SPlayer p) {
+	
+	public static void writePlayerData(SPlayer p){
+		try
+		{
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			// Request
+			stmt.executeUpdate("DELETE FROM `player_data` WHERE `PLAYER_ID` = " +  p.getID() + " ; ");
+			for(Data d:p.getData()){
+				stmt.executeUpdate("INSERT INTO `player_data` (`ID`, `PLAYER_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES (NULL, '" +  p.getID() + "', '" +  d.getDataName() + "', '" +  d.getData().toString() + "'); ");
+			}
+			conn.close();
+		}catch(Exception ex){
+			
+		}
+	}
+	
+	public static void readPlayerData(SPlayer p) {
 		// TODO faire un update ou insert
-
+		try
+		{
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			// Request
+			ResultSet res = stmt.executeQuery("SELECT * FROM `player_data` WHERE  `PLAYER_ID` = " +  p.getID() + " ; ");
+			if(!res.isBeforeFirst()) {
+				
+			} else {
+				// Chargement des éléments de base
+				while (res.next()) {
+					p.addOrSetData(res.getString("DATA_NAME"), res.getString("DATA_CONTENT"));
+				}
+			}
+			conn.close();
+		}catch(Exception ex){
+			
+		}
+		
+		/*
 		try {
 			// Connection
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
