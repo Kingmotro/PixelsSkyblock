@@ -20,7 +20,6 @@ public class PlayersManager {
 	public static SPlayer getSPlayer(Player p){
 
 		for(SPlayer pl: players){
-			p.sendMessage(pl.getUUID());
 			if(pl.getUUID().equals(p.getUniqueId().toString()))
 			{
 				return pl;
