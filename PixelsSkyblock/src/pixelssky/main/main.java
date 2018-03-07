@@ -1,13 +1,10 @@
 package pixelssky.main;
 
-import java.util.TreeMap;
-
-import org.apache.commons.io.output.ThresholdingOutputStream;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pixelssky.managers.PlayersManager;
+import pixelssky.managers.DatabaseManager;
 import pixelssky.objects.Right;
-import pixelssky.objects.SPlayer;
+
 
 public final class main extends JavaPlugin {
 	@Override
@@ -27,11 +24,15 @@ public final class main extends JavaPlugin {
 		
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
+		
+		//Initialisation des îles
+		DatabaseManager.loadIslands();
 	}
 
 	@Override
 	public void onDisable() {
-		
+		//Sauvegarde des îles
+		DatabaseManager.updateIslands();
 	}
 	
 }

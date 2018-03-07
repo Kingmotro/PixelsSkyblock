@@ -3,6 +3,7 @@ package pixelssky.objects;
 import java.util.ArrayList;
 
 import pixelssky.managers.DatabaseManager;
+import pixelssky.managers.IslandsManager;
 
 public class SPlayer {
 	private String UUID;
@@ -49,9 +50,9 @@ public class SPlayer {
 		return sb;
 	}
 	
-	public void init(int id, String UUID, Island i){
+	public void init(int id, String UUID, int i){
 		this.UUID = UUID;
-		island = i;
+		island = IslandsManager.getIsland(i);
 		this.id = id;
 	}
 	
@@ -61,7 +62,7 @@ public class SPlayer {
 
 	public Data getData(String dataName) {
 		for (Data d : data) {
-			if (d.getDataName().equals(d)) {
+			if (d.getDataName().equals(dataName)) {
 				return d;
 			}
 		}
