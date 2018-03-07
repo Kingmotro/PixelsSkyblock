@@ -15,7 +15,6 @@ public class IsCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		//Sous commandes : go, h, home, spawn, l, level, lvl, sethome, top, rank, reset
-		
 		Player pl = (Player) arg0;
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		
