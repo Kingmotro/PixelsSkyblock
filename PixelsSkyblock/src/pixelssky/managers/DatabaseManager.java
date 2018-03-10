@@ -185,9 +185,35 @@ public class DatabaseManager {
 
 	public static void setPlayerRights(SPlayer p) {
 		/*Pas nécéssaire ? Island Data*/
+		/* necessaire pour droits au spawn? */
 	}
-
+	
 	public static void setIslandData(Island island) {
 		// TODO faire un update
+	}
+	
+	/**
+	 * creates an island and delete if one already exist
+	 * 
+	 * */
+	public static void createIsland(Island island) {
+		
+		try
+		{
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			// Request
+			ResultSet res = stmt.executeQuery("SELECT * FROM `ISLAND` WHERE  `ISLAND_ID` = " +  island.getID() + " ; ");
+			if(res.isBeforeFirst()) {
+				stmt.executeQuery("DELETE FROM `ISLAND` WHERE  `ISLAND_ID` = " +  island.getID() + " ; ");
+			}
+			
+			stmt.executeQuery("INSERT INTO `ISLAND` (`ID`, `PLAYER_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('" + island.getID() + "', '" + island.getMembersToString() + "', '" + island.loc2str(island.getCenter())  + "', '" + island.loc2str(island.getSpawn()) + "', '" + island.getLevel() + "'); ");
+			
+			conn.close();
+	}catch(Exception ex){
+
+	}
+		
 	}
 }
