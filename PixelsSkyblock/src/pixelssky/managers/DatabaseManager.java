@@ -78,7 +78,9 @@ public class DatabaseManager {
 			stmt.executeQuery("SET sql_notes = 1;");      // And then re-enable the warning again
 			
 			conn.close();
-		}catch(Exception ex){
+		}catch(Exception e){
+			
+			System.out.println("ERREUR CREATEDATABASE : " + e.toString());
 
 		}
 		
@@ -227,6 +229,22 @@ public class DatabaseManager {
 
 	public static void setIslandData(Island island) {
 		// TODO faire un update
+		try {
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			// Request
+			stmt.executeUpdate("DELETE FROM `ISLAND_DATA` WHERE `ISLAND_ID` = " + island.getID() + " ; ");
+			for (Data d : island.getData()) {
+				stmt.executeUpdate(
+						"INSERT INTO `ISLAND_DATA` (`ISLAND_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
+								+ island.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
+			}
+			conn.close();
+		} catch (Exception e) {
+			
+			System.out.println("ERREUR SETISLANDDATA : " + e.toString());
+
+		}
 	}
 
 	/**
@@ -244,12 +262,16 @@ public class DatabaseManager {
 				stmt.executeQuery("DELETE FROM `ISLAND` WHERE  `ISLAND_ID` = " + island.getID() + " ; ");
 			}
 
-			stmt.executeQuery(
-					"INSERT INTO `ISLAND` (`ID`, `PLAYER_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
-							+ island.getID() + "', '" + island.getMembersToString() + "', '"
-							+ island.loc2str(island.getCenter()) + "', '" + island.loc2str(island.getSpawn()) + "', '"
-							+ island.getLevel() + "'); ");
+			stmt.executeQuery("INSERT INTO `ISLAND` (`PLAYER_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
+							+ island.getMembersToString() + "', '" + island.loc2str(island.getCenter()) + "', '"
+							+ island.loc2str(island.getSpawn()) + "', '" + island.getLevel() + "'); ");
 
+			res = stmt.executeQuery("SELECT `ID` FROM `ISLAND` WHERE  `ISLAND_CENTER` = '" +island.loc2str(island.getCenter()) + "':");
+			
+			while (res.next()) {
+				island.setID(res.getInt("ID"));
+			}
+			
 			conn.close();
 		} catch (Exception ex) {
 

@@ -15,6 +15,7 @@ public class Island {
 
 	private int ID = 0;
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();
+	private ArrayList<Data> data = new ArrayList<Data>();
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
@@ -36,6 +37,27 @@ public class Island {
 				System.out.println("INVALID_PLAYER_ID : " + ex.toString());
 			}
 
+		}
+	}
+	
+	public ArrayList<Data> getData() {
+		return data;		
+	}
+	
+	public Data getData(String dataName) {
+		for (Data d : data) {
+			if (d.getDataName().equals(dataName)) {
+				return d;
+			}
+		}
+		return null;
+	}
+	public void addOrSetData(String dataName, Object data) {
+		Data d = getData(dataName);
+		if (d == null) {
+			this.data.add(new Data(dataName, data));
+		} else {
+			d.setData(data);
 		}
 	}
 
@@ -71,6 +93,10 @@ public class Island {
 
 	public int getID() {
 		return ID;
+	}
+	
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 
 	public Double getLevel() {
@@ -114,4 +140,5 @@ public class Island {
 
 		return new Location(world, xPos, yPos, zPos);
 	}
+	
 }
