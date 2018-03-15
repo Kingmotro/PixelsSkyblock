@@ -4,14 +4,11 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import pixelssky.utils.Locations;
 
 public class Island {
-
-	public static String locStringFormat = "%world%><%x%><%y%><%z%";
 
 	private int ID = 0;
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();
@@ -123,22 +120,6 @@ public class Island {
 		});
 	}
 
-	public String loc2str(Location loc) {
-		String location = locStringFormat.replaceAll("%world%", loc.getWorld().getName())
-				.replaceAll("%x%", String.valueOf(loc.getX())).replaceAll("%y%", String.valueOf(loc.getY()))
-				.replaceAll("%z%", String.valueOf(loc.getZ()));
-		return location;
-
-	}
-
-	public Location str2loc(String loc) {
-		String[] parts = loc.split("><");
-		World world = Bukkit.getWorld(parts[0]);
-		double xPos = Double.valueOf(parts[1]);
-		double yPos = Double.valueOf(parts[2]);
-		double zPos = Double.valueOf(parts[3]);
-
-		return new Location(world, xPos, yPos, zPos);
-	}
+	
 	
 }

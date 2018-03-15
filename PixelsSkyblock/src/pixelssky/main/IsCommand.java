@@ -5,8 +5,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
+import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.Inventories;
 
@@ -28,6 +29,12 @@ public class IsCommand implements CommandExecutor {
 				pl.sendMessage("" + p.getIsland().getID());
 				//Ouvrir inventaire de base
 			}	
+			
+		}else if(arg3[0].equals("create")){
+			if(p.getIsland() != null){
+				DatabaseManager.deleteIsland(p.getIsland());
+			}
+			DatabaseManager.createIsland(p);
 			
 		}else if(arg3[0].equals("h")){
 			

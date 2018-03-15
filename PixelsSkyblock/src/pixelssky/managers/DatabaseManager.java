@@ -227,6 +227,7 @@ public class DatabaseManager {
 		/* necessaire pour droits au spawn? */
 	}
 
+	
 	public static void setIslandData(Island island) {
 		// TODO faire un update
 		try {
@@ -248,33 +249,53 @@ public class DatabaseManager {
 	}
 
 	/**
+	 * Deletes an island
+	 * 
+	 */
+	public static void deleteIsland(Island island){
+		try {
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			// Request
+			ResultSet res = stmt.executeQuery("SELECT * FROM `ISLAND` WHERE  `ID` = " + island.getID() + " ; ");
+			if (res.isBeforeFirst()) {
+				stmt.executeUpdate("DELETE FROM `ISLAND` WHERE  `ID` = " + island.getID() + " ; ");
+			}
+			conn.close();
+			IslandsManager.removeIsland(island.getID());
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		
+	}
+	
+	/**
 	 * creates an island and delete if one already exist
 	 * 
 	 */
-	public static void createIsland(Island island) {
+	public static void createIsland(SPlayer p) {
 
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request
-			ResultSet res = stmt.executeQuery("SELECT * FROM `ISLAND` WHERE  `ISLAND_ID` = " + island.getID() + " ; ");
-			if (res.isBeforeFirst()) {
-				stmt.executeQuery("DELETE FROM `ISLAND` WHERE  `ISLAND_ID` = " + island.getID() + " ; ");
-			}
+			Island island = new Island(0,p.getID() + ",","world,0,0,0,0,0", "world,0,100,0,0,0", 0);
 
-			stmt.executeQuery("INSERT INTO `ISLAND` (`PLAYER_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
-							+ island.getMembersToString() + "', '" + island.loc2str(island.getCenter()) + "', '"
-							+ island.loc2str(island.getSpawn()) + "', '" + island.getLevel() + "'); ");
+			stmt.executeUpdate("INSERT INTO `ISLAND` (`PLAYERS_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
+							+ island.getMembersToString() + "', '" + Locations.toString(island.getCenter()) + "', '"
+							+ Locations.toString(island.getSpawn()) + "', '" + island.getLevel() + "'); ");
 
-			res = stmt.executeQuery("SELECT `ID` FROM `ISLAND` WHERE  `ISLAND_CENTER` = '" +island.loc2str(island.getCenter()) + "':");
+			ResultSet res = stmt.executeQuery("SELECT `ID` FROM `ISLAND` WHERE  `ISLAND_CENTER` = '" +Locations.toString(island.getCenter()) + "';");
 			
 			while (res.next()) {
 				island.setID(res.getInt("ID"));
 			}
 			
 			conn.close();
+			p.setIsland(island);
+			IslandsManager.setIsland(island);
 		} catch (Exception ex) {
-
+			System.out.println(ex.toString());
 		}
 
 	}

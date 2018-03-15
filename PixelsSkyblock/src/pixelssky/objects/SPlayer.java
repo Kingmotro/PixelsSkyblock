@@ -17,7 +17,9 @@ public class SPlayer {
 	public int getID(){
 		return id;
 	}
-	
+	public void setIsland(Island i){
+		island = i;
+	}
 	public ArrayList<Right> getRights() {
 		return rights;		
 	}
