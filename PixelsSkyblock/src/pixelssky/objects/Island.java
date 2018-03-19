@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import pixelssky.utils.Locations;
+import pixelssky.utils.WEManager;
 
 public class Island {
 
@@ -104,18 +105,7 @@ public class Island {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
-				for (int x = isCenter.getBlockX() - 250; x < isCenter.getBlockX() + 250; x++) {
-					for (int z = isCenter.getBlockX() - 250; z < isCenter.getBlockX() + 250; z++) {
-						for (int y = 0; y < 256; y++) {
-							try {
-								p.sendTitle("ID " + x + "," + y + "," + z,"" + Bukkit.getWorld("world").getBlockAt(x, y, z).getTypeId());
-								wait(100);
-							} catch (Exception e) {
-	
-							}
-						}
-					}
-				}
+				WEManager.count(Bukkit.getWorld("world"), new Location(Bukkit.getWorld("world"), 0,0,0),  new Location(Bukkit.getWorld("world"), 10,10,10));
 			}
 		});
 	}
