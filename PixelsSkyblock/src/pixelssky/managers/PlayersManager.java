@@ -18,7 +18,6 @@ public class PlayersManager {
 	}
 
 	public static SPlayer getSPlayer(Player p){
-
 		for(SPlayer pl: players){
 			if(pl.getUUID().equals(p.getUniqueId().toString()))
 			{

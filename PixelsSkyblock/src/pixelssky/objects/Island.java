@@ -1,11 +1,16 @@
 package pixelssky.objects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import com.sk89q.worldedit.util.Countable;
+
+import pixelssky.managers.BlocksManager;
 import pixelssky.utils.Locations;
 import pixelssky.utils.WEManager;
 
@@ -17,6 +22,7 @@ public class Island {
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
+
 	/*
 	 * IMPORTANT Placement des îles : Carré de 501 de côté 
 	 * <--- 250 blocs ---><CENTRE><--- 250 blocs --->
@@ -100,14 +106,37 @@ public class Island {
 	public Double getLevel() {
 		return isLevel;
 	}
-
+	public ArrayList<Location> getEdges(){
+		Location pos1 = new Location(Bukkit.getWorld("world"),isCenter.getX() - 250 ,0,isCenter.getZ() - 250);
+		Location pos2 = new Location(Bukkit.getWorld("world"),isCenter.getX() + 250 ,256,isCenter.getZ() + 250);
+		ArrayList<Location> l = new ArrayList<Location>();
+		l.add(pos1); l.add(pos2);
+		return l;
+	}
 	public void calculateLevel(Player p) {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
-				WEManager.count(Bukkit.getWorld("world"), new Location(Bukkit.getWorld("world"), 0,0,0),  new Location(Bukkit.getWorld("world"), 10,10,10));
+				isLevel = 0d;
+				List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
+				int total = 0;
+				for(Countable<Integer> block : blocks){
+					if(block.getID() != 0){
+						total += block.getAmount();	
+					}
+									
+				}
+
+				for(Countable<Integer> block : blocks){
+					//Passage 2
+					Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
+					isLevel += lvl * block.getAmount();
+					
+				}
+				p.sendMessage("Niveau : " + isLevel);
 			}
 		});
+		
 	}
 
 	

@@ -24,7 +24,7 @@ public class IsCommand implements CommandExecutor {
 
 			Player pl = (Player) arg0;
 			SPlayer p = PlayersManager.getSPlayer(pl);
-
+			
 			if(arg3.length == 0){
 				if(p.getIsland() == null)
 				{
@@ -57,16 +57,7 @@ public class IsCommand implements CommandExecutor {
 				p.getIsland().calculateLevel(pl);
 			}
 		}catch(Exception ex){
-			if(arg3[0].equals("cmdcount")){
-				Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
-					@Override
-					public void run() {
-						
-						WEManager.count(Bukkit.getWorld("world"), new Location(Bukkit.getWorld("world"), 0,0,0),  new Location(Bukkit.getWorld("world"), 500,255,500));
-						
-					}
-				});
-			}
+			System.out.println(ex.toString());
 		}
 		return true;
 	}

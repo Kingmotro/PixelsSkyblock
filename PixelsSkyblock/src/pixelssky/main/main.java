@@ -2,6 +2,7 @@ package pixelssky.main;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pixelssky.managers.BlocksManager;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.objects.Right;
 
@@ -27,6 +28,9 @@ public final class main extends JavaPlugin {
 		
 		//Initialisation des îles
 		DatabaseManager.loadIslands();
+		
+		//Lecture des valeurs de base
+		BlocksManager.init_values();
 	}
 
 	@Override
