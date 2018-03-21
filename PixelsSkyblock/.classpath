@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Users/abedu/OneDrive/Bureau/Serveur/SKY/PixelsSkyblock/Dependencies/FastAsyncWorldEdit-bukkit-17.06.06-6554370-709-13.0.12.jar"/>
-	<classpathentry kind="lib" path="C:/Users/abedu/OneDrive/Bureau/Serveur/SKY/PixelsSkyblock/Dependencies/PaperSpigot-latest.jar"/>
-	<classpathentry kind="lib" path="C:/Users/abedu/OneDrive/Bureau/Serveur/SKY/PixelsSkyblock/Dependencies/worldedit-bukkit-6.1.7.jar"/>
+	<classpathentry kind="lib" path="C:/Dependencies/FastAsyncWorldEdit-bukkit-17.06.06-6554370-709-13.0.12.jar"/>
+	<classpathentry kind="lib" path="C:/Dependencies/PaperSpigot-latest.jar"/>
+	<classpathentry kind="lib" path="C:/Dependencies/worldedit-bukkit-6.1.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

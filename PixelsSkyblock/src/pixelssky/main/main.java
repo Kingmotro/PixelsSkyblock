@@ -15,7 +15,7 @@ public final class main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		//Initialisation des droits
-		this.getLogger().info("Starting Pixels Skyblock");
+		this.getLogger().info("Starting Pixels Skyblock v1.0.2");
 		
 		Right.registerRight("island.place");
 		Right.registerRight("island.break");
@@ -41,6 +41,7 @@ public final class main extends JavaPlugin {
 		
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
+		System.out.println("Loaded !");
 	}
 
 	@Override
