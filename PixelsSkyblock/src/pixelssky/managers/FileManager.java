@@ -30,7 +30,7 @@ public class FileManager {
 	}
 	public static ArrayList<String> ReadAllText(String fichier) {
 		ArrayList<String> txt = new ArrayList<String>();
-		int i =0;
+		
 		try{
 			InputStream ips=new FileInputStream(fichier); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
@@ -38,7 +38,6 @@ public class FileManager {
 			String ligne;
 			while ((ligne=br.readLine())!=null){
 				txt.add(ligne);
-				i+=1;
 			}
 			br.close(); 
 		}		

@@ -3,6 +3,8 @@ package pixelssky.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import pixelssky.objects.Island;
+
 public class Locations {
 	//TODO : Basic methods to get : spawn, island edges, ...
 	
@@ -19,6 +21,10 @@ public class Locations {
 	}
 	public static String toString(Location l){
 		return l.getWorld().getName() + "," + l.getX() + "," + l.getY() + "," + l.getZ() + "," + l.getPitch() + "," + l.getYaw();
+	}
+	
+	public static Island getIslandAt(Location l){
+		return null;
 	}
 	
 }

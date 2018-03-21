@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.util.Countable;
@@ -24,7 +25,7 @@ public class Island {
 	private Double isLevel;
 
 	/*
-	 * IMPORTANT Placement des �les : Carr� de 501 de c�t� 
+	 * IMPORTANT Placement des îles : Carré de 501 de côté 
 	 * <--- 250 blocs ---><CENTRE><--- 250 blocs --->
 	 * 
 	 */
@@ -43,11 +44,11 @@ public class Island {
 
 		}
 	}
-	
+
 	public ArrayList<Data> getData() {
 		return data;		
 	}
-	
+
 	public Data getData(String dataName) {
 		for (Data d : data) {
 			if (d.getDataName().equals(dataName)) {
@@ -98,7 +99,7 @@ public class Island {
 	public int getID() {
 		return ID;
 	}
-	
+
 	public void setID(int ID) {
 		this.ID = ID;
 	}
@@ -117,6 +118,8 @@ public class Island {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
+				p.resetTitle();
+				p.sendTitle("§c⚠§4§lCalcul en cours§c⚠", "§eVeuillez patienter", 10,1000,10);
 				isLevel = 0d;
 				List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
 				int total = 0;
@@ -124,21 +127,41 @@ public class Island {
 					if(block.getID() != 0){
 						total += block.getAmount();	
 					}
-									
-				}
 
+				}
+				double maxValue = 0;
+				double minValue = Integer.MAX_VALUE;
+				String max = "";
+				String min = "";
 				for(Countable<Integer> block : blocks){
 					//Passage 2
-					Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
-					isLevel += lvl * block.getAmount();
-					
+					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
+						Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
+						isLevel += lvl * block.getAmount();
+						if(maxValue < lvl * block.getAmount()){
+							maxValue = lvl * block.getAmount();
+							max = Material.getMaterial(block.getID()).toString();
+						}
+						if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
+							minValue = lvl * block.getAmount();
+							min = Material.getMaterial(block.getID()).toString();
+						}
+					}
 				}
-				p.sendMessage("Niveau : " + isLevel);
+				p.resetTitle();
+				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
+				p.sendTitle("§2§lTerminé !", "", 10,10,10);
+				p.sendMessage("");
+				p.sendMessage("§a§n▶ §e§l§nNiveau de votre île : §5§l" + String.format("%.2f", isLevel));
+				p.sendMessage("");
+				p.sendMessage("§a✔ §e Bloc le §aplus §erentable : §5" + max + " §e(§d" + String.format("%.2f", maxValue) + " §eniveaux)");
+				p.sendMessage("§4✘§e Bloc le §cmoins §erentable : §5" + min + " §e(§d" + String.format("%.2f", minValue) + " §eniveaux)");
+
 			}
 		});
-		
+
 	}
 
-	
-	
+
+
 }

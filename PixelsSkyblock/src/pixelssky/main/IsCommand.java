@@ -1,7 +1,5 @@
 package pixelssky.main;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,10 +7,8 @@ import org.bukkit.entity.Player;
 
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
-import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.Inventories;
-import pixelssky.utils.WEManager;
 
 public class IsCommand implements CommandExecutor {
 
