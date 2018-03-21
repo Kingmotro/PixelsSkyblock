@@ -29,7 +29,11 @@ public class Island {
 	 * <--- 250 blocs ---><CENTRE><--- 250 blocs --->
 	 * 
 	 */
-
+	
+	/*
+	 * ID des iles =  <250 0> ID 0 <-250 0/><-251 0> ID 1 <-752 0/>
+	 */
+	
 	public Island(int ID, String playersID, String isCenter, String isSpawn, double d) {
 		this.ID = ID;
 		this.isCenter = Locations.get(isCenter);
@@ -160,6 +164,11 @@ public class Island {
 			}
 		});
 
+	}
+
+	public void setCenter(Location isC) {
+		isCenter = isC;
+		
 	}
 
 

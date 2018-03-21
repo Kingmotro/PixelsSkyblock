@@ -52,6 +52,10 @@ public class IsCommand implements CommandExecutor {
 			{
 				p.getIsland().calculateLevel(pl);
 			}
+			else if(arg3[0].equals("addplayer"))
+			{
+				p.getIsland().getMembers().add(Integer.parseInt(arg3[1]));
+			}
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}

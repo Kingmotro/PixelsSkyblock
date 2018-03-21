@@ -1,18 +1,22 @@
 package pixelssky.main;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.Inventories;
+import pixelssky.utils.Locations;
 
 public class EventListener implements Listener {
 
@@ -38,5 +42,35 @@ public class EventListener implements Listener {
 			Inventories.run_createIslandMenu(event);
 		}
 	}
+
+	@EventHandler
+	public void interactEvent(PlayerInteractEvent event){
+		Player p = event.getPlayer();
+		try
+		{
+			Island is = Locations.getIslandAt(event.getClickedBlock().getLocation());
+			
+			if(!is.getMembers().contains(PlayersManager.getSPlayer(p).getID())){
+				event.setCancelled(true);
+				p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
+				p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+			}
+		}catch(Exception ex){
+			
+			try{
+				//Si clic dans le vide
+				event.getClickedBlock().getLocation(); //-> Go Catch
+				//Si pas d'ile
+				event.setCancelled(true);
+				p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
+				p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+			}catch(Exception ex2){
+				
+			}
+			
+		}
+		//
+	}
+
 
 }

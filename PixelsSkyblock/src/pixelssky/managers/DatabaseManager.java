@@ -44,12 +44,12 @@ public class DatabaseManager {
 	 */
 	public static void createDatabase() {
 		// TODO : requête pour créer les tables si elles existent pas.
-		
+
 		try
 		{
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
-		
+
 			stmt.executeQuery("SET sql_notes = 0;");      // Temporarily disable the "Table already exists" warning
 			stmt.executeQuery("CREATE TABLE IF NOT EXISTS `PixelsSkyblock`.`ISLAND`("
 					+ "ID INT PRIMARY KEY NOT NULL,"
@@ -76,14 +76,14 @@ public class DatabaseManager {
 					+ "PLAYER_ID INT NOT NULL,"
 					+ "RIGHT_NAME text NOT NULL);");	// Creates PLAYER_RIGHTS (if not in DB)
 			stmt.executeQuery("SET sql_notes = 1;");      // And then re-enable the warning again
-			
+
 			conn.close();
 		}catch(Exception e){
-			
+
 			System.out.println("ERREUR CREATEDATABASE : " + e.toString());
 
 		}
-		
+
 	}
 
 	public static SPlayer getPlayer(String UUID) {
@@ -113,7 +113,7 @@ public class DatabaseManager {
 				System.out.println("4");
 
 				stmt.executeUpdate("INSERT INTO `players` (`ID`, `UUID`, `ISLAND_ID`) VALUES (NULL, '" + p.getUUID()
-						+ "', '-1');");
+				+ "', '-1');");
 				System.out.println("5");
 				conn.close();
 				readPlayerData(p);
@@ -158,25 +158,43 @@ public class DatabaseManager {
 		}
 	}
 
-	public static void updateIslands() {
+	public static void updateIsland(Island i) {
 		// ATTENTION : ne fait pas l'ajout d'îles !
 		System.out.println("PixelsSkyblock : Saving Islands !");
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request
-			ResultSet res = stmt.executeQuery("SELECT * FROM `island`; ");
-			while (res.next()) {
-				System.out.println("Chargement... Mise à jour : " + res.getInt("ID"));
-				System.out.println(1);
-				Island i = IslandsManager.getIsland(res.getInt("ID"));
-				System.out.println(i.getMembersToString());
-				stmt.executeUpdate("UPDATE `island` SET `PLAYERS_ID` = '" + i.getMembersToString()
-						+ "', `ISLAND_CENTER` = '" + Locations.toString(i.getCenter()) + "', `ISLAND_SPAWN` = '"
-						+ Locations.toString(i.getSpawn()) + "', `ISLAND_LEVEL` = '" + i.getLevel()
-						+ "' WHERE `island`.`ID` = " + i.getID() + "; ");
-				System.out.println(3);
-			}
+
+			System.out.println("Chargement... Mise à jour : " + i.getID());
+
+			stmt.executeUpdate("UPDATE `island` SET `PLAYERS_ID` = '" + i.getMembersToString()
+			+ "', `ISLAND_CENTER` = '" + Locations.toString(i.getCenter()) + "', `ISLAND_SPAWN` = '"
+			+ Locations.toString(i.getSpawn()) + "', `ISLAND_LEVEL` = '" + i.getLevel()
+			+ "' WHERE `island`.`ID` = " + i.getID() + "; ");
+			System.out.println(3);
+
+
+			conn.close();
+		} catch (Exception ex) {
+			System.out.println("EX_SAVING_ISLAND" + ex.toString());
+		}
+	}
+
+	public static void updatePlayer(SPlayer p) {
+		// ATTENTION : ne fait pas l'ajout d'îles !
+		System.out.println("PixelsSkyblock : Saving Player !");
+		try {
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			// Request
+
+
+			stmt.executeUpdate("UPDATE `players` SET "
+					+ "`ISLAND_ID` = '" + p.getIsland().getID() + "'"
+					+ " WHERE `players`.`ID` = " + p.getID() + "; ");
+			System.out.println(3);
+
 
 			conn.close();
 		} catch (Exception ex) {
@@ -196,6 +214,7 @@ public class DatabaseManager {
 								+ p.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
 			}
 			conn.close();
+
 		} catch (Exception ex) {
 
 		}
@@ -227,7 +246,7 @@ public class DatabaseManager {
 		/* necessaire pour droits au spawn? */
 	}
 
-	
+
 	public static void setIslandData(Island island) {
 		// TODO faire un update
 		try {
@@ -242,7 +261,7 @@ public class DatabaseManager {
 			}
 			conn.close();
 		} catch (Exception e) {
-			
+
 			System.out.println("ERREUR SETISLANDDATA : " + e.toString());
 
 		}
@@ -266,9 +285,9 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		
+
 	}
-	
+
 	/**
 	 * creates an island and delete if one already exist
 	 * 
@@ -282,18 +301,21 @@ public class DatabaseManager {
 			Island island = new Island(0,p.getID() + ",","world,0,0,0,0,0", "world,0,100,0,0,0", 0);
 
 			stmt.executeUpdate("INSERT INTO `ISLAND` (`PLAYERS_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
-							+ island.getMembersToString() + "', '" + Locations.toString(island.getCenter()) + "', '"
-							+ Locations.toString(island.getSpawn()) + "', '" + island.getLevel() + "'); ");
+					+ island.getMembersToString() + "', '" + Locations.toString(island.getCenter()) + "', '"
+					+ Locations.toString(island.getSpawn()) + "', '" + island.getLevel() + "'); ");
 
 			ResultSet res = stmt.executeQuery("SELECT `ID` FROM `ISLAND` WHERE  `ISLAND_CENTER` = '" +Locations.toString(island.getCenter()) + "';");
-			
+
 			while (res.next()) {
 				island.setID(res.getInt("ID"));
+				island.setCenter(Locations.getIsCenterByID(island.getID()));
+				island.setHome(Locations.getIsCenterByID(island.getID()));	
 			}
-			
+
 			conn.close();
 			p.setIsland(island);
 			IslandsManager.setIsland(island);
+			updatePlayer(p);
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
