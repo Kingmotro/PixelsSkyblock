@@ -1,5 +1,6 @@
 package pixelssky.main;
 
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,6 +30,9 @@ public class IsCommand implements CommandExecutor {
 				}else
 				{
 					//Ouvrir inventaire de base
+					pl.openInventory(Inventories.getIslandMenu(p));
+					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
+
 				}	
 
 			}else if(arg3[0].equals("create")){

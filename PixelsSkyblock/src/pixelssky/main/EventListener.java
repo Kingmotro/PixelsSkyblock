@@ -40,6 +40,12 @@ public class EventListener implements Listener {
 		if(event.getInventory().getName().equals("§6✚ §3Créer une nouvelle île")){
 			event.setCancelled(true);
 			Inventories.run_createIslandMenu(event);
+		}else if(event.getInventory().getName().equals("§6☰ §3Menu de l'île")){
+			event.setCancelled(true);
+			Inventories.run_IslandMenu(event);
+		}else if(event.getInventory().getName().equals("§6✉ §3Inviter des joueurs")){
+			event.setCancelled(true);
+			Inventories.run_PlayersInventory_invite(event);
 		}
 	}
 

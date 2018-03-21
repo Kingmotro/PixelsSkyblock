@@ -3,8 +3,10 @@ package pixelssky.utils;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class Items {
 	
@@ -26,4 +28,23 @@ public class Items {
 		return i;
 
 	}
+	public static ItemStack getHead(Player player) {
+        int lifePlayer = (int) player.getHealth();
+        ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta skull = (SkullMeta) item.getItemMeta();
+        skull.setDisplayName(player.getName());
+        skull.setOwner(player.getName());
+        item.setItemMeta(skull);
+        return item;
+    }
+	
+	public static ItemStack getHead(String pName, String itemName) {
+       
+        ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta skull = (SkullMeta) item.getItemMeta();
+        skull.setDisplayName(itemName);
+        skull.setOwner(pName);
+        item.setItemMeta(skull);
+        return item;
+    }
 }
