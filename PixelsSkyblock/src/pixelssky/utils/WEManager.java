@@ -16,7 +16,6 @@ import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
 
-import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.regions.Region;
@@ -30,10 +29,10 @@ public class WEManager {
 	
 	public static boolean pasteSchematics(World world, File file,Location origin) throws DataException, IOException, MaxChangedBlocksException
     {
-        EditSession es = new EditSession(new BukkitWorld(world), 999999999);
+		
+        EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
         CuboidClipboard cc = CuboidClipboard.loadSchematic(file);
         Vector v = new Vector(origin.getBlockX(), origin.getBlockY(), origin.getBlockZ());
-        
         cc.paste(es, v, true);
        
         return true;

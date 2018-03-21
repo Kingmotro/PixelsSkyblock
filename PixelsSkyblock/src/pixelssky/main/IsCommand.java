@@ -28,7 +28,6 @@ public class IsCommand implements CommandExecutor {
 					pl.openInventory(Inventories.getCreateIslandMenu(p));
 				}else
 				{
-					pl.sendMessage("" + p.getIsland().getID());
 					//Ouvrir inventaire de base
 				}	
 
