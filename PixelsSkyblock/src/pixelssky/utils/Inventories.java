@@ -69,6 +69,7 @@ public class Inventories {
 
 			//Nouvelle île
 			int slot = event.getSlot();
+			Player pl = (Player) event.getWhoClicked();
 			SPlayer p = PlayersManager.getSPlayer((Player) event.getWhoClicked());
 			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				@Override
@@ -86,7 +87,7 @@ public class Inventories {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-
+						Bukkit.dispatchCommand(pl, "is h");
 					}else if(slot == 2){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
@@ -105,6 +106,7 @@ public class Inventories {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						Bukkit.dispatchCommand(pl, "is h");
 					}else if(slot == 3){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
@@ -123,6 +125,7 @@ public class Inventories {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						Bukkit.dispatchCommand(pl, "is h");
 					}else if(slot == 4){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
@@ -141,6 +144,7 @@ public class Inventories {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						Bukkit.dispatchCommand(pl, "is h");
 					}else if(slot == 8){
 
 					}
