@@ -1,5 +1,7 @@
 package pixelssky.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
@@ -10,6 +12,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.world.DataException;
+
+import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
@@ -59,9 +65,93 @@ public class Inventories {
 	}
 
 	public static void run_createIslandMenu(InventoryClickEvent event){
+		try{
 
-		event.getWhoClicked().sendMessage("Clic sur item : " + event.getSlot() + " item : " + event.getInventory().getItem(event.getSlot()).getI18NDisplayName());
+			//Nouvelle île
+			int slot = event.getSlot();
+			Player pl = (Player) event.getWhoClicked();
+			SPlayer p = PlayersManager.getSPlayer((Player) event.getWhoClicked());
+			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+				@Override
+				public void run() {
+					if(slot == 1){
 
+						if(p.getIsland() != null){
+							DatabaseManager.deleteIsland(p.getIsland());
+						}
+						DatabaseManager.createIsland(p);
+						p.getIsland().addOrSetData("difficulty", "HARD");
+						try {
+							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/hard.island"), p.getIsland().getCenter());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Bukkit.dispatchCommand(pl, "is h");
+					}else if(slot == 2){
+						if(p.getIsland() != null){
+							DatabaseManager.deleteIsland(p.getIsland());
+						}
+						DatabaseManager.createIsland(p);
+						p.getIsland().addOrSetData("difficulty", "NORMAL");
+						try {
+							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/normal.island"), p.getIsland().getCenter());
+						} catch (MaxChangedBlocksException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (DataException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Bukkit.dispatchCommand(pl, "is h");
+					}else if(slot == 3){
+						if(p.getIsland() != null){
+							DatabaseManager.deleteIsland(p.getIsland());
+						}
+						DatabaseManager.createIsland(p);
+						p.getIsland().addOrSetData("difficulty", "EASY");
+						try {
+							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/easy.island"), p.getIsland().getCenter());
+						} catch (MaxChangedBlocksException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (DataException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Bukkit.dispatchCommand(pl, "is h");
+					}else if(slot == 4){
+						if(p.getIsland() != null){
+							DatabaseManager.deleteIsland(p.getIsland());
+						}
+						DatabaseManager.createIsland(p);
+						p.getIsland().addOrSetData("difficulty", "NONE");
+						try {
+							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/none.island"), p.getIsland().getCenter());
+						} catch (MaxChangedBlocksException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (DataException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Bukkit.dispatchCommand(pl, "is h");
+					}else if(slot == 8){
+
+					}
+				}});
+		}catch(Exception ex){
+
+		}
 	}
 
 	public static Inventory getIslandMenu(SPlayer p){
@@ -71,7 +161,7 @@ public class Inventories {
 		inv.setItem(1 , Items.get("§5§lChanger le spawn de l'île", Material.BED,(byte) 5));
 		inv.setItem(2 , Items.get("§5§lNiveau de l'île", Material.EXP_BOTTLE,(byte) 0));   
 		inv.setItem(3 , Items.getHead("president","§5§lInviter un joueur"));
-	
+
 
 		return inv;
 	}
@@ -102,7 +192,7 @@ public class Inventories {
 			if(!i.getMembers().contains(PlayersManager.getSPlayer(p).getID())){
 				inv.addItem(Items.getHead(p));
 			}
-			
+
 		}
 		return inv;
 	}
@@ -116,7 +206,7 @@ public class Inventories {
 			p_cible.setLastIsInvite(p_sender.getIsland().getID());
 			cible.sendTitle("§a" + pl.getDisplayName() + " vous veut sur son île!", "§eFaites /is accept pour accepter !", 10,20,10);
 		}catch(Exception ex){
-			
+
 		}
 	}
 

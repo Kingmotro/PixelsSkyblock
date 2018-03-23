@@ -2,6 +2,7 @@ package pixelssky.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pixelssky.managers.BlocksManager;
@@ -9,6 +10,7 @@ import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.objects.Island;
 import pixelssky.objects.Right;
+import pixelssky.worldgenerator.Generator;
 
 
 public final class main extends JavaPlugin {
@@ -51,6 +53,10 @@ public final class main extends JavaPlugin {
 			DatabaseManager.updateIsland(i);
 		}
 		
+	}
+	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
+	{
+	return new Generator();
 	}
 	
 }

@@ -112,8 +112,8 @@ public class Island {
 		return isLevel;
 	}
 	public ArrayList<Location> getEdges(){
-		Location pos1 = new Location(Bukkit.getWorld("world"),isCenter.getX() - 250 ,0,isCenter.getZ() - 250);
-		Location pos2 = new Location(Bukkit.getWorld("world"),isCenter.getX() + 250 ,256,isCenter.getZ() + 250);
+		Location pos1 = new Location(Bukkit.getWorld("world"),isCenter.getX() - 255 ,0,isCenter.getZ() - 255);
+		Location pos2 = new Location(Bukkit.getWorld("world"),isCenter.getX() + 258 ,256,isCenter.getZ() + 258);
 		ArrayList<Location> l = new ArrayList<Location>();
 		l.add(pos1); l.add(pos2);
 		return l;
