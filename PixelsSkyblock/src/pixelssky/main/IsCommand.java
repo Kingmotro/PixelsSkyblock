@@ -36,10 +36,8 @@ public class IsCommand implements CommandExecutor {
 				}	
 
 			}else if(arg3[0].equals("create")){
-				if(p.getIsland() != null){
-					DatabaseManager.deleteIsland(p.getIsland());
-				}
-				DatabaseManager.createIsland(p);
+				pl.openInventory(Inventories.getCreateIslandMenu(p));
+				pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 
 			}else if(arg3[0].equals("h")){
 
