@@ -12,6 +12,7 @@ public class SPlayer {
 	private Island island;
 	private ScoreboardObject sb;
 	private int id;
+	private int id_last_invite = -1;
 	
 	// TODO : Get and set
 	public int getID(){
@@ -91,7 +92,13 @@ public class SPlayer {
 	public void saveData() {
 		// TODO : Save all player data, UUID, Island ID and rights
 		DatabaseManager.writePlayerData(this);
+		DatabaseManager.updatePlayer(this);
 	}
 
-
+	public void setLastIsInvite(int id){
+		id_last_invite = id;
+	}
+	public int getLastIsInvite(){
+		return id_last_invite;
+	}
 }

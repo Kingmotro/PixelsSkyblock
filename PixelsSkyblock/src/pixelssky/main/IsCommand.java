@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import pixelssky.managers.DatabaseManager;
+import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.Inventories;
@@ -59,9 +60,20 @@ public class IsCommand implements CommandExecutor {
 			{
 				p.getIsland().getMembers().add(Integer.parseInt(arg3[1]));
 			}
+			else if(arg3[0].equals("accept"))
+			{
+				
+				pl.sendTitle("§aVous venez d'accepter l'invation :p", "§cC'est parti!!!", 10, 20, 10);
+				p.setIsland(IslandsManager.getIsland(p.getLastIsInvite()));
+				p.getIsland().getMembers().add(p.getID());
+				pl.teleport(p.getIsland().getSpawn());
+				pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+			}
+			
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
+		
 		return true;
 	}
 

@@ -111,6 +111,9 @@ public class Inventories {
 			Player pl = (Player) event.getWhoClicked();
 			SkullMeta skull = (SkullMeta) event.getInventory().getItem(event.getSlot()).getItemMeta();
 			Player cible = Bukkit.getPlayer(skull.getOwner());
+			SPlayer p_sender = PlayersManager.getSPlayer(pl);
+			SPlayer p_cible = PlayersManager.getSPlayer(cible);
+			p_cible.setLastIsInvite(p_sender.getIsland().getID());
 			cible.sendTitle("§a" + pl.getDisplayName() + " vous veut sur son île!", "§eFaites /is accept pour accepter !", 10,20,10);
 		}catch(Exception ex){
 			
