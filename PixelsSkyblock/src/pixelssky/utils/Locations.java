@@ -39,7 +39,9 @@ public class Locations {
 									//						31 	32 	33 	34 	35
 		int ID_z = z/510;
 		int ID = 30 * ID_z + ID_x;
-		
+		if(x < 0 || z < 0){
+			return null;
+		}
 		
 		return IslandsManager.getIsland(ID);
 	}
