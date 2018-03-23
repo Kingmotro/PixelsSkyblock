@@ -29,7 +29,6 @@ public class Items {
 
 	}
 	public static ItemStack getHead(Player player) {
-        int lifePlayer = (int) player.getHealth();
         ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta skull = (SkullMeta) item.getItemMeta();
         skull.setDisplayName(player.getName());

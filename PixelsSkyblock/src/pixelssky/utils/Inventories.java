@@ -87,7 +87,6 @@ public class Inventories {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						Bukkit.dispatchCommand(pl, "is h");
 					}else if(slot == 2){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
@@ -96,17 +95,9 @@ public class Inventories {
 						p.getIsland().addOrSetData("difficulty", "NORMAL");
 						try {
 							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/normal.island"), p.getIsland().getCenter());
-						} catch (MaxChangedBlocksException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (DataException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
+						}catch (Exception e) {
 							e.printStackTrace();
 						}
-						Bukkit.dispatchCommand(pl, "is h");
 					}else if(slot == 3){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
@@ -125,7 +116,7 @@ public class Inventories {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						Bukkit.dispatchCommand(pl, "is h");
+						
 					}else if(slot == 4){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
@@ -144,11 +135,11 @@ public class Inventories {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						Bukkit.dispatchCommand(pl, "is h");
 					}else if(slot == 8){
 
 					}
 				}});
+			Bukkit.dispatchCommand(pl, "is h");
 		}catch(Exception ex){
 
 		}
