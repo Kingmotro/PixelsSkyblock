@@ -85,6 +85,7 @@ public class Inventories {
 						}
 						DatabaseManager.createIsland(p);
 						p.getIsland().addOrSetData("Creator", pl.getDisplayName());
+						p.getIsland().addOrSetData("admins", p.getID() + ",");
 						if(slot == 1){
 							p.getIsland().addOrSetData("difficulty", "HARD");
 							try {
@@ -124,12 +125,35 @@ public class Inventories {
 	}
 
 	public static Inventory getIslandMenu(SPlayer p){
-		Inventory inv = Bukkit.createInventory(null, 9, "§6☰ §3Menu de l'île");
-
+		Inventory inv = Bukkit.createInventory(null, 9*3, "§6☰ §3Menu de l'île");
+		boolean isAdmin = p.getIsland().isAdmin(p.getID());
+		
 		inv.setItem(0 , Items.get("§5§lTéléporation sur l'île", Material.BIRCH_DOOR_ITEM,(byte) 0));
-		inv.setItem(1 , Items.get("§5§lChanger le spawn de l'île", Material.BED,(byte) 5));
-		inv.setItem(2 , Items.get("§5§lNiveau de l'île", Material.EXP_BOTTLE,(byte) 0));   
-		inv.setItem(3 , Items.getHead("president","§5§lInviter un joueur"));
+		inv.setItem(1 , Items.get("§5§lSpawn du monde", Material.NETHER_STAR,(byte) 0));
+		inv.setItem(2 , Items.get("§5§lNiveau de l'île", Material.EXP_BOTTLE,(byte) 0));
+		inv.setItem(3 , Items.get("§5§lChallenges de l'île", Material.BOOK_AND_QUILL,(byte) 0));
+		
+		inv.setItem(6 , Items.get("§5§lValeur des blocs", Material.EMERALD,(byte) 0));
+		inv.setItem(7 , Items.get("§5§lListe des îles", Material.BOOK_AND_QUILL,(byte) 0));
+		inv.setItem(8 , Items.get("§5§lInformations de l'île", Material.BOOK_AND_QUILL,(byte) 0));
+		
+		
+		if(isAdmin){
+			inv.setItem(9 , Items.get("§5§lChanger le spawn de l'île", Material.BED,(byte) 5));
+			inv.setItem(11 , Items.getHead("Mailbox","§5§lInviter un joueur"));
+			inv.setItem(12 , Items.getHead("Computer","§5§lAjouter un admin"));
+			inv.setItem(13 , Items.getHead("Barrier","§5§lSupprimer un admin"));
+			inv.setItem(14 , Items.getHead("X","§5§lExpulser un joueur de l'île"));
+			
+			inv.setItem(16 , Items.get("§5§lProgression", Material.ANVIL,(byte) 0));
+			
+			inv.setItem(20 , Items.get("§5§lChanger le biome de l'île", Material.EMERALD,(byte) 0));
+			inv.setItem(21 , Items.get("§5§lVoir éléments débloqués", Material.EMERALD,(byte) 0));
+		}
+		
+		
+		
+		
 
 
 		return inv;
@@ -142,7 +166,7 @@ public class Inventories {
 			pl.teleport(p.getIsland().getSpawn());
 			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
 			pl.closeInventory();
-		} else if(event.getSlot()==1){
+		} else if(event.getSlot()==9){
 			pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
 			p.getIsland().setHome(pl.getLocation());
 			pl.playSound(pl.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
@@ -150,7 +174,7 @@ public class Inventories {
 		} else if(event.getSlot()==2){
 			p.getIsland().calculateLevel(pl);
 			pl.closeInventory();
-		} else if(event.getSlot()==3){
+		} else if(event.getSlot()==11){
 			pl.openInventory(getPlayersInventory_invite(p));
 		}
 	}

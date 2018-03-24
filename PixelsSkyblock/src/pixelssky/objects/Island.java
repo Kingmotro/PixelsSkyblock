@@ -15,6 +15,7 @@ import pixelssky.managers.BlocksManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Locations;
+import pixelssky.utils.StringConverter;
 import pixelssky.utils.WEManager;
 
 public class Island {
@@ -179,7 +180,10 @@ public class Island {
 		isCenter = isC;
 		
 	}
-
+	
+	public boolean isAdmin(int player_ID){
+		return StringConverter.getID(getData("admins").getData().toString()).contains(player_ID) || Integer.parseInt(getData("Creator").getData().toString()) == player_ID;
+	}
 
 
 }
