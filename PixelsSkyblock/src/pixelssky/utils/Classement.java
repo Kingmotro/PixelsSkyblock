@@ -22,13 +22,18 @@ public class Classement {
 	
 	public static ArrayList<String> getTop()
 	{
-		
 		ArrayList<String> classes = new ArrayList<String>();
 		TreeMap<Double, Island> map = new TreeMap<Double, Island>();
 		for (Island i : IslandsManager.islands)
 		{
-			map.put(i.getLevel(), i);
-
+			if(i.getDifficulty().equals(Island.DIFFICULTY_HARD)){
+				map.put(i.getLevel(), i);
+			}else if(i.getDifficulty().equals(Island.DIFFICULTY_NORMAL)){
+				map.put(i.getLevel() - 50000, i);
+			}else if(i.getDifficulty().equals(Island.DIFFICULTY_EASY)){
+				map.put(i.getLevel() - 100000, i);
+			}
+			
 		}
 		for(Entry<Double, Island> e : map.entrySet()) 
 		{ 

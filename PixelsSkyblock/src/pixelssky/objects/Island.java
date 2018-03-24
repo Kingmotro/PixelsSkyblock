@@ -19,7 +19,11 @@ import pixelssky.utils.StringConverter;
 import pixelssky.utils.WEManager;
 
 public class Island {
-
+	public static final String DIFFICULTY_HARD = "HARD";
+	public static final String DIFFICULTY_NORMAL = "NORMAL";
+	public static final String DIFFICULTY_EASY = "EASY";
+	public static final String DIFFICULTY_NONE = "EXAMPLE";
+	
 	private int ID = 0;
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();
 	private ArrayList<Data> data = new ArrayList<Data>();
@@ -184,6 +188,8 @@ public class Island {
 	public boolean isAdmin(int player_ID){
 		return StringConverter.getID(getData("admins").getData().toString()).contains(player_ID) || Integer.parseInt(getData("Creator").getData().toString()) == player_ID;
 	}
-
+	public String getDifficulty(){
+		return getData("Difficulty").getData().toString();
+	}
 
 }

@@ -1,10 +1,8 @@
 package pixelssky.utils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -12,10 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.SkullMeta;
-
-import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.world.DataException;
-
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
@@ -82,6 +76,8 @@ public class Inventories {
 					if(slot <4 && slot > 0){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
+							pl.getInventory().clear();
+							pl.getEnderChest().clear();
 						}
 						DatabaseManager.createIsland(p);
 						p.getIsland().addOrSetData("Creator", pl.getDisplayName());
@@ -107,7 +103,7 @@ public class Inventories {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 						}else if(slot == 4){
 							p.getIsland().addOrSetData("difficulty", "NONE");
 							try {
@@ -127,26 +123,26 @@ public class Inventories {
 	public static Inventory getIslandMenu(SPlayer p){
 		Inventory inv = Bukkit.createInventory(null, 9*3, "§6☰ §3Menu de l'île");
 		boolean isAdmin = p.getIsland().isAdmin(p.getID());
-		
+
 		inv.setItem(0 , Items.get("§5§lTéléporation sur l'île", Material.BIRCH_DOOR_ITEM,(byte) 0));
 		inv.setItem(1 , Items.get("§5§lSpawn du monde", Material.NETHER_STAR,(byte) 0));
 		inv.setItem(2 , Items.get("§5§lNiveau de l'île", Material.EXP_BOTTLE,(byte) 0));
 		inv.setItem(3 , Items.get("§5§lChallenges de l'île", Material.BOOK_AND_QUILL,(byte) 0));
-		
+
 		inv.setItem(6 , Items.get("§5§lValeur des blocs", Material.EMERALD,(byte) 0));
 		inv.setItem(7 , Items.get("§5§lListe des îles", Material.ANVIL,(byte) 0));
 		inv.setItem(8 , Items.get("§5§lInformations de l'île", Material.EMPTY_MAP,(byte) 0));
-		
-		
+
+
 		if(isAdmin){
 			inv.setItem(9 , Items.get("§5§lChanger le spawn de l'île", Material.BED,(byte) 5));
 			inv.setItem(11 , Items.getHead("Mailbox","§5§lInviter un joueur"));
 			inv.setItem(12 , Items.getHead("Computer","§5§lAjouter un admin"));
 			inv.setItem(13 , Items.getHead("Barrier","§5§lSupprimer un admin"));
 			inv.setItem(14 , Items.getHead("X","§5§lExpulser un joueur de l'île"));
-			
+
 			inv.setItem(16 , Items.get("§5§lProgression", Material.DIAMOND_PICKAXE,(byte) 0));
-			
+
 			inv.setItem(20 , Items.get("§5§lChanger le biome de l'île", Material.SAPLING,(byte) 0));
 			inv.setItem(21 , Items.get("§5§lVoir éléments débloqués", Material.WORKBENCH,(byte) 0));
 			inv.setItem(24 , Items.get("§5§lAjouter un membre externe à l'île", Material.CHEST,(byte) 0));
@@ -158,23 +154,55 @@ public class Inventories {
 	public static void run_IslandMenu(InventoryClickEvent event){
 		Player pl = (Player) event.getWhoClicked();
 		SPlayer p = PlayersManager.getSPlayer(pl);
+		boolean isAdmin = p.getIsland().isAdmin(p.getID());
 		if(event.getSlot()==0){
 			pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
 			pl.teleport(p.getIsland().getSpawn());
 			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
 			pl.closeInventory();
-		} else if(event.getSlot()==9){
+		}else if(event.getSlot()==1){
+			pl.sendTitle("§aTéléportation au spawn", "", 10,20,10);
+			pl.teleport(Bukkit.getWorld("world").getSpawnLocation());
+			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+			pl.closeInventory();
+		}else if(event.getSlot()==2){
+			p.getIsland().calculateLevel(pl);
+			pl.closeInventory();
+		}else if(event.getSlot()==3){
+			//Challenges
+		}else if(event.getSlot()==6){
+			//Valeurs des blocks
+		}else if(event.getSlot()==7){
+			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
+			pl.openInventory(getIslandsList(p));
+		}else if(event.getSlot()==8){
+			//Infos de l'île
+		} else if(event.getSlot()==9 && isAdmin){
 			pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
 			p.getIsland().setHome(pl.getLocation());
 			pl.playSound(pl.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
 			pl.closeInventory();
-		} else if(event.getSlot()==2){
-			p.getIsland().calculateLevel(pl);
-			pl.closeInventory();
-		} else if(event.getSlot()==11){
+		}else if(event.getSlot()==12 && isAdmin){
+			//Ajouter admin
+		}else if(event.getSlot()==11 && isAdmin){
 			pl.openInventory(getPlayersInventory_invite(p));
+		}else if(event.getSlot()==13 && isAdmin){
+			//Suppr admin
+		}else if(event.getSlot()==14 && isAdmin){
+			//Virer joueur
+		}else if(event.getSlot()==16 && isAdmin){
+			//Calcul progression
+		}else if(event.getSlot()==20 && isAdmin){
+			//Biome
+		}else if(event.getSlot()==21 && isAdmin){
+			//2léments débloqués
+		}else if(event.getSlot()==24 && isAdmin){
+			//Ajouter externe
+		}else if(event.getSlot()==25 && isAdmin){
+			//Suppr externe
 		}
 	}
+
 	public static Inventory getPlayersInventory_invite(SPlayer pl){
 		Island i = pl.getIsland();
 		Inventory inv = Bukkit.createInventory(null, ((Bukkit.getOnlinePlayers().size())/9+1)*9, "§6✉ §3Inviter des joueurs");
@@ -214,7 +242,7 @@ public class Inventories {
 			p.closeInventory();
 		}
 	}
-	
+
 	public static Inventory getIslandsList(SPlayer p){
 		Inventory inv = Bukkit.createInventory(null, ((IslandsManager.islands.size())/9+1)*9, "§6§3Liste des îles");
 		for(Island i: IslandsManager.islands){
@@ -229,6 +257,8 @@ public class Inventories {
 		return inv;
 	}
 	public static void run_IslandList(InventoryClickEvent event){
-		
+
 	}
+
+
 }
