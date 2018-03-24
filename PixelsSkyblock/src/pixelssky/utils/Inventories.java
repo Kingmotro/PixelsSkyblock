@@ -3,6 +3,7 @@ package pixelssky.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +17,7 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.world.DataException;
 
 import pixelssky.managers.DatabaseManager;
+import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
@@ -71,6 +73,9 @@ public class Inventories {
 			int slot = event.getSlot();
 			Player pl = (Player) event.getWhoClicked();
 			SPlayer p = PlayersManager.getSPlayer((Player) event.getWhoClicked());
+			if(slot == 8){
+				pl.openInventory(getIslandsList());
+			}
 			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				@Override
 				public void run() {
@@ -79,6 +84,7 @@ public class Inventories {
 							DatabaseManager.deleteIsland(p.getIsland());
 						}
 						DatabaseManager.createIsland(p);
+						p.getIsland().addOrSetData("Creator", pl.getDisplayName());
 						if(slot == 1){
 							p.getIsland().addOrSetData("difficulty", "HARD");
 							try {
@@ -110,12 +116,10 @@ public class Inventories {
 							}
 						}
 						pl.teleport(p.getIsland().getSpawn());
-					}else if(slot == 8){
-						
 					}
 				}});
 		}catch(Exception ex){
-
+			System.out.println(ex.toString());
 		}
 	}
 
@@ -189,4 +193,18 @@ public class Inventories {
 			p.closeInventory();
 		}
 	}
+	
+	public static Inventory getIslandsList(){
+		Inventory inv = Bukkit.createInventory(null, ((IslandsManager.islands.size())/9+1)*9, "§6§3Liste des îles");
+		
+		for(Island i: IslandsManager.islands){
+			ArrayList<String> lore = new ArrayList<String>();
+			lore.add("§e§nNiveau de l'île :§b "+ i.getLevel());
+			lore.add("§e§nNombre de membres :§b " + i.getMembers().size());
+			lore.add("§e§nDifficulté :§b " + i.getData("difficulty").getData());
+			inv.addItem(Items.get("§5§l▶ Île de : " + i.getData("Creator").getData(), Material.STAINED_GLASS,(byte) new Random().nextInt(15), lore));
+		}
+		return inv;
+	}
+
 }

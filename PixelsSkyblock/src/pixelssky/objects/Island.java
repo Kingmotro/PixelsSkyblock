@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import com.sk89q.worldedit.util.Countable;
 
 import pixelssky.managers.BlocksManager;
+import pixelssky.managers.IslandsManager;
+import pixelssky.utils.Classement;
 import pixelssky.utils.Locations;
 import pixelssky.utils.WEManager;
 
@@ -118,6 +120,12 @@ public class Island {
 		l.add(pos1); l.add(pos2);
 		return l;
 	}
+	/*
+	 * Usefull for async tasks
+	 */
+	public Island getThis(){
+		return this;
+	}
 	public void calculateLevel(Player p) {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
@@ -160,7 +168,8 @@ public class Island {
 				p.sendMessage("");
 				p.sendMessage("§a✔ §e Bloc le §aplus §erentable : §5" + max + " §e(§d" + String.format("%.2f", maxValue) + " §eniveaux)");
 				p.sendMessage("§4✘§e Bloc le §cmoins §erentable : §5" + min + " §e(§d" + String.format("%.2f", minValue) + " §eniveaux)");
-
+				p.sendMessage("");
+				p.sendMessage("§a§n▶ §e§l§nVous êtes : §5§l" + (Classement.getNB(getThis())+1) + "§e/" + IslandsManager.islands.size());
 			}
 		});
 

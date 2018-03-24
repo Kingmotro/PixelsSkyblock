@@ -114,7 +114,7 @@ public class DatabaseManager {
 				+ "', '-1');");
 				System.out.println("5");
 				conn.close();
-				readPlayerData(p);
+				return getPlayer(UUID);
 			} else {
 				// Chargement des éléments de base
 				while (res.next()) {
@@ -213,6 +213,7 @@ public class DatabaseManager {
 				stmt.executeUpdate(
 						"INSERT INTO `player_data` (`PLAYER_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
 								+ p.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
+				
 			}
 			conn.close();
 
@@ -230,6 +231,7 @@ public class DatabaseManager {
 				stmt.executeUpdate(
 						"INSERT INTO `island_data` (`ISLAND_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
 								+ i.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
+				System.out.println(d.getDataName() + " SAVED");
 			}
 			conn.close();
 
@@ -251,6 +253,7 @@ public class DatabaseManager {
 				// Chargement des éléments de base
 				while (res.next()) {
 					i.addOrSetData(res.getString("DATA_NAME"), res.getString("DATA_CONTENT"));
+					System.out.println(res.getString("DATA_NAME") + " LOADED");
 				}
 			}
 			conn.close();

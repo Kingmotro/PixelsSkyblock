@@ -7,7 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
+import pixelssky.utils.Classement;
 import pixelssky.utils.Inventories;
 
 public class IsCommand implements CommandExecutor {
@@ -51,7 +53,14 @@ public class IsCommand implements CommandExecutor {
 			{
 				pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
 				p.getIsland().setHome(pl.getLocation());
-			}else if(arg3[0].equals("level"))
+			}else if(arg3[0].equals("top"))
+			{
+				pl.sendMessage("Is top : ");
+				for(String i : Classement.getTop()){
+					pl.sendMessage("ISLAND : " + i);
+				}
+			}
+			else if(arg3[0].equals("level"))
 			{
 				p.getIsland().calculateLevel(pl);
 			}
