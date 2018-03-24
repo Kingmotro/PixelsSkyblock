@@ -58,7 +58,6 @@ public class DatabaseManager {
 					+ "ISLAND_SPAWN text NOT NULL,"
 					+ "ISLAND_LEVEL text NOT NULL);");	// Creates ISLAND (if not in DB)
 			stmt.executeQuery("CREATE TABLE IF NOT EXISTS `PixelsSkyblock`.`ISLAND_DATA`("
-					+ "ID INT PRIMARY KEY NOT NULL,"
 					+ "ISLAND_ID INT NOT NULL,"
 					+ "DATA_NAME text NOT NULL,"
 					+ "DATA_CONTENT text NOT NULL);");	// Creates ISLAND_DATA (if not in DB)
@@ -67,7 +66,6 @@ public class DatabaseManager {
 					+ "UUID text NOT NULL,"
 					+ "ISLAND_ID INT NOT NULL;");	// Creates PLAYERS (if not in DB)
 			stmt.executeQuery("CREATE TABLE IF NOT EXISTS `PixelsSkyblock`.`PLAYER_DATA`("
-					+ "ID INT PRIMARY KEY NOT NULL,"
 					+ "PLAYER_ID INT NOT NULL,"
 					+ "DATA_NAME text NOT NULL,"
 					+ "DATA_CONTENT text NOT NULL);");	// Creates PLAYER_DATA (if not in DB)
@@ -153,6 +151,9 @@ public class DatabaseManager {
 			}
 
 			conn.close();
+			for(Island i: IslandsManager.islands){
+				readIslandData(i);
+			}
 		} catch (Exception ex) {
 			System.out.println("EX_LOADING_ISLAND" + ex.toString());
 		}
@@ -176,6 +177,7 @@ public class DatabaseManager {
 
 
 			conn.close();
+			writeIslandData(i);
 		} catch (Exception ex) {
 			System.out.println("EX_SAVING_ISLAND" + ex.toString());
 		}
@@ -218,7 +220,45 @@ public class DatabaseManager {
 
 		}
 	}
+	
+	public static void writeIslandData(Island i) {
+		try {
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			stmt.executeUpdate("DELETE FROM `island_data` WHERE `ISLAND_ID` = " + i.getID() + " ; ");
+			for (Data d : i.getData()) {
+				stmt.executeUpdate(
+						"INSERT INTO `island_data` (`ISLAND_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
+								+ i.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
+			}
+			conn.close();
 
+		} catch (Exception ex) {
+
+		}
+	}
+
+	public static void readIslandData(Island i) {
+		// TODO faire un update ou insert
+		try {
+			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
+			stmt = conn.createStatement();
+			// Request
+			ResultSet res = stmt.executeQuery("SELECT * FROM `island_data` WHERE  `ISLAND_ID` = " + i.getID() + " ; ");
+			if (!res.isBeforeFirst()) {
+
+			} else {
+				// Chargement des éléments de base
+				while (res.next()) {
+					i.addOrSetData(res.getString("DATA_NAME"), res.getString("DATA_CONTENT"));
+				}
+			}
+			conn.close();
+		} catch (Exception ex) {
+
+		}
+	}
+	
 	public static void readPlayerData(SPlayer p) {
 		// TODO faire un update ou insert
 		try {
@@ -245,26 +285,6 @@ public class DatabaseManager {
 		/* necessaire pour droits au spawn? */
 	}
 
-
-	public static void setIslandData(Island island) {
-		// TODO faire un update
-		try {
-			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
-			stmt = conn.createStatement();
-			// Request
-			stmt.executeUpdate("DELETE FROM `ISLAND_DATA` WHERE `ISLAND_ID` = " + island.getID() + " ; ");
-			for (Data d : island.getData()) {
-				stmt.executeUpdate(
-						"INSERT INTO `ISLAND_DATA` (`ISLAND_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
-								+ island.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
-			}
-			conn.close();
-		} catch (Exception e) {
-
-			System.out.println("ERREUR SETISLANDDATA : " + e.toString());
-
-		}
-	}
 
 	/**
 	 * Deletes an island
