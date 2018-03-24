@@ -134,8 +134,8 @@ public class Inventories {
 		inv.setItem(3 , Items.get("§5§lChallenges de l'île", Material.BOOK_AND_QUILL,(byte) 0));
 		
 		inv.setItem(6 , Items.get("§5§lValeur des blocs", Material.EMERALD,(byte) 0));
-		inv.setItem(7 , Items.get("§5§lListe des îles", Material.BOOK_AND_QUILL,(byte) 0));
-		inv.setItem(8 , Items.get("§5§lInformations de l'île", Material.BOOK_AND_QUILL,(byte) 0));
+		inv.setItem(7 , Items.get("§5§lListe des îles", Material.ANVIL,(byte) 0));
+		inv.setItem(8 , Items.get("§5§lInformations de l'île", Material.EMPTY_MAP,(byte) 0));
 		
 		
 		if(isAdmin){
@@ -145,16 +145,13 @@ public class Inventories {
 			inv.setItem(13 , Items.getHead("Barrier","§5§lSupprimer un admin"));
 			inv.setItem(14 , Items.getHead("X","§5§lExpulser un joueur de l'île"));
 			
-			inv.setItem(16 , Items.get("§5§lProgression", Material.ANVIL,(byte) 0));
+			inv.setItem(16 , Items.get("§5§lProgression", Material.DIAMOND_PICKAXE,(byte) 0));
 			
-			inv.setItem(20 , Items.get("§5§lChanger le biome de l'île", Material.EMERALD,(byte) 0));
-			inv.setItem(21 , Items.get("§5§lVoir éléments débloqués", Material.EMERALD,(byte) 0));
+			inv.setItem(20 , Items.get("§5§lChanger le biome de l'île", Material.SAPLING,(byte) 0));
+			inv.setItem(21 , Items.get("§5§lVoir éléments débloqués", Material.WORKBENCH,(byte) 0));
+			inv.setItem(24 , Items.get("§5§lAjouter un membre externe à l'île", Material.CHEST,(byte) 0));
+			inv.setItem(25 , Items.get("§5§lSupprimer un membre externe", Material.APPLE,(byte) 0));
 		}
-		
-		
-		
-		
-
 
 		return inv;
 	}
