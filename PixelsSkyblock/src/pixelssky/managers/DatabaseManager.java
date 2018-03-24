@@ -206,11 +206,10 @@ public class DatabaseManager {
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
-			// Request
 			stmt.executeUpdate("DELETE FROM `player_data` WHERE `PLAYER_ID` = " + p.getID() + " ; ");
 			for (Data d : p.getData()) {
 				stmt.executeUpdate(
-						"INSERT INTO `player_data` (`ID`, `PLAYER_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES (NULL, '"
+						"INSERT INTO `player_data` (`PLAYER_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
 								+ p.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
 			}
 			conn.close();

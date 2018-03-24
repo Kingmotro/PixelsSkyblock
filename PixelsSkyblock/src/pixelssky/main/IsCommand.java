@@ -26,6 +26,7 @@ public class IsCommand implements CommandExecutor {
 				{
 					//ouvrir pour créer île
 					pl.openInventory(Inventories.getCreateIslandMenu(p));
+					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 				}else
 				{
 					//Ouvrir inventaire de base
@@ -35,15 +36,17 @@ public class IsCommand implements CommandExecutor {
 				}	
 
 			}else if(arg3[0].equals("create")){
-				pl.openInventory(Inventories.getCreateIslandMenu(p));
-				pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
-
+				if(p.getIsland() != null){
+					pl.openInventory(Inventories.getConfirmCreateIsland());
+					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
+				}else{
+					pl.openInventory(Inventories.getCreateIslandMenu(p));
+					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
+				}
+				
 			}else if(arg3[0].equals("h")){
-
 				pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
-
 				pl.teleport(p.getIsland().getSpawn());
-
 			}else if(arg3[0].equals("sethome"))
 			{
 				pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
@@ -52,13 +55,12 @@ public class IsCommand implements CommandExecutor {
 			{
 				p.getIsland().calculateLevel(pl);
 			}
-			else if(arg3[0].equals("addplayer"))
+			else if(arg3[0].equals("invite"))
 			{
-				p.getIsland().getMembers().add(Integer.parseInt(arg3[1]));
+				pl.openInventory(Inventories.getPlayersInventory_invite(p));
 			}
 			else if(arg3[0].equals("accept"))
-			{
-				
+			{	
 				pl.sendTitle("§aVous venez d'accepter l'invation :p", "§cC'est parti!!!", 10, 20, 10);
 				p.setIsland(IslandsManager.getIsland(p.getLastIsInvite()));
 				p.getIsland().getMembers().add(p.getID());

@@ -47,6 +47,10 @@ public class EventListener implements Listener {
 			event.setCancelled(true);
 			Inventories.run_PlayersInventory_invite(event);
 		}
+		else if(event.getInventory().getName().equals("§6❔ §3Recommencer une île ?")){
+			event.setCancelled(true);
+			Inventories.run_ConfirmCreateIsland(event);
+		}
 	}
 
 	@EventHandler

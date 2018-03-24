@@ -74,72 +74,46 @@ public class Inventories {
 			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				@Override
 				public void run() {
-					if(slot == 1){
-
+					if(slot <4 && slot > 0){
 						if(p.getIsland() != null){
 							DatabaseManager.deleteIsland(p.getIsland());
 						}
 						DatabaseManager.createIsland(p);
-						p.getIsland().addOrSetData("difficulty", "HARD");
-						try {
-							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/hard.island"), p.getIsland().getCenter());
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						if(slot == 1){
+							p.getIsland().addOrSetData("difficulty", "HARD");
+							try {
+								WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/hard.island"), p.getIsland().getCenter());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}else if(slot == 2){
+							p.getIsland().addOrSetData("difficulty", "NORMAL");
+							try {
+								WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/normal.island"), p.getIsland().getCenter());
+							}catch (Exception e) {
+								e.printStackTrace();
+							}
+						}else if(slot == 3){
+							p.getIsland().addOrSetData("difficulty", "EASY");
+							try {
+								WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/easy.island"), p.getIsland().getCenter());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+						}else if(slot == 4){
+							p.getIsland().addOrSetData("difficulty", "NONE");
+							try {
+								WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/none.island"), p.getIsland().getCenter());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
-					}else if(slot == 2){
-						if(p.getIsland() != null){
-							DatabaseManager.deleteIsland(p.getIsland());
-						}
-						DatabaseManager.createIsland(p);
-						p.getIsland().addOrSetData("difficulty", "NORMAL");
-						try {
-							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/normal.island"), p.getIsland().getCenter());
-						}catch (Exception e) {
-							e.printStackTrace();
-						}
-					}else if(slot == 3){
-						if(p.getIsland() != null){
-							DatabaseManager.deleteIsland(p.getIsland());
-						}
-						DatabaseManager.createIsland(p);
-						p.getIsland().addOrSetData("difficulty", "EASY");
-						try {
-							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/easy.island"), p.getIsland().getCenter());
-						} catch (MaxChangedBlocksException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (DataException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					}else if(slot == 4){
-						if(p.getIsland() != null){
-							DatabaseManager.deleteIsland(p.getIsland());
-						}
-						DatabaseManager.createIsland(p);
-						p.getIsland().addOrSetData("difficulty", "NONE");
-						try {
-							WEManager.pasteSchematics(Bukkit.getWorld("world"), new File("plugins/PixelsSky/Schematics/none.island"), p.getIsland().getCenter());
-						} catch (MaxChangedBlocksException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (DataException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						pl.teleport(p.getIsland().getSpawn());
 					}else if(slot == 8){
-
+						
 					}
 				}});
-			Bukkit.dispatchCommand(pl, "is h");
 		}catch(Exception ex){
 
 		}
@@ -183,7 +157,6 @@ public class Inventories {
 			if(!i.getMembers().contains(PlayersManager.getSPlayer(p).getID())){
 				inv.addItem(Items.getHead(p));
 			}
-
 		}
 		return inv;
 	}
@@ -201,4 +174,19 @@ public class Inventories {
 		}
 	}
 
+	public static Inventory getConfirmCreateIsland(){
+		Inventory inv = Bukkit.createInventory(null, 9, "§6❔ §3Recommencer une île ?");
+		inv.setItem(2 , Items.get("§cSupprimer mon île actuelle.", Material.WOOL,(byte) 14));
+		inv.setItem(6 , Items.get("§aAnnuler.", Material.WOOL,(byte) 4));
+		return inv;
+	}
+	public static void run_ConfirmCreateIsland(InventoryClickEvent event){
+		int slot = event.getSlot();
+		Player p = (Player) event.getWhoClicked();
+		if(slot == 2){
+			p.openInventory(getCreateIslandMenu(PlayersManager.getSPlayer(p)));
+		}else if(slot == 6){
+			p.closeInventory();
+		}
+	}
 }
