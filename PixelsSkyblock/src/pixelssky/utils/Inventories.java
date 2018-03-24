@@ -61,7 +61,7 @@ public class Inventories {
 
 		inv.setItem(4 , Items.get("§5§lÎle d'exemple", Material.DIAMOND,(byte) 0, lore));
 
-		inv.setItem(8 , Items.get("§6Rejoindre une équipe", Material.ANVIL,(byte) 0));
+		inv.setItem(8 , Items.get("§6Voir les îles existantes", Material.ANVIL,(byte) 0));
 
 		return inv;
 	}
@@ -74,7 +74,7 @@ public class Inventories {
 			Player pl = (Player) event.getWhoClicked();
 			SPlayer p = PlayersManager.getSPlayer((Player) event.getWhoClicked());
 			if(slot == 8){
-				pl.openInventory(getIslandsList());
+				pl.openInventory(getIslandsList(p));
 			}
 			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				@Override
@@ -194,17 +194,20 @@ public class Inventories {
 		}
 	}
 	
-	public static Inventory getIslandsList(){
+	public static Inventory getIslandsList(SPlayer p){
 		Inventory inv = Bukkit.createInventory(null, ((IslandsManager.islands.size())/9+1)*9, "§6§3Liste des îles");
-		
 		for(Island i: IslandsManager.islands){
 			ArrayList<String> lore = new ArrayList<String>();
 			lore.add("§e§nNiveau de l'île :§b "+ i.getLevel());
 			lore.add("§e§nNombre de membres :§b " + i.getMembers().size());
 			lore.add("§e§nDifficulté :§b " + i.getData("difficulty").getData());
-			inv.addItem(Items.get("§5§l▶ Île de : " + i.getData("Creator").getData(), Material.STAINED_GLASS,(byte) new Random().nextInt(15), lore));
+			if(p.getIsland() == i){
+				inv.addItem(Items.get("§5§l▶Votre île", Material.STAINED_CLAY,(byte) new Random().nextInt(15), lore));
+			}	
 		}
 		return inv;
 	}
-
+	public static void run_IslandList(InventoryClickEvent event){
+		
+	}
 }
