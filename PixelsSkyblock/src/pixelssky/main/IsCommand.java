@@ -5,10 +5,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.objects.Challenge;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
+import pixelssky.objects.objectives.InventoryObjective;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Inventories;
 
@@ -75,6 +79,11 @@ public class IsCommand implements CommandExecutor {
 				p.getIsland().getMembers().add(p.getID());
 				pl.teleport(p.getIsland().getSpawn());
 				pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+			}else if(arg3[0].equals("try"))
+			{
+				Challenge c = ChallengesManager.challenges.get(0).getSubChallenges().get(0);
+				c.complete(pl, p.getIsland());
+				
 			}
 			
 		}catch(Exception ex){

@@ -28,6 +28,11 @@ public class Items {
 		return i;
 
 	}
+	public static ItemStack get(Material Mat, Byte id) {
+		ItemStack i = new ItemStack(Mat,1,(byte) id);;
+		return i;
+
+	}
 	public static ItemStack getHead(Player player) {
         ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta skull = (SkullMeta) item.getItemMeta();

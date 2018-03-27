@@ -39,6 +39,7 @@ public class WEManager {
 	{
 		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
 		CuboidSelection cbs = new CuboidSelection(world, loc1 , loc2);
+		
 		Region r = null;
 		try {
 			r = cbs.getRegionSelector().getRegion();
@@ -46,6 +47,7 @@ public class WEManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return es.getBlockDistribution(r);
 		/*
 		for(Countable<Integer> bloc : bl){

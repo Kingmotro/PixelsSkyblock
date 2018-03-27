@@ -6,6 +6,7 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pixelssky.managers.BlocksManager;
+import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.objects.Island;
@@ -34,6 +35,8 @@ public final class main extends JavaPlugin {
 		//Lecture des valeurs de base
 		BlocksManager.init_values();
 		
+		//Lecture des challenges
+		ChallengesManager.init();
 		//KICKALL
 		for(Player p : Bukkit.getOnlinePlayers()){
 			p.kickPlayer("Chargement du serveur... Veuillez vous reconnecter.");
@@ -44,6 +47,7 @@ public final class main extends JavaPlugin {
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
 		System.out.println("Loaded !");
+		
 	}
 
 	@Override
