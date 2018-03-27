@@ -41,4 +41,9 @@ public class InventoryObjective extends Objective{
 
 	}
 
+	@Override
+	public String getDescription() {
+		return "§e-▶§4" + quantity + " §citems de §4" + new ItemStack(Material.getMaterial(itemID),quantity,(byte) itemSubID).getI18NDisplayName();
+	}
+
 }

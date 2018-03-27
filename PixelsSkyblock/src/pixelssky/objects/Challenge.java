@@ -2,9 +2,12 @@ package pixelssky.objects;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import pixelssky.objects.objectives.Objective;
+import pixelssky.utils.Items;
 
 public class Challenge {
 	public static final int TYPE_CATEGORY = 0;
@@ -59,8 +62,8 @@ public class Challenge {
 		return name;
 	}
 	
-	public boolean completed(){
-		return false;
+	public boolean isCompleted(Island i){
+		return i.getData("completed"+ this.name) != null;
 	}
 	public boolean can_redo(){
 		return can_redo;
@@ -82,8 +85,20 @@ public class Challenge {
 				o.run(p,i);
 			}
 			p.sendTitle("Challenge complété !",name);
+			i.addOrSetData("completed"+ this.name,"" + true);
 		}else{
 			p.sendTitle("Challenge raté :/",name);
+		}
+	}
+	public ItemStack getItem(Island i){
+		ArrayList<String> lore = new ArrayList<String>();
+		for(Objective o : obj){
+			lore.add(o.getDescription());
+		}
+		if(this.isCompleted(i)){
+			return Items.get(this.name, Material.WOOL, (byte) 5, lore);
+		}else{
+			return Items.get(this.name, Material.WOOL, (byte) 14, lore);
 		}
 	}
 }

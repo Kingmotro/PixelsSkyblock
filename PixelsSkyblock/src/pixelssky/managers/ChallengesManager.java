@@ -65,4 +65,13 @@ public class ChallengesManager {
 		}
 	}
 	
+	public static Challenge getChallenge(String name){
+		System.out.println(name);
+		for(Challenge c: challenges){
+			if(c.getName().equals(name)){
+				return c;
+			}
+		}
+		return null;
+	}
 }

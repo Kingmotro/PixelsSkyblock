@@ -19,5 +19,5 @@ public abstract class Objective {
 	public abstract boolean check(Player p, Island i);
 	public abstract void run(Player p, Island i);
 	public abstract String getFailMessage(Player p);
-
+	public abstract String getDescription();
 }

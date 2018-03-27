@@ -53,6 +53,12 @@ public class EventListener implements Listener {
 		}else if(event.getInventory().getName().equals("§6§3Liste des îles")){
 			event.setCancelled(true);
 			Inventories.run_IslandList(event);
+		}else if(event.getInventory().getName().equals("§6§3Challenges !")){
+			event.setCancelled(true);
+			Inventories.run_challengesMainInventory(event);
+		}else if(event.getInventory().getName().split(":")[0].equals("§6§3Challenges du niveau ")){
+			event.setCancelled(true);
+			Inventories.run_SubChallengesInventory(event);
 		}
 	}
 

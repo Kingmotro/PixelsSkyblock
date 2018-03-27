@@ -9,10 +9,14 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.objects.Challenge;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 
@@ -169,7 +173,7 @@ public class Inventories {
 			p.getIsland().calculateLevel(pl);
 			pl.closeInventory();
 		}else if(event.getSlot()==3){
-			//Challenges
+			pl.openInventory(getChallengesMainInventory());
 		}else if(event.getSlot()==6){
 			//Valeurs des blocks
 		}else if(event.getSlot()==7){
@@ -259,6 +263,38 @@ public class Inventories {
 	public static void run_IslandList(InventoryClickEvent event){
 
 	}
+	
+	public static Inventory getChallengesMainInventory(){
+		Inventory inv = Bukkit.createInventory(null, ((ChallengesManager.challenges.size())/9+1)*9, "§6§3Challenges !");
+		for(Challenge c : ChallengesManager.challenges){
+			inv.addItem(Items.get(c.getName(), Material.WOOL,(byte) 4));
+		}
+		return inv;
+	}
+	public static void run_challengesMainInventory(InventoryClickEvent event){
+		Player p = (Player) event.getWhoClicked();
+		SPlayer sp = PlayersManager.getSPlayer(p);
+		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
+		if(i != null){
+			p.openInventory(getSubChallengeInventory(ChallengesManager.getChallenge(i.getI18NDisplayName()),sp.getIsland()));
+		}
+	}
+	public static Inventory getSubChallengeInventory(Challenge ch, Island i){
+		Inventory inv = Bukkit.createInventory(null, ((ch.getSubChallenges().size())/9+1)*9, "§6§3Challenges du niveau :" + ch.getName());
+		for(Challenge c : ch.getSubChallenges()){
+			inv.addItem(c.getItem(i));
+		}
+		return inv;
+	}
 
-
+	public static void run_SubChallengesInventory(InventoryClickEvent event){
+		Player p = (Player) event.getWhoClicked();
+		SPlayer sp = PlayersManager.getSPlayer(p);
+		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
+		if(i != null){
+			ChallengesManager.getChallenge(event.getInventory().getName().split(":")[1]).getSubChallenges().get(event.getSlot()).complete(p, sp.getIsland());
+			p.closeInventory();
+		}
+	}
+	
 }
