@@ -10,9 +10,7 @@ import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Challenge;
-import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
-import pixelssky.objects.objectives.InventoryObjective;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Inventories;
 

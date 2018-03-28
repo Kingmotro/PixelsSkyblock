@@ -17,6 +17,7 @@ import com.sk89q.worldedit.Vector;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+import com.sk89q.worldedit.entity.Entity;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import com.sk89q.worldedit.util.Countable;
@@ -49,9 +50,20 @@ public class WEManager {
 		}
 		
 		return es.getBlockDistribution(r);
-		/*
-		for(Countable<Integer> bloc : bl){
-			System.out.println(Material.getMaterial(bloc.getID()).toString() + " : " + bloc.getAmount());
-		}*/
+	}
+	public static List<? extends Entity> count_entities(World world, Location loc1, Location loc2)
+	{
+		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
+		CuboidSelection cbs = new CuboidSelection(world, loc1 , loc2);
+		
+		Region r = null;
+		try {
+			r = cbs.getRegionSelector().getRegion();
+		} catch (IncompleteRegionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return es.getEntities(r);
 	}
 }
