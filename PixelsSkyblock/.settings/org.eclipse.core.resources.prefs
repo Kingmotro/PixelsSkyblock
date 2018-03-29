@@ -4,4 +4,7 @@ encoding//src/pixelssky/objects/Challenge.java=UTF-8
 encoding//src/pixelssky/objects/Island.java=UTF-8
 encoding//src/pixelssky/objects/objectives/InventoryObjective.java=UTF-8
 encoding//src/pixelssky/objects/objectives/OnislandObjective.java=UTF-8
+encoding//src/pixelssky/objects/objectives/StatsObjective.java=UTF-8
+encoding//src/pixelssky/rewards/CommandReward.java=UTF-8
+encoding//src/pixelssky/rewards/GiveReward.java=UTF-8
 encoding//src/pixelssky/utils/Inventories.java=UTF-8

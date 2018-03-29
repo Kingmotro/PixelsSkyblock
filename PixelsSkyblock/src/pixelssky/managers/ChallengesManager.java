@@ -2,14 +2,18 @@ package pixelssky.managers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import org.bukkit.Material;
 
 import pixelssky.objects.Challenge;
-import pixelssky.objects.Reward;
 import pixelssky.objects.objectives.InventoryObjective;
 import pixelssky.objects.objectives.Objective;
 import pixelssky.objects.objectives.OnislandObjective;
+import pixelssky.objects.objectives.StatsObjective;
+import pixelssky.rewards.CommandReward;
+import pixelssky.rewards.GiveReward;
+import pixelssky.rewards.Reward;
 
 public class ChallengesManager {
 	public static ArrayList<Challenge> challenges = new ArrayList<Challenge>();
@@ -71,6 +75,27 @@ public class ChallengesManager {
 									obj.add(new OnislandObjective(s[1].equals("entity"), s[2], Integer.parseInt(s[3]),Integer.parseInt(s[4])));
 								}
 								
+							}else if(s[0].equals("stats")){
+								obj.add(new StatsObjective(s[1], s[2], s[3]));
+							}
+						}else if(l.split("=")[0].equals("reward")){
+							String[] s = l.split("=")[1].split(",");
+							if(s[0].equals("give")){
+								if(s[4].split(":").length > 1){
+									System.out.println("ENCH");
+									TreeMap<String, Integer> e = new TreeMap<String, Integer>();
+									for(String ench: s[4].split(":")[1].split(";")){
+										System.out.println(ench);
+										e.put(ench.split("/")[0], Integer.parseInt(ench.split("/")[1]));
+									}
+									rewards.add(new GiveReward(Integer.parseInt(s[1]),Integer.parseInt(s[2]),Integer.parseInt(s[3]), e));
+								}else{
+									rewards.add(new GiveReward(Integer.parseInt(s[1]),Integer.parseInt(s[2]),Integer.parseInt(s[3])));
+								}
+							}else if(s[0].equals("command")){
+								rewards.add(new CommandReward(s[1], s[2]));
+							}else if(s[0].equals("stats")){
+								//rewards.add(new CommandReward(s[1], s[2]));
 							}
 						}
 					}

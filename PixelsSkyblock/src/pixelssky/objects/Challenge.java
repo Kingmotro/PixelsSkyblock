@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import pixelssky.enchantements.Enchantements;
 import pixelssky.objects.objectives.Objective;
+import pixelssky.rewards.Reward;
 import pixelssky.utils.Items;
 
 public class Challenge {
@@ -99,6 +100,9 @@ public class Challenge {
 					for(Objective o : obj){
 						o.run(p,i);
 					}
+					for(Reward r : rewards){
+						r.run(p,i);
+					}
 					p.sendTitle("§aChallenge complété !", "§2" + name,10,10,100);
 					i.addOrSetData("completed"+ getName(),"" + true);
 					p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 100, 100);
@@ -126,6 +130,9 @@ public class Challenge {
 		ArrayList<String> lore = new ArrayList<String>();
 		for(Objective o : obj){
 			lore.add(o.getDescription());
+		}
+		for(Reward r: rewards){
+			lore.add(r.getDescription());
 		}
 		if(this.isCompleted(i)){
 			ItemStack it = Items.get(this.name,m, (byte) this.i, lore); 
