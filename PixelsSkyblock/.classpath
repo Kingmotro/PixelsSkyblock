@@ -5,6 +5,5 @@
 	<classpathentry kind="lib" path="C:/Dependencies/FastAsyncWorldEdit-bukkit-17.06.06-6554370-709-13.0.12.jar"/>
 	<classpathentry kind="lib" path="C:/Dependencies/PaperSpigot-latest.jar"/>
 	<classpathentry kind="lib" path="C:/Dependencies/worldedit-bukkit-6.1.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Killian/OneDrive/PixelsNetwork/PixelsSkyblock/PixelsSkyblock/Dependencies/Slimefun+v4.1.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

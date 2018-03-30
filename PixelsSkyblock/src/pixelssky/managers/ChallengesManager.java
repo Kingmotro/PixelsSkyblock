@@ -27,14 +27,18 @@ public class ChallengesManager {
 				ArrayList<String> lines = FileManager.ReadAllText(f.getAbsolutePath());
 				String c_name = null;
 				int type = -1;
+				boolean isUnlocked = false;
 				for(String l: lines){
 					if(l.split("=")[0].equals("name")){
 						c_name = l.split("=")[1];
 					}else if(l.split("=")[0].equals("type")){
 						type = Integer.parseInt(l.split("=")[1]);
 					}
+					else if(l.split("=")[0].equals("unlocked_by_default")){
+						isUnlocked = Boolean.parseBoolean(l.split("=")[1]);
+					}
 				}
-				challenges.add(new Challenge(type, c_name));
+				challenges.add(new Challenge(type, c_name, isUnlocked));
 			}
 		}
 		init_subChallenges();
@@ -54,9 +58,12 @@ public class ChallengesManager {
 					boolean can_redo = false;
 					Material m = null;
 					int subid = 0;
+					boolean isUnlocked = false;
 					for(String l: lines){
 						if(l.split("=")[0].equals("name")){
 							c_name = l.split("=")[1];
+						}else if(l.split("=")[0].equals("unlocked_by_default")){
+							isUnlocked = Boolean.parseBoolean(l.split("=")[1]);
 						}else if(l.split("=")[0].equals("type")){
 							type = Integer.parseInt(l.split("=")[1]);
 						}else if(l.split("=")[0].equals("material")){
@@ -83,10 +90,8 @@ public class ChallengesManager {
 							String[] s = l.split("=")[1].split(",");
 							if(s[0].equals("give")){
 								if(s[4].split(":").length > 1){
-									System.out.println("ENCH");
 									TreeMap<String, Integer> e = new TreeMap<String, Integer>();
 									for(String ench: s[4].split(":")[1].split(";")){
-										System.out.println(ench);
 										e.put(ench.split("/")[0], Integer.parseInt(ench.split("/")[1]));
 									}
 									rewards.add(new GiveReward(Integer.parseInt(s[1]),Integer.parseInt(s[2]),Integer.parseInt(s[3]), e));
@@ -101,14 +106,13 @@ public class ChallengesManager {
 							}
 						}
 					}
-					categ.getSubChallenges().add(new Challenge(type,c_name,obj,rewards,can_redo,m, subid));
+					categ.getSubChallenges().add(new Challenge(type,c_name,obj,rewards,can_redo,m, subid, isUnlocked));
 				}
 			}
 		}
 	}
 
 	public static Challenge getChallenge(String name){
-		System.out.println(name);
 		for(Challenge c: challenges){
 			if(c.getName().equals(name)){
 				return c;

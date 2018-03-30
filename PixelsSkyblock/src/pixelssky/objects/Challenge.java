@@ -28,8 +28,9 @@ public class Challenge {
 	private boolean can_redo = false;
 	private Material m = Material.STONE;
 	private int i = 0;
+	private boolean isUnlockedByDefault = false;
 
-	public Challenge(int type, String name){
+	public Challenge(int type, String name, boolean unlocked){
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();
 		}else{
@@ -38,8 +39,9 @@ public class Challenge {
 		}
 		this.name = name;
 		this.type = type;
+		this.isUnlockedByDefault = unlocked;
 	}
-	public Challenge(int type, String name, ArrayList<Objective> objectives, ArrayList<Reward> rewards, boolean can_redo, Material m, int i){
+	public Challenge(int type, String name, ArrayList<Objective> objectives, ArrayList<Reward> rewards, boolean can_redo, Material m, int i, boolean unlocked){
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();
 		}else{
@@ -51,6 +53,7 @@ public class Challenge {
 		this.type = type;
 		this.m = m;
 		this.i = i;
+		this.isUnlockedByDefault = unlocked;
 	}
 
 	public ArrayList<Objective> getObjectives(){
@@ -80,12 +83,16 @@ public class Challenge {
 		return can_redo;
 	}
 
-	public boolean isUnlocked(){
-		return false;
+	public boolean isUnlocked(Island i){
+		if(i.getData("unlocked" + name) != null){
+			return true;
+		}else{
+			return isUnlockedByDefault;
+		}
 	}
 	@SuppressWarnings("deprecation")
 	public void complete(Player p, Island i){
-		if(!isCompleted(i) || (isCompleted(i) && can_redo)){
+		if((!isCompleted(i) && isUnlocked(i)) || (isCompleted(i) && can_redo)){
 			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				@Override
 				public void run() {
@@ -136,10 +143,14 @@ public class Challenge {
 				
 			}
 		}else{
-			p.sendTitle("§c⚠§4§lImpossible de refaire§c⚠", "§eCe challenge n'est pas refaisable", 10,1000,10);
+			p.sendTitle("§c⚠§4§lImpossible de faire§c⚠", "§eCe challenge n'est pas refaisable ou débloqué", 10,1000,10);
+			p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
 		}
 	}
 	public ItemStack getItem(Island i){
+		if(!isUnlocked(i)){
+			return Items.get("§4Challenge / niveau bloqué ! §c" + name, Material.BARRIER, (byte) 0);
+		}
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("§b▊▊▊▊▊▊▊▊   Objectif(s) ▊▊▊▊▊▊▊▊");
 		for(Objective o : obj){
