@@ -14,6 +14,7 @@ import pixelssky.objects.objectives.StatsObjective;
 import pixelssky.rewards.CommandReward;
 import pixelssky.rewards.GiveReward;
 import pixelssky.rewards.Reward;
+import pixelssky.rewards.StatsReward;
 
 public class ChallengesManager {
 	public static ArrayList<Challenge> challenges = new ArrayList<Challenge>();
@@ -95,7 +96,8 @@ public class ChallengesManager {
 							}else if(s[0].equals("command")){
 								rewards.add(new CommandReward(s[1], s[2]));
 							}else if(s[0].equals("stats")){
-								//rewards.add(new CommandReward(s[1], s[2]));
+								rewards.add(new StatsReward(s[1], s[2], s[3]));
+								
 							}
 						}
 					}

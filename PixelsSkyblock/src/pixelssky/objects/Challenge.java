@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import pixelssky.enchantements.Enchantements;
 import pixelssky.objects.objectives.Objective;
+import pixelssky.rewards.CommandReward;
 import pixelssky.rewards.Reward;
 import pixelssky.utils.Items;
 
@@ -84,57 +85,79 @@ public class Challenge {
 	}
 	@SuppressWarnings("deprecation")
 	public void complete(Player p, Island i){
-		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
-			@Override
-			public void run() {
-				p.sendTitle("§c⚠§4§lCalcul en cours§c⚠", "§eVeuillez patienter", 10,1000,10);
-				p.playSound(p.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 100, 100);
-				boolean ok = true;
-				for(Objective o : obj){
-					if(!o.check(p, i)){
-						ok = false;
-						p.sendMessage(o.getFailMessage(p));
-					}
-				}
-				if(ok){
+		if(!isCompleted(i) || (isCompleted(i) && can_redo)){
+			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+				@Override
+				public void run() {
+					p.sendTitle("§c⚠§4§lCalcul en cours§c⚠", "§eVeuillez patienter", 10,1000,10);
+					p.playSound(p.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 100, 100);
+					boolean ok = true;
 					for(Objective o : obj){
-						o.run(p,i);
+						if(!o.check(p, i)){
+							ok = false;
+							p.sendMessage(o.getFailMessage(p));
+						}
 					}
-					for(Reward r : rewards){
-						r.run(p,i);
+					if(ok){
+						for(Objective o : obj){
+							o.run(p,i);
+						}
+						for(Reward r : rewards){
+							if(!(r instanceof CommandReward)){
+								r.run(p,i);
+							}
+						}
+						p.sendTitle("§aChallenge complété !", "§2" + name,10,10,100);
+						i.addOrSetData("completed"+ getName(),"" + true);
+						p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 100, 100);
+						for(int k = 0; k<10; k++){
+							p.playEffect(p.getLocation().subtract(k, k, k), Effect.SMOKE, k);
+							p.playEffect(p.getLocation().subtract(-k, -k, -k), Effect.SMOKE, k);
+
+							p.playEffect(p.getLocation().subtract(-k, k, k), Effect.SMOKE, k);
+							p.playEffect(p.getLocation().subtract(k, k, -k), Effect.SMOKE, k);
+
+							p.playEffect(p.getLocation().subtract(-k, -k, k), Effect.SMOKE, k);
+							p.playEffect(p.getLocation().subtract(k, -k, -k), Effect.SMOKE, k);
+
+							p.playEffect(p.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
+							p.playEffect(p.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
+						}
+					}else{
+						p.sendTitle("§cChallenge raté :/","§4" + name,10,10,100);
+						p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
 					}
-					p.sendTitle("§aChallenge complété !", "§2" + name,10,10,100);
-					i.addOrSetData("completed"+ getName(),"" + true);
-					p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 100, 100);
-					for(int k = 0; k<10; k++){
-						p.playEffect(p.getLocation().subtract(k, k, k), Effect.SMOKE, k);
-						p.playEffect(p.getLocation().subtract(-k, -k, -k), Effect.SMOKE, k);
-
-						p.playEffect(p.getLocation().subtract(-k, k, k), Effect.SMOKE, k);
-						p.playEffect(p.getLocation().subtract(k, k, -k), Effect.SMOKE, k);
-
-						p.playEffect(p.getLocation().subtract(-k, -k, k), Effect.SMOKE, k);
-						p.playEffect(p.getLocation().subtract(k, -k, -k), Effect.SMOKE, k);
-
-						p.playEffect(p.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
-						p.playEffect(p.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
-					}
-				}else{
-					p.sendTitle("§cChallenge raté :/","§4" + name,10,10,100);
-					p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
 				}
+			});
+			for(Reward r : rewards){
+				if(r instanceof CommandReward){
+					r.run(p,i);
+				}
+				
 			}
-		});
+		}else{
+			p.sendTitle("§c⚠§4§lImpossible de refaire§c⚠", "§eCe challenge n'est pas refaisable", 10,1000,10);
+		}
 	}
 	public ItemStack getItem(Island i){
 		ArrayList<String> lore = new ArrayList<String>();
+		lore.add("§b▊▊▊▊▊▊▊▊   Objectif(s) ▊▊▊▊▊▊▊▊");
 		for(Objective o : obj){
 			lore.add(o.getDescription());
 		}
+		lore.add("§b▊▊▊▊▊▊▊   Récompense(s) ▊▊▊▊▊▊▊");
 		for(Reward r: rewards){
 			lore.add(r.getDescription());
 		}
+		
 		if(this.isCompleted(i)){
+			if(can_redo){
+				lore.add("§7Vous avez déjà complété ce challenge");
+				lore.add("§7§lMAIS vous pouvez le refaire !");
+			}else{
+				lore.add("§7Ce challenge n'est pas refaisable §l:/");
+			}
+			
 			ItemStack it = Items.get(this.name,m, (byte) this.i, lore); 
 			it.addUnsafeEnchantment(Enchantements.VALIDATED_CHALLENGE, 1);
 			return it;
