@@ -28,11 +28,6 @@ public class Locations {
 	public static Island getIslandAt(Location l){
 		int x = l.getBlockX();
 		int z = l.getBlockZ();
-		// ile 0 : 	0 < x < 510
-		//			0 < z < 510
-		
-		// ile 1 : 	510 < x < 1020
-		// 			510 < x < 1020
 		
 		int ID_x = x/251; 			//max_col = 30 : 		0 	1 	2 	3 	4 	...
 									//						31 	32 	33 	34 	35

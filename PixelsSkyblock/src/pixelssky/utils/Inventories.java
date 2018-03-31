@@ -173,7 +173,7 @@ public class Inventories {
 			p.getIsland().calculateLevel(pl);
 			pl.closeInventory();
 		}else if(event.getSlot()==3){
-			pl.openInventory(getChallengesMainInventory());
+			pl.openInventory(getChallengesMainInventory(p.getIsland()));
 		}else if(event.getSlot()==6){
 			//Valeurs des blocks
 		}else if(event.getSlot()==7){
@@ -264,10 +264,10 @@ public class Inventories {
 
 	}
 	
-	public static Inventory getChallengesMainInventory(){
+	public static Inventory getChallengesMainInventory(Island i){
 		Inventory inv = Bukkit.createInventory(null, ((ChallengesManager.challenges.size())/9+1)*9, "§6§3Challenges !");
 		for(Challenge c : ChallengesManager.challenges){
-			inv.addItem(Items.get(c.getName(), Material.WOOL,(byte) 4));
+			inv.addItem(c.getItem(i));
 		}
 		return inv;
 	}
@@ -292,8 +292,13 @@ public class Inventories {
 		SPlayer sp = PlayersManager.getSPlayer(p);
 		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
 		if(i != null){
-			ChallengesManager.getChallenge(event.getInventory().getName().split(":")[1]).getSubChallenges().get(event.getSlot()).complete(p, sp.getIsland());
-			p.closeInventory();
+			try{
+				ChallengesManager.getChallenge(event.getInventory().getName().split(":")[1]).getSubChallenges().get(event.getSlot()).complete(p, sp.getIsland());
+				p.closeInventory();
+			}catch(Exception ex){
+				
+			}
+			
 		}
 	}
 	
