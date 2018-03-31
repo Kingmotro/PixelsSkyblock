@@ -187,7 +187,7 @@ public class Inventories {
 			pl.playSound(pl.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
 			pl.closeInventory();
 		}else if(event.getSlot()==12 && isAdmin){
-			//Ajouter admin
+			pl.openInventory(getAddAdminInventory(p, p.getIsland()));
 		}else if(event.getSlot()==11 && isAdmin){
 			pl.openInventory(getPlayersInventory_invite(p));
 		}else if(event.getSlot()==13 && isAdmin){
@@ -265,7 +265,7 @@ public class Inventories {
 	public static void run_IslandList(InventoryClickEvent event){
 
 	}
-	
+
 	public static Inventory getChallengesMainInventory(Island i){
 		Inventory inv = Bukkit.createInventory(null, ((ChallengesManager.challenges.size())/9+1)*9, "§6§3Challenges !");
 		for(Challenge c : ChallengesManager.challenges){
@@ -298,10 +298,36 @@ public class Inventories {
 				ChallengesManager.getChallenge(event.getInventory().getName().split(":")[1]).getSubChallenges().get(event.getSlot()).complete(p, sp.getIsland());
 				p.closeInventory();
 			}catch(Exception ex){
-				
+
 			}
-			
+
 		}
 	}
-	
+	public static Inventory getAddAdminInventory(SPlayer sp, Island i){
+		Inventory inv = Bukkit.createInventory(null, ((i.getMembers().size())/9+1)*9, "§6✉ §3Ajouter un admin");
+		for(Player p : Bukkit.getOnlinePlayers()){
+			if(i.getMembers().contains(PlayersManager.getSPlayer(p).getID()) && !i.isAdmin(PlayersManager.getSPlayer(p).getID())){
+				inv.addItem(Items.getHead(p));
+			}
+		}
+		return inv;
+	}
+	public static void run_getAddAdminInventory(InventoryClickEvent event){
+		try {
+			Player pl = (Player) event.getWhoClicked();
+			SkullMeta skull = (SkullMeta) event.getInventory().getItem(event.getSlot()).getItemMeta();
+			Player cible = Bukkit.getPlayer(skull.getOwner());
+			SPlayer p_sender = PlayersManager.getSPlayer(pl);
+			SPlayer p_cible = PlayersManager.getSPlayer(cible);
+			if(p_sender.getIsland().getData("admins") != null){
+				p_sender.getIsland().addOrSetData("admins", p_sender.getIsland().getData("admins").getData().toString() + p_cible.getID() + ",");
+			}else{
+				p_sender.getIsland().addOrSetData("admins", p_cible.getID() + ",");
+			}
+			
+		}catch(Exception ex){
+
+		}
+	}
+
 }
