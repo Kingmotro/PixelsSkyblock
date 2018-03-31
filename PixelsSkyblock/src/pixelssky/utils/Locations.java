@@ -34,9 +34,9 @@ public class Locations {
 		// ile 1 : 	510 < x < 1020
 		// 			510 < x < 1020
 		
-		int ID_x = x/510; 			//max_col = 30 : 		0 	1 	2 	3 	4 	...
+		int ID_x = x/251; 			//max_col = 30 : 		0 	1 	2 	3 	4 	...
 									//						31 	32 	33 	34 	35
-		int ID_z = z/510;
+		int ID_z = z/251;
 		int ID = 30 * ID_z + ID_x;
 		if(x < 0 || z < 0){
 			return null;
@@ -47,9 +47,9 @@ public class Locations {
 	public static Location getIsCenterByID(int ID){
 		int line = ID / 30;
 		int col = ID - line * 30;
-		int x = col * 510 + 251;
+		int x = col * 251 + 125;
 		int y = 100;
-		int z = line * 510 + 251;
+		int z = line * 251 + 125;
 		World w = Bukkit.getWorld("world");
 		return new Location(w,x,y,z);
 	}

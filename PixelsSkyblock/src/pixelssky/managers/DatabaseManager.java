@@ -295,6 +295,12 @@ public class DatabaseManager {
 	 */
 	public static void deleteIsland(Island island){
 		try {
+			try{
+				//On essaye de l'effacer de la ram
+				IslandsManager.islands.remove(island);
+			}catch(Exception ex){
+				
+			}
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request

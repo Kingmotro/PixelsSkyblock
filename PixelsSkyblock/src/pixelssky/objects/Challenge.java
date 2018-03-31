@@ -30,7 +30,7 @@ public class Challenge {
 	private int i = 0;
 	private boolean isUnlockedByDefault = false;
 
-	public Challenge(int type, String name, boolean unlocked){
+	public Challenge(int type, String name, boolean unlocked, Material m, int i){
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();
 		}else{
@@ -40,6 +40,8 @@ public class Challenge {
 		this.name = name;
 		this.type = type;
 		this.isUnlockedByDefault = unlocked;
+		this.m = m;
+		this.i = i;
 	}
 	public Challenge(int type, String name, ArrayList<Objective> objectives, ArrayList<Reward> rewards, boolean can_redo, Material m, int i, boolean unlocked){
 		if(type == Challenge.TYPE_CATEGORY){
@@ -150,6 +152,9 @@ public class Challenge {
 	public ItemStack getItem(Island i){
 		if(!isUnlocked(i)){
 			return Items.get("§4Challenge / niveau bloqué ! §c" + name, Material.BARRIER, (byte) 0);
+		}
+		if(type == Challenge.TYPE_CATEGORY){
+			return Items.get(name, m, (byte) this.i);
 		}
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("§b▊▊▊▊▊▊▊▊   Objectif(s) ▊▊▊▊▊▊▊▊");

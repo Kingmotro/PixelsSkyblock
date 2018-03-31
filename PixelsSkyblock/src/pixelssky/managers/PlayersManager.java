@@ -26,6 +26,15 @@ public class PlayersManager {
 		}
 		return DatabaseManager.getPlayer(p.getUniqueId().toString());
 	}
+	public static SPlayer getSPlayer(int ID){
+		for(SPlayer pl: players){
+			if(pl.getID() == ID)
+			{
+				return pl;
+			}
+		}
+		return null;
+	}
 
 	public static void removePlayer(Player p){
 		

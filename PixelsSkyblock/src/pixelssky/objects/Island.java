@@ -13,6 +13,7 @@ import com.sk89q.worldedit.util.Countable;
 
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.IslandsManager;
+import pixelssky.managers.PlayersManager;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Locations;
 import pixelssky.utils.StringConverter;
@@ -33,12 +34,8 @@ public class Island {
 
 	/*
 	 * IMPORTANT Placement des îles : Carré de 501 de côté 
-	 * <--- 250 blocs ---><CENTRE><--- 250 blocs --->
+	 * <--- 125 blocs ---><CENTRE><--- 125 blocs --->
 	 * 
-	 */
-	
-	/*
-	 * ID des iles =  <250 0> ID 0 <-250 0/><-251 0> ID 1 <-752 0/>
 	 */
 	
 	public Island(int ID, String playersID, String isCenter, String isSpawn, double d) {
@@ -119,8 +116,8 @@ public class Island {
 		return isLevel;
 	}
 	public ArrayList<Location> getEdges(){
-		Location pos1 = new Location(Bukkit.getWorld("world"),isCenter.getX() - 255 ,0,isCenter.getZ() - 255);
-		Location pos2 = new Location(Bukkit.getWorld("world"),isCenter.getX() + 258 ,256,isCenter.getZ() + 258);
+		Location pos1 = new Location(Bukkit.getWorld("world"),isCenter.getX() - 125 ,0,isCenter.getZ() - 125);
+		Location pos2 = new Location(Bukkit.getWorld("world"),isCenter.getX() + 125 ,256,isCenter.getZ() + 125);
 		ArrayList<Location> l = new ArrayList<Location>();
 		l.add(pos1); l.add(pos2);
 		return l;
@@ -186,10 +183,10 @@ public class Island {
 	}
 	
 	public boolean isAdmin(int player_ID){
-		return StringConverter.getID(getData("admins").getData().toString()).contains(player_ID) || Integer.parseInt(getData("Creator").getData().toString()) == player_ID;
+		return StringConverter.getID(getData("admins").getData().toString()).contains(player_ID) || getData("Creator").getData().toString().equals(PlayersManager.getSPlayer(player_ID));
 	}
 	public String getDifficulty(){
-		return getData("Difficulty").getData().toString();
+		return getData("difficulty").getData().toString();
 	}
 
 }

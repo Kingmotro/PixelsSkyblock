@@ -24,7 +24,7 @@ public class IsCommand implements CommandExecutor {
 
 			Player pl = (Player) arg0;
 			SPlayer p = PlayersManager.getSPlayer(pl);
-			
+
 			if(arg3.length == 0){
 				if(p.getIsland() == null)
 				{
@@ -40,14 +40,17 @@ public class IsCommand implements CommandExecutor {
 				}	
 
 			}else if(arg3[0].equals("create")){
-				if(p.getIsland() != null){
+				if(p.getIsland() != null && p.getIsland().getMembers().size() == 1 && p.getIsland().isAdmin(p.getID())){
 					pl.openInventory(Inventories.getConfirmCreateIsland());
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
-				}else{
+				}else if((p.getIsland() != null && p.getIsland().getMembers().size() != 1) || p.getIsland().isAdmin(p.getID())){
+					pl.sendTitle("§4Opération refusée !", "Vous devez être admin et seul membre de l'île actuelle.",10,10,100);
+					pl.sendMessage("§c-> Quittez l'île pour pouvoir en créer une !");
+				}else if(p.getIsland() == null){
 					pl.openInventory(Inventories.getCreateIslandMenu(p));
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 				}
-				
+
 			}else if(arg3[0].equals("h")){
 				pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
 				pl.teleport(p.getIsland().getSpawn());
@@ -61,6 +64,18 @@ public class IsCommand implements CommandExecutor {
 				for(String i : Classement.getTop()){
 					pl.sendMessage("ISLAND : " + i);
 				}
+			}
+			else if(arg3[0].equals("leave"))
+			{
+				if(!p.getIsland().getData("Creator").getData().toString().equals(pl.getDisplayName())){
+					p.getIsland().getMembers().remove(p.getIsland().getMembers().indexOf(p.getID()));
+					p.setIsland(null);
+					pl.sendMessage("§1-> §aVous avez quitté l'île");
+				}else{
+					pl.sendMessage("§1-> §cLe propriétaire ne peut pas abandonner le navire !");
+				}
+				
+				
 			}
 			else if(arg3[0].equals("level"))
 			{
@@ -81,13 +96,13 @@ public class IsCommand implements CommandExecutor {
 			{
 				Challenge c = ChallengesManager.challenges.get(0).getSubChallenges().get(0);
 				c.complete(pl, p.getIsland());
-				
+
 			}
-			
+
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
-		
+
 		return true;
 	}
 

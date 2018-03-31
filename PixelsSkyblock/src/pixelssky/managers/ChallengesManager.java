@@ -28,6 +28,8 @@ public class ChallengesManager {
 				String c_name = null;
 				int type = -1;
 				boolean isUnlocked = false;
+				Material m = Material.WOOD;
+				int i = 0;
 				for(String l: lines){
 					if(l.split("=")[0].equals("name")){
 						c_name = l.split("=")[1];
@@ -36,9 +38,13 @@ public class ChallengesManager {
 					}
 					else if(l.split("=")[0].equals("unlocked_by_default")){
 						isUnlocked = Boolean.parseBoolean(l.split("=")[1]);
+					}else if(l.split("=")[0].equals("material")){
+						m = Material.getMaterial(Integer.parseInt(l.split("=")[1]));
+					}else if(l.split("=")[0].equals("subid")){
+						i = Integer.parseInt(l.split("=")[1]);
 					}
 				}
-				challenges.add(new Challenge(type, c_name, isUnlocked));
+				challenges.add(new Challenge(type, c_name, isUnlocked, m, i));
 			}
 		}
 		init_subChallenges();
