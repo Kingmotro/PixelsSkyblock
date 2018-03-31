@@ -49,10 +49,17 @@ public class Island {
 			} catch (Exception ex) {
 				System.out.println("INVALID_PLAYER_ID : " + ex.toString());
 			}
-
 		}
 	}
-
+	
+	public String getName(){
+		if(getData("island name") == null){
+			return getData("Creator").getData().toString();
+		}else{
+			return getData("island name").getData().toString();
+		}
+	}
+	
 	public ArrayList<Data> getData() {
 		return data;		
 	}

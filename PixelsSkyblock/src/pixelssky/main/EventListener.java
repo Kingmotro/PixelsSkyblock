@@ -1,11 +1,13 @@
 package pixelssky.main;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -68,14 +70,12 @@ public class EventListener implements Listener {
 		try
 		{
 			Island is = Locations.getIslandAt(event.getClickedBlock().getLocation());
-			
 			if(!is.getMembers().contains(PlayersManager.getSPlayer(p).getID())){
 				event.setCancelled(true);
 				p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
 				p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
 			}
 		}catch(Exception ex){
-			
 			try{
 				//Si clic dans le vide
 				event.getClickedBlock().getLocation(); //-> Go Catch
@@ -86,10 +86,22 @@ public class EventListener implements Listener {
 			}catch(Exception ex2){
 				
 			}
-			
 		}
-		//
 	}
-
-
+	@EventHandler
+	public void playerChatEvent(AsyncPlayerChatEvent event){
+		Player pl = event.getPlayer();
+		SPlayer p = PlayersManager.getSPlayer(pl);
+		if(event.getMessage().contains("~")){
+			event.setMessage("§5§lDUDULLLE EST UN DIEU !");
+			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_SCREAM, 100, 100);
+		}
+		for(Player player: Bukkit.getOnlinePlayers()){
+			if(event.getMessage().contains(player.getDisplayName())){
+				player.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);
+				player.sendTitle("§aRegardez le chat !","§d" + pl.getDisplayName() + " vous appelle !",10,10,100);
+			}
+		}
+		event.setFormat("§5[Ile §d§l" + p.getIsland().getName() + "§d] §7"+ pl.getDisplayName() + " §d: §f" + event.getMessage());
+	}
 }

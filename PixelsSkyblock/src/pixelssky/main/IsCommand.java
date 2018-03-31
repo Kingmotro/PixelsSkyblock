@@ -28,7 +28,7 @@ public class IsCommand implements CommandExecutor {
 			if(arg3.length == 0){
 				if(p.getIsland() == null)
 				{
-					//ouvrir pour créer île
+					//ouvrir pour crÃ©er Ã®le
 					pl.openInventory(Inventories.getCreateIslandMenu(p));
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 				}else
@@ -44,19 +44,19 @@ public class IsCommand implements CommandExecutor {
 					pl.openInventory(Inventories.getConfirmCreateIsland());
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 				}else if((p.getIsland() != null && p.getIsland().getMembers().size() != 1) || p.getIsland().isAdmin(p.getID())){
-					pl.sendTitle("§4Opération refusée !", "Vous devez être admin et seul membre de l'île actuelle.",10,10,100);
-					pl.sendMessage("§c-> Quittez l'île pour pouvoir en créer une !");
+					pl.sendTitle("Â§4OpÃ©ration refusÃ©e !", "Vous devez Ãªtre admin et seul membre de l'Ã®le actuelle.",10,10,100);
+					pl.sendMessage("Â§c-> Quittez l'Ã®le pour pouvoir en crÃ©er une !");
 				}else if(p.getIsland() == null){
 					pl.openInventory(Inventories.getCreateIslandMenu(p));
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 				}
 
 			}else if(arg3[0].equals("h")){
-				pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
+				pl.sendTitle("Â§aBienvenue sur votre Ã®le :)", "Â§cNe tombez pas !", 10,20,10);
 				pl.teleport(p.getIsland().getSpawn());
 			}else if(arg3[0].equals("sethome"))
 			{
-				pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
+				pl.sendTitle("Â§aMise Ã  jour effectuÃ©e :)", "Â§cVotre home a changÃ© !", 10,20,10);
 				p.getIsland().setHome(pl.getLocation());
 			}else if(arg3[0].equals("top"))
 			{
@@ -70,12 +70,16 @@ public class IsCommand implements CommandExecutor {
 				if(!p.getIsland().getData("Creator").getData().toString().equals(pl.getDisplayName())){
 					p.getIsland().getMembers().remove(p.getIsland().getMembers().indexOf(p.getID()));
 					p.setIsland(null);
-					pl.sendMessage("§1-> §aVous avez quitté l'île");
+					pl.sendMessage("Â§1-> Â§aVous avez quittÃ© l'Ã®le");
 				}else{
-					pl.sendMessage("§1-> §cLe propriétaire ne peut pas abandonner le navire !");
+					pl.sendMessage("Â§1-> Â§cLe propriÃ©taire ne peut pas abandonner le navire !");
 				}
 				
 				
+			}else if(arg3[0].equalsIgnoreCase("name"))
+			{
+				p.getIsland().addOrSetData("island name", arg3[1]);
+				pl.sendMessage("Â§aâœ” Â§e Nom de l'Ã®le changÃ© sur : Â§a" + arg3[1]);
 			}
 			else if(arg3[0].equals("level"))
 			{
@@ -87,7 +91,7 @@ public class IsCommand implements CommandExecutor {
 			}
 			else if(arg3[0].equals("accept"))
 			{	
-				pl.sendTitle("§aVous venez d'accepter l'invation :p", "§cC'est parti!!!", 10, 20, 10);
+				pl.sendTitle("Â§aVous venez d'accepter l'invation :p", "Â§cC'est parti!!!", 10, 20, 10);
 				p.setIsland(IslandsManager.getIsland(p.getLastIsInvite()));
 				p.getIsland().getMembers().add(p.getID());
 				pl.teleport(p.getIsland().getSpawn());

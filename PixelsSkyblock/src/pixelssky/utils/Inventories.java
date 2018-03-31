@@ -256,7 +256,9 @@ public class Inventories {
 			lore.add("§e§nDifficulté :§b " + i.getData("difficulty").getData());
 			if(p.getIsland() == i){
 				inv.addItem(Items.get("§5§l▶Votre île", Material.STAINED_CLAY,(byte) new Random().nextInt(15), lore));
-			}	
+			}else{
+				inv.addItem(Items.get("§5§lIle §a" + i.getName(), Material.STAINED_CLAY,(byte) new Random().nextInt(15), lore));
+			}
 		}
 		return inv;
 	}
