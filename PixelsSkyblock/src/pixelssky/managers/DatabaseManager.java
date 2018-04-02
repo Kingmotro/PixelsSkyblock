@@ -33,11 +33,11 @@ public class DatabaseManager {
 	 * 
 	 */
 
-	private static String BDD_host = "jdbc:mysql://localhost:3306/pixelsskyblock";
-	private static String BDD_username = "root";
-	private static String BDD_password = "";
-	private static Connection conn = null;
-	private static Statement stmt = null;
+	public static String BDD_host = "jdbc:mysql://localhost:3306/pixelsskyblock";
+	public static String BDD_username = "root";
+	public static String BDD_password = "";
+	public static Connection conn = null;
+	public static Statement stmt = null;
 
 	/**
 	 * Crée les tables si elles existent pas.
@@ -304,9 +304,9 @@ public class DatabaseManager {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request
-			ResultSet res = stmt.executeQuery("SELECT * FROM `ISLAND` WHERE  `ID` = " + island.getID() + " ; ");
+			ResultSet res = stmt.executeQuery("SELECT * FROM `island` WHERE  `ID` = " + island.getID() + " ; ");
 			if (res.isBeforeFirst()) {
-				stmt.executeUpdate("DELETE FROM `ISLAND` WHERE  `ID` = " + island.getID() + " ; ");
+				stmt.executeUpdate("DELETE FROM `island` WHERE  `ID` = " + island.getID() + " ; ");
 			}
 			conn.close();
 			IslandsManager.removeIsland(island.getID());
@@ -328,11 +328,11 @@ public class DatabaseManager {
 			// Request
 			Island island = new Island(0,p.getID() + ",","world,0,0,0,0,0", "world,0,100,0,0,0", 0);
 
-			stmt.executeUpdate("INSERT INTO `ISLAND` (`PLAYERS_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
+			stmt.executeUpdate("INSERT INTO `island` (`PLAYERS_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
 					+ island.getMembersToString() + "', '" + Locations.toString(island.getCenter()) + "', '"
 					+ Locations.toString(island.getSpawn()) + "', '" + island.getLevel() + "'); ");
 
-			ResultSet res = stmt.executeQuery("SELECT `ID` FROM `ISLAND` WHERE  `ISLAND_CENTER` = '" +Locations.toString(island.getCenter()) + "';");
+			ResultSet res = stmt.executeQuery("SELECT `ID` FROM `island` WHERE  `ISLAND_CENTER` = '" +Locations.toString(island.getCenter()) + "';");
 
 			while (res.next()) {
 				island.setID(res.getInt("ID"));

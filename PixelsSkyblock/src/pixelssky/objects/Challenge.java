@@ -112,9 +112,7 @@ public class Challenge {
 							o.run(p,i);
 						}
 						for(Reward r : rewards){
-							if(!(r instanceof CommandReward)){
-								r.run(p,i);
-							}
+							r.run(p,i);
 						}
 						p.sendTitle("§aChallenge complété !", "§2" + name,10,10,100);
 						i.addOrSetData("completed"+ getName(),"" + true);
@@ -138,14 +136,8 @@ public class Challenge {
 					}
 				}
 			});
-			for(Reward r : rewards){
-				if(r instanceof CommandReward){
-					r.run(p,i);
-				}
-				
-			}
 		}else{
-			p.sendTitle("§c⚠§4§lImpossible de faire§c⚠", "§eCe challenge n'est pas refaisable ou débloqué", 10,1000,10);
+			p.sendTitle("§c⚠§4§lImpossible de faire§c⚠", "§eVous ne pouvez pas (re)faire ce challenge", 10,1000,10);
 			p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
 		}
 	}
@@ -171,7 +163,7 @@ public class Challenge {
 				lore.add("§7Vous avez déjà complété ce challenge");
 				lore.add("§7§lMAIS vous pouvez le refaire !");
 			}else{
-				lore.add("§7Ce challenge n'est pas refaisable §l:/");
+				lore.add("§7Vous ne pouvez pas refaire ce challenge§l:/");
 			}
 			
 			ItemStack it = Items.get(this.name,m, (byte) this.i, lore); 

@@ -1,6 +1,7 @@
 package pixelssky.main;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
@@ -12,6 +13,7 @@ import pixelssky.enchantements.Enchantements;
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
+import pixelssky.managers.FileManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.objects.Island;
 import pixelssky.objects.Right;
@@ -23,7 +25,11 @@ public final class main extends JavaPlugin {
 	public void onEnable() {
 		//Initialisation des droits
 		this.getLogger().info("Starting Pixels Skyblock v1.0.2");
-
+		//Initialisation IDENTIFIANTS
+		ArrayList<String> l = FileManager.ReadAllText("plugins/PixelsSky/database.config");
+		DatabaseManager.BDD_username = l.get(0);
+		DatabaseManager.BDD_password = l.get(1);
+		
 		Right.registerRight("island.place");
 		Right.registerRight("island.break");
 		Right.registerRight("island.changespawn");

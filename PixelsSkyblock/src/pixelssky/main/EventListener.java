@@ -92,6 +92,7 @@ public class EventListener implements Listener {
 	public void playerChatEvent(AsyncPlayerChatEvent event){
 		Player pl = event.getPlayer();
 		SPlayer p = PlayersManager.getSPlayer(pl);
+		event.setMessage(event.getMessage().replaceAll("%", "%%"));
 		if(event.getMessage().contains("~")){
 			event.setMessage("§5§lDUDULLLE EST UN DIEU !");
 			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_SCREAM, 100, 100);
@@ -102,6 +103,6 @@ public class EventListener implements Listener {
 				player.sendTitle("§aRegardez le chat !","§d" + pl.getDisplayName() + " vous appelle !",10,10,100);
 			}
 		}
-		event.setFormat("§5[Ile §d§l" + p.getIsland().getName() + "§d] §7"+ pl.getDisplayName() + " §d: §f" + event.getMessage());
+		event.setFormat("§5[Ile §d§l" + p.getIsland().getName() + "§5] §7"+ pl.getDisplayName() + " §d: §f" + event.getMessage());
 	}
 }
