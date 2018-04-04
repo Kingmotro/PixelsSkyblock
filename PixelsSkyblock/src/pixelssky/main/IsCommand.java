@@ -10,6 +10,7 @@ import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Challenge;
+import pixelssky.objects.Data;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Inventories;
@@ -76,6 +77,11 @@ public class IsCommand implements CommandExecutor {
 				}
 				
 				
+			}else if(arg3[0].equalsIgnoreCase("stats"))
+			{
+				for(Data d : p.getIsland().getData()){
+					pl.sendMessage(d.getDataName() + " : " + d.getData().toString());
+				}
 			}else if(arg3[0].equalsIgnoreCase("name"))
 			{
 				p.getIsland().addOrSetData("island name", arg3[1]);

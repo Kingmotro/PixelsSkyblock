@@ -63,7 +63,6 @@ public class WEManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return es.getEntities(r);
 	}
 }

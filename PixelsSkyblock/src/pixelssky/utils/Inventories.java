@@ -116,9 +116,19 @@ public class Inventories {
 								e.printStackTrace();
 							}
 						}
-						pl.teleport(p.getIsland().getSpawn());
+
+						
 					}
 				}});
+
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("PixelsSky"), new Runnable() {
+				public void run() {
+					pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
+					pl.teleport(p.getIsland().getSpawn());
+					pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+					pl.closeInventory();
+				}
+			}, 60L);
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
@@ -166,7 +176,7 @@ public class Inventories {
 			pl.closeInventory();
 		}else if(event.getSlot()==1){
 			pl.sendTitle("§aTéléportation au spawn", "", 10,20,10);
-			pl.teleport(Bukkit.getWorld("world").getSpawnLocation());
+			pl.teleport(Bukkit.getServer().getWorld("skyworld").getSpawnLocation());
 			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
 			pl.closeInventory();
 		}else if(event.getSlot()==2){
@@ -182,10 +192,16 @@ public class Inventories {
 		}else if(event.getSlot()==8){
 			//Infos de l'île
 		} else if(event.getSlot()==9 && isAdmin){
-			pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
-			p.getIsland().setHome(pl.getLocation());
-			pl.playSound(pl.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
-			pl.closeInventory();
+			if(Locations.getIslandAt(pl.getLocation()) == p.getIsland()){
+				pl.sendTitle("§aMise à jour effectuée :)", "§cVotre home a changé !", 10,20,10);
+				p.getIsland().setHome(pl.getLocation());
+				pl.playSound(pl.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
+				pl.closeInventory();
+			}else{
+				pl.sendTitle("§aMise à jour §cratée :(", "§cVous n'êtes pas sur votre île :/", 10,20,10);
+				pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+				pl.closeInventory();
+			}
 		}else if(event.getSlot()==12 && isAdmin){
 			pl.openInventory(getAddAdminInventory(p, p.getIsland()));
 		}else if(event.getSlot()==11 && isAdmin){
@@ -324,7 +340,7 @@ public class Inventories {
 			}else{
 				p_sender.getIsland().addOrSetData("admins", p_cible.getID() + ",");
 			}
-			
+
 		}catch(Exception ex){
 
 		}
