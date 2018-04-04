@@ -1,12 +1,19 @@
 package pixelssky.main;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -158,9 +165,77 @@ public class EventListener implements Listener {
 	}
 
 	@EventHandler
-	public void playerChatEvent(PlayerInteractEntityEvent event){
+	public void playerInteractEntityEvent(PlayerInteractEntityEvent event){
 		Player pl =  event.getPlayer();
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		pl.sendMessage(event.getRightClicked().getName());
+	}
+	
+	@EventHandler
+	public void onFromTo(BlockFromToEvent event){
+	    Material type = event.getBlock().getType();
+	    if (type == Material.WATER || type == Material.STATIONARY_WATER || type == Material.LAVA || type == Material.STATIONARY_LAVA){
+	        Block b = event.getToBlock();
+	        if (b.getType() == Material.AIR){
+	            if (generatesCobble(type, b)){
+	                /* DO WHATEVER YOU NEED WITH THE COBBLE */
+	            	ArrayList<Material> m = new ArrayList<Material>();
+	            	m.add(Material.COBBLESTONE);
+	            	m.add(Material.GOLD_ORE);
+	            	m.add(Material.COAL_ORE);
+	            	m.add(Material.DIAMOND_ORE);
+	            	m.add(Material.EMERALD_ORE);
+	            	m.add(Material.REDSTONE_ORE);
+	            	m.add(Material.OBSIDIAN);
+	            	m.add(Material.IRON_ORE);
+	            	Random r = new Random();
+	            	int nb = r.nextInt(1000);
+	            	Island i = Locations.getIslandAt(b.getLocation());
+	            	if(i != null){
+	            		double lvl = i.getLevel();
+	            		if(nb + lvl < 500){
+	            			b.setType(m.get(0));
+	            		}else if(nb + lvl < 700){
+	            			b.setType(m.get(2));
+	            		}else if(nb + lvl < 750){
+	            			b.setType(m.get(7));
+	            		}else if(nb + lvl < 800){
+	            			b.setType(m.get(1));
+	            		}else if(nb + lvl < 825){
+	            			b.setType(m.get(3));
+	            		}else if(nb + lvl < 875){
+	            			b.setType(m.get(5));
+	            		}else if(nb + lvl < 900){
+	            			b.setType(m.get(6));
+	            		}else{
+	            			b.setType(m.get(4));
+	            		}
+	            	}
+	            	
+	            }
+	        }
+	    }
+	}
+
+	private final BlockFace[] faces = new BlockFace[]{
+	        BlockFace.SELF,
+	        BlockFace.UP,
+	        BlockFace.DOWN,
+	        BlockFace.NORTH,
+	        BlockFace.EAST,
+	        BlockFace.SOUTH,
+	        BlockFace.WEST
+	    };
+
+	public boolean generatesCobble(Material type, Block b){
+	    Material mirrorID1 = (type == Material.WATER || type == Material.STATIONARY_WATER ? Material.LAVA : Material.WATER);
+	    Material mirrorID2 = (type == Material.WATER || type == Material.STATIONARY_WATER ? Material.STATIONARY_LAVA : Material.STATIONARY_WATER);
+	    for (BlockFace face : faces){
+	        Block r = b.getRelative(face, 1);
+	        if (r.getType() == mirrorID1 || r.getType() == mirrorID2){
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 }
