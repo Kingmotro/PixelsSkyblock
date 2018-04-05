@@ -174,6 +174,7 @@ public class EventListener implements Listener {
 		Player pl =  event.getPlayer();
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		pl.sendMessage(event.getRightClicked().getName());
+		pl.openMerchant(Inventories.getPNJinv(p), true);
 	}
 	
 	@EventHandler

@@ -2,6 +2,7 @@ package pixelssky.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,6 +30,7 @@ public class Island {
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();
 	private ArrayList<Data> data = new ArrayList<Data>();
 	private List<Countable<Integer>> block_list;
+	private TreeMap<Integer,Double> block_values = new TreeMap<Integer,Double>();
 	private int total_blocks;
 	private Location isCenter;
 	private Location isSpawn;
@@ -144,6 +146,7 @@ public class Island {
 			public void run() {
 				p.resetTitle();
 				p.sendTitle("§c⚠§4§lCalcul en cours§c⚠", "§eVeuillez patienter", 10,1000,10);
+				block_values.clear();
 				isLevel = 0d;
 				List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
 				int total = 0;
@@ -163,6 +166,7 @@ public class Island {
 					//Passage 2
 					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
 						Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
+						block_values.put(block.getID(), lvl);
 						isLevel += lvl * block.getAmount();
 						if(maxValue < lvl * block.getAmount()){
 							maxValue = lvl * block.getAmount();
@@ -193,6 +197,7 @@ public class Island {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
+				block_values.clear();
 				isLevel = 0d;
 				List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
 				int total = 0;
@@ -211,6 +216,7 @@ public class Island {
 					//Passage 2
 					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
 						Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
+						block_values.put(block.getID(), lvl);
 						isLevel += lvl * block.getAmount();
 						if(maxValue < lvl * block.getAmount()){
 							maxValue = lvl * block.getAmount();
@@ -240,23 +246,21 @@ public class Island {
 	}
 	
 	public boolean isMaterialUnlocked(Material m){
-		
 		if(this.getData("Débloqué " + m.toString()) != null){
 			return true;
 		}
 		return false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public double getBlockValue(Material m){
-		for(Countable<Integer> block : block_list){
-			if(block.getID() == m.getId()){
-				if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
-					System.out.println("Valeur " + (1- BlocksManager.getBlockValue(block.getID(), block, total_blocks) * 0.5));
-					return (1 - BlocksManager.getBlockValue(block.getID(), block, total_blocks) * 0.5);
-				}
-			}
+		int id = m.getId();
+		try
+		{
+			return block_values.get(id);
+		}catch(Exception ex){
+			return Double.MAX_VALUE;
 		}
-		return Double.MAX_VALUE;
 	}
 
 }

@@ -2,14 +2,18 @@ package pixelssky.utils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Merchant;
+import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import pixelssky.managers.ChallengesManager;
@@ -344,6 +348,25 @@ public class Inventories {
 		}catch(Exception ex){
 
 		}
+	}
+	
+	public static Merchant getPNJinv(SPlayer sp){
+		try{
+			Merchant m = Bukkit.createMerchant("§6Blocks");
+			List<MerchantRecipe> l = new ArrayList<MerchantRecipe>();
+			MerchantRecipe r = new MerchantRecipe(Items.get(Material.STONE,(byte) 0), 1000);
+			
+			r.addIngredient(new ItemStack(Material.EMERALD, 64));
+			r.addIngredient(new ItemStack(Material.EMERALD, 64));
+			l.add(r);
+			
+			m.setRecipes(l);
+			return m;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		
+		}
+		return null;
 	}
 
 }
