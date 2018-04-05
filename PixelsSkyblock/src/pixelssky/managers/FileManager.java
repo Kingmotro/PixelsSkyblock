@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class FileManager {
@@ -33,7 +34,7 @@ public class FileManager {
 		
 		try{
 			InputStream ips=new FileInputStream(fichier); 
-			InputStreamReader ipsr=new InputStreamReader(ips);
+			InputStreamReader ipsr=new InputStreamReader(ips, StandardCharsets.UTF_8);
 			BufferedReader br=new BufferedReader(ipsr);
 			String ligne;
 			while ((ligne=br.readLine())!=null){

@@ -28,6 +28,8 @@ public class Island {
 	private int ID = 0;
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();
 	private ArrayList<Data> data = new ArrayList<Data>();
+	private List<Countable<Integer>> block_list;
+	private int total_blocks;
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
@@ -50,6 +52,7 @@ public class Island {
 				System.out.println("INVALID_PLAYER_ID : " + ex.toString());
 			}
 		}
+		silentCalculateLevel();
 	}
 	
 	public String getName(){
@@ -154,6 +157,8 @@ public class Island {
 				double minValue = Integer.MAX_VALUE;
 				String max = "";
 				String min = "";
+				total_blocks  = total;
+				block_list = blocks;
 				for(Countable<Integer> block : blocks){
 					//Passage 2
 					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
@@ -183,6 +188,44 @@ public class Island {
 		});
 
 	}
+	
+	public void silentCalculateLevel() {
+		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+			@Override
+			public void run() {
+				isLevel = 0d;
+				List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
+				int total = 0;
+				for(Countable<Integer> block : blocks){
+					if(block.getID() != 0){
+						total += block.getAmount();	
+					}
+
+				}
+				total_blocks  = total;
+				block_list = blocks;
+				
+				double maxValue = 0;
+				double minValue = Integer.MAX_VALUE;
+				for(Countable<Integer> block : blocks){
+					//Passage 2
+					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
+						Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
+						isLevel += lvl * block.getAmount();
+						if(maxValue < lvl * block.getAmount()){
+							maxValue = lvl * block.getAmount();
+						}
+						if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
+							minValue = lvl * block.getAmount();
+						}
+					}
+				}
+				
+			}
+		});
+		
+	}
+	
 
 	public void setCenter(Location isC) {
 		isCenter = isC;
@@ -194,6 +237,26 @@ public class Island {
 	}
 	public String getDifficulty(){
 		return getData("difficulty").getData().toString();
+	}
+	
+	public boolean isMaterialUnlocked(Material m){
+		
+		if(this.getData("Débloqué " + m.toString()) != null){
+			return true;
+		}
+		return false;
+	}
+	
+	public double getBlockValue(Material m){
+		for(Countable<Integer> block : block_list){
+			if(block.getID() == m.getId()){
+				if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
+					System.out.println("Valeur " + (1- BlocksManager.getBlockValue(block.getID(), block, total_blocks) * 0.5));
+					return (1 - BlocksManager.getBlockValue(block.getID(), block, total_blocks) * 0.5);
+				}
+			}
+		}
+		return Double.MAX_VALUE;
 	}
 
 }

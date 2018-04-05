@@ -37,6 +37,16 @@ public final class main extends JavaPlugin {
 		Right.registerRight("island.invite");
 		Right.registerRight("island.kick");
 
+		EventListener.drng.addNumber(9, 2d/256d);  //2
+		EventListener.drng.addNumber(8, 1d/256d);  //3
+		EventListener.drng.addNumber(7, 10d/256d); //13
+		EventListener.drng.addNumber(6, 15d/256d); //28
+		EventListener.drng.addNumber(5, 5d/256d);  //32
+		EventListener.drng.addNumber(4, 4d/256d);  //36
+		EventListener.drng.addNumber(3, 15d/256d); //51
+		EventListener.drng.addNumber(2, 100d/256d);//151
+		EventListener.drng.addNumber(1, 104d/256d);//256
+		
 		//Ajout des enchants
 		try{
 			try {
@@ -49,7 +59,6 @@ public final class main extends JavaPlugin {
 			try {
 				Enchantment.registerEnchantment(Enchantements.VALIDATED_CHALLENGE);
 			} catch (IllegalArgumentException e){
-				//if this is thrown it means the id is already taken.
 			}
 		}catch(Exception e){
 			e.printStackTrace();
