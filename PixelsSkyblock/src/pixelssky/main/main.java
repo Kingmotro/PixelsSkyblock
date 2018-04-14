@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pixelssky.commands.FlyCommand;
 import pixelssky.commands.IsCommand;
 import pixelssky.commands.SpeedCommand;
 import pixelssky.commands.gmCommand;
@@ -87,6 +88,9 @@ public final class main extends JavaPlugin {
 		
 		//speed command
 		this.getCommand("speed").setExecutor(new SpeedCommand());
+		
+		//fly command
+		this.getCommand("fly").setExecutor(new FlyCommand());
 
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
