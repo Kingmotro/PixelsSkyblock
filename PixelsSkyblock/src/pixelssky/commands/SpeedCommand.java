@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 public class SpeedCommand implements CommandExecutor{
 
@@ -18,7 +17,8 @@ public class SpeedCommand implements CommandExecutor{
 				p = Bukkit.getPlayer(arg3[1]);
 			}
 			if(arg3.length >= 1){
-				p.setVelocity(new Vector(Float.parseFloat(arg3[0]),Float.parseFloat(arg3[0]),Float.parseFloat(arg3[0])));
+				p.setFlySpeed(Float.parseFloat(arg3[0])/10f);
+				p.setWalkSpeed(Float.parseFloat(arg3[0])/10f);
 				p.sendMessage("§eVitesse changée sur : §a" + arg3[0]);
 			}
 		}
