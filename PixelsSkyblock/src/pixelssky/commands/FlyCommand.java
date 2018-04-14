@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpeedCommand implements CommandExecutor{
+public class FlyCommand implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
@@ -16,11 +16,10 @@ public class SpeedCommand implements CommandExecutor{
 				p = Bukkit.getPlayer(arg3[1]);
 			}
 			if(arg3.length >= 1){
-				p.setFlySpeed(Float.parseFloat(arg3[0])/10f);
-				p.setWalkSpeed(Float.parseFloat(arg3[0])/10f);
-				p.sendMessage("§eVitesse changée sur : §a" + arg3[0]);
+				p.setAllowFlight(true);
 			}
 		}
 		return true;
 	}
+
 }
