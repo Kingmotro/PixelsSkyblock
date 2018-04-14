@@ -13,6 +13,7 @@ public class gmCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		if (arg0 instanceof Player){
 			Player p = (Player) arg0;
+			Player s = (Player) arg0;
 			if(arg3.length == 2){
 				p = Bukkit.getPlayer(arg3[1]);
 			}
@@ -29,7 +30,10 @@ public class gmCommand implements CommandExecutor {
 				else if(arg3[0].equals("3")){
 					p.setGameMode(GameMode.SPECTATOR);
 				}
-				p.sendMessage("§eGamemode changé");
+				p.sendMessage("§eGamemode changé : §a" + GameMode.values()[Integer.parseInt(arg3[0])]);
+				if(p != s){
+					s.sendMessage("§eGamemode de §a: " + p.getDisplayName() + "§a changé : §a" + GameMode.values()[Integer.parseInt(arg3[0])]);
+				}
 			}
 		}
 		
