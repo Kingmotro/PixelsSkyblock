@@ -1,4 +1,4 @@
-package pixelssky.main;
+package pixelssky.commands;
 
 import org.bukkit.Sound;
 import org.bukkit.command.Command;

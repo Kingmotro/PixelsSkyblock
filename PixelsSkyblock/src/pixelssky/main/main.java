@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pixelssky.commands.IsCommand;
 import pixelssky.enchantements.Enchantements;
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.ChallengesManager;
