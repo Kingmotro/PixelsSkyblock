@@ -29,6 +29,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.merchants.NivOneMerchant;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.DistributedRandomNumberGenerator;
@@ -174,7 +175,8 @@ public class EventListener implements Listener {
 		Player pl =  event.getPlayer();
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		pl.sendMessage(event.getRightClicked().getName());
-		pl.openMerchant(Inventories.getPNJinv(p), true);
+		
+		pl.openMerchant(new NivOneMerchant().getAnimal(p), true);
 	}
 	
 	@EventHandler
