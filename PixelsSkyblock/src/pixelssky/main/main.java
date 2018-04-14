@@ -10,6 +10,8 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pixelssky.commands.IsCommand;
+import pixelssky.commands.SpeedCommand;
+import pixelssky.commands.gmCommand;
 import pixelssky.enchantements.Enchantements;
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.ChallengesManager;
@@ -79,6 +81,12 @@ public final class main extends JavaPlugin {
 		}
 		//is command
 		this.getCommand("is").setExecutor(new IsCommand());
+		
+		//gm command
+		this.getCommand("gm").setExecutor(new gmCommand());
+		
+		//speed command
+		this.getCommand("speed").setExecutor(new SpeedCommand());
 
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);

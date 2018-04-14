@@ -11,3 +11,10 @@ commands:
    pxs:
      description: Commande admin.
      permission: pxs.admin
+   gm:
+     description: Commande gameMode.
+     permission: pxs.admin
+     aliases: [gamemode, game]
+   speed:
+     description: Commande speed.
+     permission: pxs.admin
