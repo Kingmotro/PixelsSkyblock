@@ -121,7 +121,7 @@ public class Inventories {
 							}
 						}
 
-						
+
 					}
 				}});
 
@@ -349,24 +349,32 @@ public class Inventories {
 
 		}
 	}
-	
-	public static Merchant getPNJinv(SPlayer sp){
-		try{
-			Merchant m = Bukkit.createMerchant("§6Blocks");
-			List<MerchantRecipe> l = new ArrayList<MerchantRecipe>();
-			MerchantRecipe r = new MerchantRecipe(Items.get(Material.STONE,(byte) 0), 1000);
-			
-			r.addIngredient(new ItemStack(Material.EMERALD, 64));
-			r.addIngredient(new ItemStack(Material.EMERALD, 64));
-			l.add(r);
-			
-			m.setRecipes(l);
-			return m;
-		}catch(Exception ex){
-			ex.printStackTrace();
-		
+
+	public static Inventory getShopMenuInventory(String shopCateg, SPlayer sp){
+		Inventory inv = Bukkit.createInventory(null, 9, "§eShop :" + shopCateg);
+		for(int i =0; i < 10 ; i++){
+			try{
+				inv.addItem(Items.get("§5§l▶Niveau :" + (i + 1), sp.getIsland().getMerchantInventory(i + 1, shopCateg).getItemMenu(shopCateg), (byte) 0));
+			}catch(Exception ex){
+				inv.addItem(Items.get("§c§l▶Niveau bloqué :" + (i + 1), Material.BARRIER, (byte) 0));
+			}
 		}
-		return null;
+		return inv;
+	}
+	public static void run_getShopMenuInventory(InventoryClickEvent event){
+		try {
+			Player pl = (Player) event.getWhoClicked();
+			SPlayer p = PlayersManager.getSPlayer(pl);
+			String c = event.getClickedInventory().getName().split(":")[1];
+			int lvl = event.getSlot() + 1;
+			if(p.getIsland().isMerchantUnlocked(lvl, c)){
+				pl.openMerchant(p.getIsland().getMerchant(lvl, c), true);
+			}else{
+				pl.openInventory(getShopMenuInventory(c, p));
+			}
+		}catch(Exception ex){
+
+		}
 	}
 
 }

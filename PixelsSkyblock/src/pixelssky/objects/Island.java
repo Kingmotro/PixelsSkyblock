@@ -268,7 +268,19 @@ public class Island {
 		}
 	}
 	public Merchant getMerchant(int lvl, String s){
-		return m.get(lvl).getMerchant(s);
+		if(isMerchantUnlocked(lvl, s)){
+			return m.get(lvl).getMerchant(s);
+		}
+		return null;
 	}
-
+	public MerchantInventory getMerchantInventory(int lvl, String s){
+		return m.get(lvl);
+	}
+	
+	public boolean isMerchantUnlocked(int lvl, String s){
+		if(this.getData("Débloqué " + s + lvl) != null || lvl == 1){
+			return true;
+		}
+		return false;
+	}
 }

@@ -9,11 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pixelssky.commands.ChallengeCommand;
 import pixelssky.commands.FlyCommand;
 import pixelssky.commands.IsCommand;
 import pixelssky.commands.SpeedCommand;
 import pixelssky.commands.gmCommand;
 import pixelssky.enchantements.Enchantements;
+import pixelssky.listeners.ChatListener;
 import pixelssky.listeners.EntityListener;
 import pixelssky.listeners.EventListener;
 import pixelssky.managers.BlocksManager;
@@ -93,10 +95,18 @@ public final class main extends JavaPlugin {
 		
 		//fly command
 		this.getCommand("fly").setExecutor(new FlyCommand());
-
+		
+		//challenge command
+		this.getCommand("challenge").setExecutor(new ChallengeCommand());
+		
+		//spawn command
+		this.getCommand("spawn").setExecutor(new ChallengeCommand());
+		
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
 		getServer().getPluginManager().registerEvents(new EntityListener(), this);
+		getServer().getPluginManager().registerEvents(new ChatListener(), this);
+		
 		System.out.println("Loaded !");
 
 	}

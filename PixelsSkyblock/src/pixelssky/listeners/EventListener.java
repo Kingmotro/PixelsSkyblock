@@ -81,6 +81,9 @@ public class EventListener implements Listener {
 		}else if(event.getInventory().getName().split(":")[0].equals("§6§3Challenges du niveau ")){
 			event.setCancelled(true);
 			Inventories.run_SubChallengesInventory(event);
+		}else if(event.getInventory().getName().split(":")[0].equals("§eShop ")){
+			event.setCancelled(true);
+			Inventories.run_getShopMenuInventory(event);
 		}
 	}
 
@@ -110,48 +113,7 @@ public class EventListener implements Listener {
 			}
 		}
 	}
-	@EventHandler
-	public void playerChatEvent(AsyncPlayerChatEvent event){
-		Player pl = event.getPlayer();
-		SPlayer p = PlayersManager.getSPlayer(pl);
-		event.setMessage(event.getMessage().replaceAll("%", "%%"));
-		if(event.getMessage().contains("~")){
-			event.setMessage("§5§lDUDULLLE EST UN DIEU !");
-			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_SCREAM, 100, 100);
-		}
-		for(Player player: Bukkit.getOnlinePlayers()){
-			if(event.getMessage().contains(player.getDisplayName())){
-				player.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);
-				player.sendTitle("§aRegardez le chat !","§d" + pl.getDisplayName() + " vous appelle !",10,10,100);
-			}
-		}
-		event.setFormat("§5[Ile §d§l" + p.getIsland().getName() + "§5] §7"+ pl.getDisplayName() + " §d: §f" + event.getMessage());
-	}
-
-	@EventHandler
-	public void playerDeathEvent(PlayerDeathEvent event){
-		Player pl =  event.getEntity();
-		SPlayer p = PlayersManager.getSPlayer(pl);
-		if(p.getIsland() == null){
-			event.setDeathMessage("§7☠ " + pl.getDisplayName() + " §la voulu défier la mort ... sans succès.");
-		}else{
-			event.setDeathMessage("§7☠ " + pl.getDisplayName() + " §la voulu défier la mort ... sans succès.");
-			Island i = p.getIsland();
-			if(i.getData("deaths") == null){
-				event.setDeathMessage("§7☠ " + pl.getDisplayName() + " §lest mort(e) pour la 1ere fois !");
-				i.addOrSetData("deaths", "1");
-			}else{
-				i.getData("deaths").add(1);
-			}
-			if(Double.parseDouble(i.getData("deaths").getData().toString()) >= 2){
-				pl.sendMessage("§cVous n'avez plus de joker :/");
-			}else{
-				pl.sendMessage("§aOUF ! Joker ! lvous gardez votre stuff !");
-				event.setKeepInventory(true);
-				event.setKeepLevel(true);
-			}
-		}
-	}
+	
 
 	@EventHandler
 	public void playerRespawnEvent(PlayerRespawnEvent event){

@@ -1,5 +1,6 @@
 package pixelssky.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -52,6 +53,9 @@ public class IsCommand implements CommandExecutor {
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 				}
 
+			}else if(arg3[0].equals("c")){
+				pl.openInventory(Inventories.getChallengesMainInventory(p.getIsland()));
+				pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
 			}else if(arg3[0].equals("h")){
 				pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
 				pl.teleport(p.getIsland().getSpawn());
@@ -106,7 +110,9 @@ public class IsCommand implements CommandExecutor {
 			{
 				Challenge c = ChallengesManager.challenges.get(0).getSubChallenges().get(0);
 				c.complete(pl, p.getIsland());
-
+			}else if(arg3[0].equals("s"))
+			{
+				Bukkit.dispatchCommand(pl, "spawn");
 			}
 
 		}catch(Exception ex){

@@ -21,3 +21,9 @@ commands:
    fly:
      description: Commande fly.
      permission: pxs.admin
+   challenge:
+     description: Commande des challenges.
+     aliases: [c, chal, challenges]
+   spawn:
+     description: Commande de teleportation au spawn.
+     aliases: [s]

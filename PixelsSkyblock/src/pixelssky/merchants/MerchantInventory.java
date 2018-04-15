@@ -12,14 +12,16 @@ import org.bukkit.inventory.MerchantRecipe;
 
 import pixelssky.managers.FileManager;
 import pixelssky.objects.Island;
-import pixelssky.objects.SPlayer;
 import pixelssky.utils.Items;
 
 public class MerchantInventory {
 	public int lvl;
 	private TreeMap<String,Merchant> merchants = new TreeMap<String,Merchant>();
+	private Island is = null;
 	
 	public MerchantInventory(int lvl, Island i){
+		is = i;
+		this.lvl = lvl;
 		String folder = "plugins/PixelsSky/Shops/";
 		String[] subFolders = {"food", "animal", "wood", "ores", "loots", "nether", "ender", "stones", "concrete", "clay"};
 		for(String f: subFolders){
@@ -71,5 +73,13 @@ public class MerchantInventory {
 		return merchants.get(s);
 	}
 	
-	
+	public Material getItemMenu(String s){
+		Merchant m = getMerchant(s);
+		if(m.getRecipe(0) != null && is.isMerchantUnlocked(lvl, s)){
+			return m.getRecipe(0).getResult().getType();
+		}else{
+			return Material.AIR;
+		}
+		
+	}
 }
