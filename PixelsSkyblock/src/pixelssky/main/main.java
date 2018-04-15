@@ -14,6 +14,8 @@ import pixelssky.commands.IsCommand;
 import pixelssky.commands.SpeedCommand;
 import pixelssky.commands.gmCommand;
 import pixelssky.enchantements.Enchantements;
+import pixelssky.listeners.EntityListener;
+import pixelssky.listeners.EventListener;
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
@@ -94,6 +96,7 @@ public final class main extends JavaPlugin {
 
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
+		getServer().getPluginManager().registerEvents(new EntityListener(), this);
 		System.out.println("Loaded !");
 
 	}

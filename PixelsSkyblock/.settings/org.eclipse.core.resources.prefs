@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/pixelssky/commands/IsCommand.java=UTF-8
-encoding//src/pixelssky/main/EventListener.java=UTF-8
+encoding//src/pixelssky/listeners/EventListener.java=UTF-8
 encoding//src/pixelssky/objects/Challenge.java=UTF-8
 encoding//src/pixelssky/objects/Island.java=UTF-8
 encoding//src/pixelssky/objects/objectives/InventoryObjective.java=UTF-8

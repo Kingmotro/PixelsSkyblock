@@ -9,12 +9,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Merchant;
 
 import com.sk89q.worldedit.util.Countable;
 
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.merchants.MerchantInventory;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Locations;
 import pixelssky.utils.StringConverter;
@@ -35,7 +37,7 @@ public class Island {
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
-
+	private TreeMap<Integer, MerchantInventory> m = new TreeMap<Integer, MerchantInventory>();
 	/*
 	 * IMPORTANT Placement des îles : Carré de 501 de côté 
 	 * <--- 125 blocs ---><CENTRE><--- 125 blocs --->
@@ -53,6 +55,9 @@ public class Island {
 			} catch (Exception ex) {
 				System.out.println("INVALID_PLAYER_ID : " + ex.toString());
 			}
+		}
+		for(int i =0; i< 10; i++){
+			m.put(i, new MerchantInventory(i, this));
 		}
 		silentCalculateLevel();
 	}
@@ -261,6 +266,9 @@ public class Island {
 		}catch(Exception ex){
 			return Double.MAX_VALUE;
 		}
+	}
+	public Merchant getMerchant(int lvl, String s){
+		return m.get(lvl).getMerchant(s);
 	}
 
 }
