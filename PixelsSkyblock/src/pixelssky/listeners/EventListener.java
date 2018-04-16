@@ -1,5 +1,7 @@
 package pixelssky.listeners;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -12,16 +14,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.Merchant;
+import org.bukkit.event.player.PlayerTeleportEvent;
+
+import org.bukkit.scheduler.BukkitRunnable;
 
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
@@ -33,6 +34,7 @@ import pixelssky.utils.Locations;
 
 public class EventListener implements Listener {
 	public static DistributedRandomNumberGenerator drng = new DistributedRandomNumberGenerator();
+	private ArrayList<String> tpPlayers = new ArrayList<String>();
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void loginEvent(PlayerLoginEvent event) {
@@ -46,6 +48,7 @@ public class EventListener implements Listener {
 		Player pl = event.getPlayer();
 		SPlayer sp = PlayersManager.getSPlayer(pl);
 		event.setJoinMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §aconecté(e).");
+		tpPlayers.add(pl.getUniqueId().toString());
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
@@ -113,7 +116,7 @@ public class EventListener implements Listener {
 			}
 		}
 	}
-	
+
 
 	@EventHandler
 	public void playerRespawnEvent(PlayerRespawnEvent event){
@@ -123,6 +126,49 @@ public class EventListener implements Listener {
 			event.setRespawnLocation(Bukkit.getServer().getWorld("skyworld").getSpawnLocation());
 		}else{
 			event.setRespawnLocation(p.getIsland().getSpawn());
+		}
+	}
+	
+
+	@EventHandler
+	public void playerTeleportEvent(PlayerTeleportEvent event){
+		try
+		{
+			if(event.getPlayer().isOnline()){
+				Player pl =  event.getPlayer();
+
+				
+				if(pl.hasPermission("pxs.instanttp") || pl.isOp() || tpPlayers.contains(pl.getUniqueId().toString())){
+					pl.playSound(pl.getLocation(), Sound.ENTITY_SHULKER_TELEPORT, 100, 100);
+					try{
+						tpPlayers.remove(pl.getUniqueId().toString());
+					}catch(Exception ex){
+
+					}
+
+				}else{
+					tpPlayers.add(pl.getUniqueId().toString());
+					pl.sendMessage("§7Téléportation dans 2 secondes... Ne bougez pas !");
+					event.setCancelled(true);
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							if(pl.getLocation().getBlockX() == event.getFrom().getBlockX() && pl.getLocation().getBlockY() == event.getFrom().getBlockY()
+									&& pl.getLocation().getBlockZ() == event.getFrom().getBlockZ())
+							{
+								pl.teleport(event.getTo());
+							}else{
+								pl.sendMessage("§cAnnulé :/ (on a dit \"pas bouger\" !)");
+								pl.sendMessage("§7https://fr.wiktionary.org/wiki/bouger");
+							}
+
+						}
+					}.runTaskLater(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), 40L);
+				}
+			}
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 

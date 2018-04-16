@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pixelssky.commands.ChallengeCommand;
 import pixelssky.commands.FlyCommand;
 import pixelssky.commands.IsCommand;
+import pixelssky.commands.SpawnCommand;
 import pixelssky.commands.SpeedCommand;
 import pixelssky.commands.gmCommand;
 import pixelssky.enchantements.Enchantements;
@@ -100,7 +101,7 @@ public final class main extends JavaPlugin {
 		this.getCommand("challenge").setExecutor(new ChallengeCommand());
 		
 		//spawn command
-		this.getCommand("spawn").setExecutor(new ChallengeCommand());
+		this.getCommand("spawn").setExecutor(new SpawnCommand());
 		
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
