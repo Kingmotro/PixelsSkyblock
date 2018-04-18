@@ -20,9 +20,9 @@ public class SpeedCommand implements CommandExecutor{
 			if(arg3.length >= 1){
 				p.setFlySpeed(Float.parseFloat(arg3[0])/10f);
 				p.setWalkSpeed(Float.parseFloat(arg3[0])/10f);
-				p.sendMessage("§eVitesse changée sur : §a" + arg3[0]);
+				p.sendMessage("Â§eVitesse changÃ©e sur : Â§a" + arg3[0]);
 				if(p != s){
-					s.sendMessage("§eVitesse de §a: " + p.getDisplayName() + "§a changé sur : §a" + arg3[0] );
+					s.sendMessage("Â§eVitesse de Â§a: " + p.getDisplayName() + "Â§a changÃ© sur : Â§a" + arg3[0] );
 				}
 			}
 		}

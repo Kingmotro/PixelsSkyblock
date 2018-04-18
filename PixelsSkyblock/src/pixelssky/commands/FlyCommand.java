@@ -17,12 +17,12 @@ public class FlyCommand implements CommandExecutor{
 			}
 			if(p.getAllowFlight()){
 				p.setAllowFlight(false);
-				p.sendMessage("§eVous ne pouvez plus voler ... comme le §adodo !");
-				p.sendMessage("§7https://fr.wikipedia.org/wiki/Dodo_(oiseau)");
+				p.sendMessage("Â§eVous ne pouvez plus voler ... comme le Â§adodo !");
+				p.sendMessage("Â§7https://fr.wikipedia.org/wiki/Dodo_(oiseau)");
 			}else{
 				p.setAllowFlight(true);
-				p.sendMessage("§eVous pouvez voler comme §asuperman !");
-				p.sendMessage("§7https://fr.wikipedia.org/wiki/Superman");
+				p.sendMessage("Â§eVous pouvez voler comme Â§asuperman !");
+				p.sendMessage("Â§7https://fr.wikipedia.org/wiki/Superman");
 			}
 			
 			
