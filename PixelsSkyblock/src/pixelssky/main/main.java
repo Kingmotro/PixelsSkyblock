@@ -14,6 +14,8 @@ import pixelssky.commands.FlyCommand;
 import pixelssky.commands.IsCommand;
 import pixelssky.commands.SpawnCommand;
 import pixelssky.commands.SpeedCommand;
+import pixelssky.commands.TpaCommand;
+import pixelssky.commands.TpyesCommand;
 import pixelssky.commands.gmCommand;
 import pixelssky.enchantements.Enchantements;
 import pixelssky.listeners.ChatListener;
@@ -73,7 +75,7 @@ public final class main extends JavaPlugin {
 			e.printStackTrace();
 		}
 		
-		//Initialisation des îles
+		//Initialisation des ï¿½les
 		DatabaseManager.loadIslands();
 
 		//Lecture des valeurs de base
@@ -103,6 +105,10 @@ public final class main extends JavaPlugin {
 		//spawn command
 		this.getCommand("spawn").setExecutor(new SpawnCommand());
 		
+		this.getCommand("tpa").setExecutor(new TpaCommand());
+		
+		this.getCommand("tpyes").setExecutor(new TpyesCommand());
+		
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);
 		getServer().getPluginManager().registerEvents(new EntityListener(), this);
@@ -114,7 +120,7 @@ public final class main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		//Sauvegarde des îles
+		//Sauvegarde des ï¿½les
 		for(Island i: IslandsManager.islands){
 			DatabaseManager.updateIsland(i);
 		}

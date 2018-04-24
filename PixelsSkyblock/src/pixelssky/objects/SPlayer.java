@@ -13,6 +13,7 @@ public class SPlayer {
 	private ScoreboardObject sb;
 	private int id;
 	private int id_last_invite = -1;
+	private SPlayer lastTpaRequest;
 	
 	// TODO : Get and set
 	public int getID(){
@@ -98,7 +99,16 @@ public class SPlayer {
 	public void setLastIsInvite(int id){
 		id_last_invite = id;
 	}
+	
 	public int getLastIsInvite(){
 		return id_last_invite;
+	}
+	
+	public void setTpaRequest(SPlayer p) {
+		lastTpaRequest = p;
+	}
+	
+	public SPlayer getLastTpaRequest() {
+		return lastTpaRequest;
 	}
 }
