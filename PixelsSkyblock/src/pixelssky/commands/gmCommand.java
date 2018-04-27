@@ -30,9 +30,9 @@ public class gmCommand implements CommandExecutor {
 				else if(arg3[0].equals("3")){
 					p.setGameMode(GameMode.SPECTATOR);
 				}
-				p.sendMessage("§eGamemode changé : §a" + GameMode.values()[Integer.parseInt(arg3[0])]);
+				p.sendMessage("§eGamemode changé : §a" + p.getGameMode().name());
 				if(p != s){
-					s.sendMessage("§eGamemode de §a: " + p.getDisplayName() + "§a chang§ : §a" + GameMode.values()[Integer.parseInt(arg3[0])]);
+					s.sendMessage("§eGamemode de §a: " + p.getDisplayName() + "§a chang§ : §a" + p.getGameMode().name());
 				}
 			}
 		}
