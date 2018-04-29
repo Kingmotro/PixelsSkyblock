@@ -52,7 +52,7 @@ public class Inventories {
 		lore.add("§cSi vous prennez cette île vous serez");
 		lore.add("§cclassé derrière les îles de base");
 
-		inv.setItem(3 , Items.get("§5§lÎle facile", Material.GOLD_INGOT,(byte) 0, lore));
+		//inv.setItem(3 , Items.get("§5§lÎle facile", Material.GOLD_INGOT,(byte) 0, lore));
 
 		lore = new ArrayList<String>();
 		lore.add("§a§l Ressources : §b★★★");
@@ -61,7 +61,7 @@ public class Inventories {
 		lore.add("§cSi vous prennez cette île vous serez");
 		lore.add("§4§l PAS §cclassé !!");
 
-		inv.setItem(4 , Items.get("§5§lÎle d'exemple", Material.DIAMOND,(byte) 0, lore));
+		//inv.setItem(4 , Items.get("§5§lÎle d'exemple", Material.DIAMOND,(byte) 0, lore));
 
 		inv.setItem(8 , Items.get("§6Voir les îles existantes", Material.ANVIL,(byte) 0));
 
@@ -74,6 +74,8 @@ public class Inventories {
 			//Nouvelle île
 			int slot = event.getSlot();
 			Player pl = (Player) event.getWhoClicked();
+			pl.closeInventory();
+			pl.sendTitle("§eCréation en cours ..." , "§aVeuillez patienter pendant la création des blocs...", 100,10,10);
 			SPlayer p = PlayersManager.getSPlayer((Player) event.getWhoClicked());
 			if(slot == 8){
 				pl.openInventory(getIslandsList(p));
@@ -125,7 +127,7 @@ public class Inventories {
 					}
 				}});
 
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("PixelsSky"), new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				public void run() {
 					pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
 					pl.teleport(p.getIsland().getSpawn());
@@ -310,19 +312,24 @@ public class Inventories {
 	}
 
 	public static void run_SubChallengesInventory(InventoryClickEvent event){
-		Player p = (Player) event.getWhoClicked();
-		SPlayer sp = PlayersManager.getSPlayer(p);
-		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
-		if(i != null){
-			try{
-				ChallengesManager.getChallenge(event.getInventory().getName().split(":")[1]).getSubChallenges().get(event.getSlot()).complete(p, sp.getIsland());
-				p.closeInventory();
-			}catch(Exception ex){
+		try
+		{
+			Player p = (Player) event.getWhoClicked();
+			SPlayer sp = PlayersManager.getSPlayer(p);
+			ItemStack i = event.getClickedInventory().getItem(event.getSlot());
+			if(i != null){
+				try{
+					ChallengesManager.getChallenge(event.getInventory().getName().split(":")[1]).getSubChallenges().get(event.getSlot()).complete(p, sp.getIsland());
+					p.closeInventory();
+				}catch(Exception ex){
+
+				}
 
 			}
-
+		}catch(Exception ex){
 		}
 	}
+
 	public static Inventory getAddAdminInventory(SPlayer sp, Island i){
 		Inventory inv = Bukkit.createInventory(null, ((i.getMembers().size())/9+1)*9, "§6✉ §3Ajouter un admin");
 		for(Player p : Bukkit.getOnlinePlayers()){

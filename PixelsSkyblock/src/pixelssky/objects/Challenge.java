@@ -1,6 +1,7 @@
 package pixelssky.objects;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -16,7 +17,7 @@ import pixelssky.rewards.CommandReward;
 import pixelssky.rewards.Reward;
 import pixelssky.utils.Items;
 
-public class Challenge {
+public class Challenge implements Comparable<Challenge> {
 	public static final int TYPE_CATEGORY = 0;
 	public static final int TYPE_NORMAL = 1;
 
@@ -173,4 +174,15 @@ public class Challenge {
 			return Items.get(this.name, m, (byte) this.i, lore);
 		}
 	}
+	@Override
+	public int compareTo(Challenge o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+    public static Comparator<Challenge> COMPARE_BY_NAME = new Comparator<Challenge>() {
+        public int compare(Challenge one, Challenge other) {
+            return one.name.compareTo(other.name);
+        }
+    };
 }

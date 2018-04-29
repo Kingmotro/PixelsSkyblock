@@ -2,6 +2,7 @@ package pixelssky.managers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeMap;
 
 import org.bukkit.Bukkit;
@@ -53,6 +54,7 @@ public class ChallengesManager {
 			}
 
 		}
+		Collections.sort(challenges, Challenge.COMPARE_BY_NAME);
 		init_subChallenges();
 	}
 	public static void init_subChallenges(){
@@ -60,6 +62,7 @@ public class ChallengesManager {
 			try
 			{
 				File folder = new File("plugins/PixelsSky/Challenges/" + categ.getName());
+				
 				for(File f:folder.listFiles()){
 					try{
 						if(!f.isDirectory()){
@@ -122,6 +125,7 @@ public class ChallengesManager {
 								}
 							}
 							categ.getSubChallenges().add(new Challenge(type,c_name,obj,rewards,can_redo,m, subid, isUnlocked));
+							Collections.sort(categ.getSubChallenges(), Challenge.COMPARE_BY_NAME);
 						}
 					}catch(Exception ex){
 						Bukkit.getLogger().warning("Error : " + categ.getName());

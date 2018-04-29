@@ -15,19 +15,19 @@ import pixelssky.utils.Locations;
 public class DatabaseManager {
 
 	/*
-	 * TODO : Créer le système de BDD Prendre en charge les données des joueurs
-	 * ainsi que des îles Toutes les données doivent être stockées intelligement Les
-	 * requêtes doivent être éxecutées de façon optimisée Le mot de passe de la BDD
-	 * sera stocké dans un fichier de config (plugins/PixelsSkyblock/config.txt.
+	 * TODO : Crï¿½er le systï¿½me de BDD Prendre en charge les donnï¿½es des joueurs
+	 * ainsi que des ï¿½les Toutes les donnï¿½es doivent ï¿½tre stockï¿½es intelligement Les
+	 * requï¿½tes doivent ï¿½tre ï¿½xecutï¿½es de faï¿½on optimisï¿½e Le mot de passe de la BDD
+	 * sera stockï¿½ dans un fichier de config (plugins/PixelsSkyblock/config.txt.
 	 */
 
 	/*
 	 * Structure de la BDD : Tables : Joueurs PLAYERS : ID : auto increment; UUID :
-	 * text; ISLAND_ID: int; Données joueurs PLAYER_DATA : ID : auto increment;
+	 * text; ISLAND_ID: int; Donnï¿½es joueurs PLAYER_DATA : ID : auto increment;
 	 * PLAYER_ID : int; DATA_NAME : text; DATA_CONTENT : text; Droits Joueurs
 	 * PLAYER_RIGHTS : ID : auto increment; PLAYER_ID : int; RIGHT_NAME : text; Iles
 	 * ISLAND : ID : auto increment; PLAYERS_ID : text; ISLAND_CENTER : text;
-	 * ISLAND_SPAWN : text; ISLAND_LEVEL : double; Données Challenges Ile
+	 * ISLAND_SPAWN : text; ISLAND_LEVEL : double; Donnï¿½es Challenges Ile
 	 * ISLAND_DATA : ID : auto increment; ISLAND_ID : int; DATA_NAME : text;
 	 * DATA_CONTENT : text;
 	 * 
@@ -40,10 +40,10 @@ public class DatabaseManager {
 	public static Statement stmt = null;
 
 	/**
-	 * Crée les tables si elles existent pas.
+	 * Crï¿½e les tables si elles existent pas.
 	 */
 	public static void createDatabase() {
-		// TODO : requête pour créer les tables si elles existent pas.
+		// TODO : requï¿½te pour crï¿½er les tables si elles existent pas.
 
 		try
 		{
@@ -85,14 +85,14 @@ public class DatabaseManager {
 	}
 
 	public static SPlayer getPlayer(String UUID) {
-		// TODO : renvoyer les données du joueur
-		SPlayer p = new SPlayer(""); // création joueur vide
+		// TODO : renvoyer les donnï¿½es du joueur
+		SPlayer p = new SPlayer(""); // crï¿½ation joueur vide
 
 		/*
 		 * FAIRE REQUETES SQL ICI
 		 * 
-		 * Requête pour obtenir les données de la table PLAYERS Requête pour obtenir les
-		 * données de la table PLAYER_DATA Requête pour obtenir les données de la table
+		 * Requï¿½te pour obtenir les donnï¿½es de la table PLAYERS Requï¿½te pour obtenir les
+		 * donnï¿½es de la table PLAYER_DATA Requï¿½te pour obtenir les donnï¿½es de la table
 		 * PLAYER_RIGHTS
 		 */
 
@@ -104,9 +104,9 @@ public class DatabaseManager {
 			ResultSet res = stmt.executeQuery("SELECT * FROM `players` WHERE `UUID` LIKE '" + UUID + "';");
 
 			if (!res.isBeforeFirst()) {
-				// Si le joueur n'existe pas dans la BDD on le créé
+				// Si le joueur n'existe pas dans la BDD on le crï¿½ï¿½
 				p.init(0, UUID, -1);
-				p.addOrSetData("DonnéeVide", null);
+				p.addOrSetData("Donnï¿½eVide", null);
 				p.addRight(Right.getRight("island.invite"));
 				System.out.println("4");
 
@@ -116,7 +116,7 @@ public class DatabaseManager {
 				conn.close();
 				return getPlayer(UUID);
 			} else {
-				// Chargement des éléments de base
+				// Chargement des ï¿½lï¿½ments de base
 				while (res.next()) {
 					p.init(res.getInt("ID"), UUID, res.getInt("ISLAND_ID"));
 					readPlayerData(p);
@@ -130,14 +130,14 @@ public class DatabaseManager {
 			System.out.println("ERREUR GETPLAYER : " + e.toString());
 		}
 
-		// p.addOrSetData("DonnéeVide", null);
+		// p.addOrSetData("Donnï¿½eVide", null);
 		// p.addRight(Right.getRight("TypeDeDroit.Droit"));
 
 		return p;
 	}
 
 	public static void loadIslands() {
-		// TODO : renvoyer les données de l'île à partir d'un joueur
+		// TODO : renvoyer les donnï¿½es de l'ï¿½le ï¿½ partir d'un joueur
 		System.out.println("PixelsSkyblock : Loading Islands !");
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
@@ -160,14 +160,14 @@ public class DatabaseManager {
 	}
 
 	public static void updateIsland(Island i) {
-		// ATTENTION : ne fait pas l'ajout d'îles !
+		// ATTENTION : ne fait pas l'ajout d'ï¿½les !
 		System.out.println("PixelsSkyblock : Saving Islands !");
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request
 
-			System.out.println("Chargement... Mise à jour : " + i.getID());
+			System.out.println("Chargement... Mise ï¿½ jour : " + i.getID());
 
 			stmt.executeUpdate("UPDATE `island` SET `PLAYERS_ID` = '" + i.getMembersToString()
 			+ "', `ISLAND_CENTER` = '" + Locations.toString(i.getCenter()) + "', `ISLAND_SPAWN` = '"
@@ -184,7 +184,7 @@ public class DatabaseManager {
 	}
 
 	public static void updatePlayer(SPlayer p) {
-		// ATTENTION : ne fait pas l'ajout d'îles !
+		// ATTENTION : ne fait pas l'ajout d'ï¿½les !
 		System.out.println("PixelsSkyblock : Saving Player !");
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
@@ -250,7 +250,7 @@ public class DatabaseManager {
 			if (!res.isBeforeFirst()) {
 
 			} else {
-				// Chargement des éléments de base
+				// Chargement des ï¿½lï¿½ments de base
 				while (res.next()) {
 					i.addOrSetData(res.getString("DATA_NAME"), res.getString("DATA_CONTENT"));
 					System.out.println(res.getString("DATA_NAME") + " LOADED");
@@ -272,7 +272,7 @@ public class DatabaseManager {
 			if (!res.isBeforeFirst()) {
 
 			} else {
-				// Chargement des éléments de base
+				// Chargement des ï¿½lï¿½ments de base
 				while (res.next()) {
 					p.addOrSetData(res.getString("DATA_NAME"), res.getString("DATA_CONTENT"));
 				}
@@ -284,7 +284,7 @@ public class DatabaseManager {
 	}
 
 	public static void setPlayerRights(SPlayer p) {
-		/* Pas nécéssaire ? Island Data */
+		/* Pas nï¿½cï¿½ssaire ? Island Data */
 		/* necessaire pour droits au spawn? */
 	}
 
@@ -326,7 +326,7 @@ public class DatabaseManager {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request
-			Island island = new Island(0,p.getID() + ",","world,0,0,0,0,0", "world,0,100,0,0,0", 0);
+			Island island = new Island(0,p.getID() + ",","world,0,0,0,0,0", "world,0.5,100,0.5,0,0", 0);
 
 			stmt.executeUpdate("INSERT INTO `island` (`PLAYERS_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
 					+ island.getMembersToString() + "', '" + Locations.toString(island.getCenter()) + "', '"
