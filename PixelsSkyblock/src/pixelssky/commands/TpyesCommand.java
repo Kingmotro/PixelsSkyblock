@@ -19,7 +19,7 @@ public class TpyesCommand implements CommandExecutor {
 			SPlayer sp =  PlayersManager.getSPlayer(p);
 			
 			if(sp.getLastTpaRequest() != null) {
-				Player p2 = Bukkit.getPlayer(sp.getLastTpaRequest().getUUID());
+				Player p2 = Bukkit.getPlayer(sp.getLastTpaRequest());
 				
 				p2.sendMessage("demande acceptée");
 				

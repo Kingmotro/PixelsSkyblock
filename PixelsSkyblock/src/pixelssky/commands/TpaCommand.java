@@ -17,7 +17,7 @@ public class TpaCommand implements CommandExecutor {
 			Player p1 = (Player) arg0;
 			Player p2 = Bukkit.getPlayer(arg3[0]);
 
-			PlayersManager.getSPlayer(p2).setTpaRequest(PlayersManager.getSPlayer(p1));
+			PlayersManager.getSPlayer(p2).setTpaRequest(p1.getDisplayName());
 
 			p2.sendMessage("demande de tpa de " + p1.getName());
 			p2.sendMessage("/tpyes pour accpeter");
