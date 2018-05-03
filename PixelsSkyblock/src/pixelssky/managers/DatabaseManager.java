@@ -200,7 +200,7 @@ public class DatabaseManager {
 
 			conn.close();
 		} catch (Exception ex) {
-			System.out.println("EX_SAVING_ISLAND" + ex.toString());
+			System.out.println("EX_SAVING_PLAYER" + ex.toString());
 		}
 	}
 
@@ -344,6 +344,7 @@ public class DatabaseManager {
 			p.setIsland(island);
 			IslandsManager.setIsland(island);
 			updatePlayer(p);
+			updateIsland(island);
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
