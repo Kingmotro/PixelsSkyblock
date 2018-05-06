@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Merchant;
 
@@ -118,6 +119,19 @@ public class Island {
 	}
 
 	public Location getSpawn() {
+		World w = Bukkit.getWorld("world");
+		try
+		{
+			Location l = w.getHighestBlockAt(isSpawn).getLocation();
+			if(l.getBlockY() == 0 || l.getBlockY() == 1){
+				return w.getHighestBlockAt(getCenter()).getLocation();
+			}else if(w.getBlockAt(l).getType() != Material.AIR){
+				return w.getHighestBlockAt(getCenter()).getLocation();
+			}
+		}catch(Exception ex)
+		{
+			
+		}
 		return isSpawn;
 	}
 
