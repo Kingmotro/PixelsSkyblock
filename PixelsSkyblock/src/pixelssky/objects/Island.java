@@ -28,7 +28,7 @@ public class Island {
 	public static final String DIFFICULTY_NORMAL = "NORMAL";
 	public static final String DIFFICULTY_EASY = "EASY";
 	public static final String DIFFICULTY_NONE = "EXAMPLE";
-	
+
 	private int ID = 0;
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();
 	private ArrayList<Data> data = new ArrayList<Data>();
@@ -44,7 +44,7 @@ public class Island {
 	 * <--- 125 blocs ---><CENTRE><--- 125 blocs --->
 	 * 
 	 */
-	
+
 	public Island(int ID, String playersID, String isCenter, String isSpawn, double d) {
 		this.ID = ID;
 		this.isCenter = Locations.get(isCenter);
@@ -62,7 +62,7 @@ public class Island {
 		}
 		silentCalculateLevel();
 	}
-	
+
 	public String getName(){
 		if(getData("island name") == null){
 			return getData("Creator").getData().toString();
@@ -70,7 +70,7 @@ public class Island {
 			return getData("island name").getData().toString();
 		}
 	}
-	
+
 	public ArrayList<Data> getData() {
 		return data;		
 	}
@@ -130,7 +130,7 @@ public class Island {
 			}
 		}catch(Exception ex)
 		{
-			
+
 		}
 		return isSpawn;
 	}
@@ -211,7 +211,7 @@ public class Island {
 		});
 
 	}
-	
+
 	public void silentCalculateLevel() {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
@@ -228,7 +228,7 @@ public class Island {
 				}
 				total_blocks  = total;
 				block_list = blocks;
-				
+
 				double maxValue = 0;
 				double minValue = Integer.MAX_VALUE;
 				for(Countable<Integer> block : blocks){
@@ -245,32 +245,32 @@ public class Island {
 						}
 					}
 				}
-				
+
 			}
 		});
-		
+
 	}
-	
+
 
 	public void setCenter(Location isC) {
 		isCenter = isC;
-		
+
 	}
-	
+
 	public boolean isAdmin(int player_ID){
 		return StringConverter.getID(getData("admins").getData().toString()).contains(player_ID) || getData("Creator").getData().toString().equals(PlayersManager.getSPlayer(player_ID));
 	}
 	public String getDifficulty(){
 		return getData("difficulty").getData().toString();
 	}
-	
+
 	public boolean isMaterialUnlocked(Material m){
 		if(this.getData("Débloqué " + m.toString()) != null){
 			return true;
 		}
 		return false;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public double getBlockValue(Material m){
 		int id = m.getId();
@@ -290,11 +290,23 @@ public class Island {
 	public MerchantInventory getMerchantInventory(int lvl, String s){
 		return m.get(lvl);
 	}
-	
+
 	public boolean isMerchantUnlocked(int lvl, String s){
 		if(this.getData("Débloqué " + s + lvl) != null || lvl == 1){
 			return true;
 		}
 		return false;
+	}
+
+	public void broadcastMessage(String msg){
+		for(Player p: Bukkit.getOnlinePlayers()){
+			SPlayer sp = PlayersManager.getSPlayer(p);
+			if(this.getMembers().contains(sp.getID()) || this.isAdmin(sp.getID())){
+				p.sendMessage(msg);
+			}
+		}
+	}
+	public int getPriceOffset(){
+		return (int) (isLevel / 10);
 	}
 }

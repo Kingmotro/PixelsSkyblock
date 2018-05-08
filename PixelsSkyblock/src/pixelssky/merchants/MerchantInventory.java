@@ -28,7 +28,7 @@ public class MerchantInventory {
 			try
 			{
 				ArrayList<String> lines = FileManager.ReadAllText(folder + f + "/niv" + lvl);
-				Merchant m = Bukkit.createMerchant("§e§l" + f + "§1Niveau §a" + lvl);
+				Merchant m = Bukkit.createMerchant("Â§eÂ§l" + f + "Â§1Niveau Â§a" + lvl);
 				List<MerchantRecipe> l = new ArrayList<MerchantRecipe>();
 				
 				for(String line: lines){
@@ -36,17 +36,17 @@ public class MerchantInventory {
 					String[] objet = elements[0].split(":");
 					String[] achat = elements[1].split(":");
 					String[] vente = elements[2].split(":");
-					
+					i.broadcastMessage(i.getPriceOffset() + "");
 					MerchantRecipe a = new MerchantRecipe(Items.get(Material.getMaterial(objet[0]),(byte) Integer.parseInt(objet[1]),Integer.parseInt(objet[2])), 1000);
-					a.addIngredient(new ItemStack(Material.getMaterial(achat[0]), Integer.parseInt(achat[1])));
+					a.addIngredient(Items.getEmeraldPrice(Integer.parseInt(achat[1]) + i.getPriceOffset())); //new ItemStack(Material.getMaterial(achat[0]), Integer.parseInt(achat[1]))
 					try
 					{
-						a.addIngredient(new ItemStack(Material.getMaterial(achat[2]), Integer.parseInt(achat[3])));
+						a.addIngredient(Items.getEmeraldPrice(Integer.parseInt(achat[3]) + i.getPriceOffset()));
 					}catch(Exception ex){
 						
 					}
 					
-					MerchantRecipe r = new MerchantRecipe(Items.get(Material.getMaterial(vente[0]),(byte) 0,Integer.parseInt(vente[1])), 1000);
+					MerchantRecipe r = new MerchantRecipe(Items.getEmeraldPrice(Integer.parseInt(vente[1]) - i.getPriceOffset()), 1000);
 					r.addIngredient(new ItemStack(Items.get(Material.getMaterial(objet[0]),(byte) Integer.parseInt(objet[1]),Integer.parseInt(objet[2]))));
 					
 					l.add(a);
@@ -56,7 +56,7 @@ public class MerchantInventory {
 				m.setRecipes(l);
 				merchants.put(f, m);
 			}catch(Exception ex){
-				Bukkit.getLogger().severe("§7Missing shop data :" + f + " niv" + lvl);
+				Bukkit.getLogger().severe("ï¿½7Missing shop data :" + f + " niv" + lvl);
 			}
 		}
 	}

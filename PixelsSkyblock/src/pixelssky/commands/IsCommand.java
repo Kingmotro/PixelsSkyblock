@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.managers.TutorialManager;
 import pixelssky.objects.Challenge;
 import pixelssky.objects.Data;
 import pixelssky.objects.SPlayer;
@@ -40,7 +41,15 @@ public class IsCommand implements CommandExecutor {
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
 
 				}	
-
+			}else if(arg3[0].equals("help")){
+				pl.sendMessage("§a§l=== §eAide du skyblock §a§l===");
+				pl.sendMessage("§b/is §e: menu de l'île.");
+				pl.sendMessage("§b/is create §e: créer une île.");
+				pl.sendMessage("§b/is c §e: challenges.");
+				pl.sendMessage("§b/is h §e: home de l'île");
+				pl.sendMessage("§b/is sethome §e: régler le spawn de l'île.");
+				pl.sendMessage("§b/is top §e: classement des îles");
+				pl.sendMessage("§b/is name [nom] §e: changer le nom de l'île.");
 			}else if(arg3[0].equals("create")){
 				if(p.getIsland() != null && p.getIsland().getMembers().size() == 1 && p.getIsland().isAdmin(p.getID())){
 					pl.openInventory(Inventories.getConfirmCreateIsland());
@@ -101,18 +110,22 @@ public class IsCommand implements CommandExecutor {
 			}
 			else if(arg3[0].equals("accept"))
 			{	
-				pl.sendTitle("§aVous venez d'accepter l'invation :p", "§cC'est parti!!!", 10, 20, 10);
-				p.setIsland(IslandsManager.getIsland(p.getLastIsInvite()));
-				p.getIsland().getMembers().add(p.getID());
-				pl.teleport(p.getIsland().getSpawn());
-				pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
-			}else if(arg3[0].equals("try"))
-			{
-				Challenge c = ChallengesManager.challenges.get(0).getSubChallenges().get(0);
-				c.complete(pl, p.getIsland());
+				if(!p.getIsland().getData("Creator").getData().toString().equals(pl.getDisplayName()) || p.getIsland().getMembers().size() != 1){
+					pl.sendTitle("§aVous venez d'accepter l'invation :p", "§cC'est parti!!!", 10, 20, 10);
+					p.setIsland(IslandsManager.getIsland(p.getLastIsInvite()));
+					p.getIsland().getMembers().add(p.getID());
+					pl.teleport(p.getIsland().getSpawn());
+					pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+				}else{
+					pl.sendMessage("§1-> §cLe propriétaire ne peut pas abandonner le navire ! Sauf s'il est vide !");
+				}
+				
 			}else if(arg3[0].equals("s"))
 			{
 				Bukkit.dispatchCommand(pl, "spawn");
+			}else if(arg3[0].equals("tuto"))
+			{
+				TutorialManager.startTutorial(pl);
 			}
 
 		}catch(Exception ex){

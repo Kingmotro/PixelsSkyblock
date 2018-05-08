@@ -37,11 +37,13 @@ public class StatsReward extends Reward{
 	@Override
 	public String getDescription() {
 		if(dOperation.equals("set")){
-			return "§e-▶§2[Récompense] Valeur de statistique §a" + dName + " §2réglée à §a" + dValue;
+			if(dName.contains("unlocked"))
+				return "§e-▶§2[Récompense] Challenge §a" + dName.split("unlocked")[1] + " §2Débloqué";
+			return "§e-▶§2[Récompense] stat §a" + dName + " §2mise à §a" + dValue;
 		}else if(dOperation.equals("add")){
-			return "§e-▶§2[Récompense] Valeur de statistique §a" + dName + " §2réglée à §aValeur précédente §2+§a " + dValue;
+			return "§e-▶§2[Récompense] stat §a" + dName + " §2mise à §aValeur préc. §2+§a " + dValue;
 		}else if(dOperation.equals("rmv")){
-			return "§e-▶§2[Récompense] Valeur de statistique §a" + dName + " §2réglée à §aValeur précédente §2-§a " + dValue;
+			return "§e-▶§2[Récompense] stat §a" + dName + " §2mise à §aValeur préc. §2-§a " + dValue;
 		}
 		return "Challenge invalide !";
 	}

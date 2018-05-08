@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -34,7 +35,7 @@ import pixelssky.utils.Locations;
 
 public class EventListener implements Listener {
 	public static DistributedRandomNumberGenerator drng = new DistributedRandomNumberGenerator();
-	private ArrayList<String> tpPlayers = new ArrayList<String>();
+	public static ArrayList<String> tpPlayers = new ArrayList<String>();
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void loginEvent(PlayerLoginEvent event) {
@@ -47,8 +48,16 @@ public class EventListener implements Listener {
 	public void joinEvent(PlayerJoinEvent event) {
 		Player pl = event.getPlayer();
 		SPlayer sp = PlayersManager.getSPlayer(pl);
-		event.setJoinMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §aconecté(e).");
-		tpPlayers.add(pl.getUniqueId().toString());
+		try
+		{
+			event.setJoinMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §aconecté(e).");
+			tpPlayers.add(pl.getUniqueId().toString());
+		}catch(Exception ex){
+			event.setJoinMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §aconecté(e).");
+			tpPlayers.add(pl.getUniqueId().toString());
+			pl.teleport(new Location(Bukkit.getWorld("skyworld"),-20,83,-66,0,0));
+		}
+		
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
