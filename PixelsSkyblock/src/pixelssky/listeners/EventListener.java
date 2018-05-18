@@ -105,10 +105,17 @@ public class EventListener implements Listener {
 		try
 		{
 			Island is = Locations.getIslandAt(event.getClickedBlock().getLocation());
-			if(!is.getMembers().contains(PlayersManager.getSPlayer(p).getID()) && p.getWorld().getName().equals("world")){
-				event.setCancelled(true);
-				p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
-				p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+			if(p.getWorld().getName().equals("world")) {
+				//protection d'ile
+				if(!is.getMembers().contains(PlayersManager.getSPlayer(p).getID())){
+					event.setCancelled(true);
+					p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
+					p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+				//clic droit sur obsi avec 1 seau 
+				} else if(p.getItemInHand().getType() == Material.BUCKET && p.getItemInHand().getAmount() == 1 && event.getClickedBlock().getType() == Material.OBSIDIAN) {
+					event.setCancelled(true);
+					p.getItemInHand().setType(Material.LAVA_BUCKET);
+				}
 			}
 		}catch(Exception ex){
 			try{
