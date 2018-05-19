@@ -74,9 +74,9 @@ public class IsCommand implements CommandExecutor {
 				p.getIsland().setHome(pl.getLocation());
 			}else if(arg3[0].equals("top"))
 			{
-				pl.sendMessage("Is top : ");
-				for(String i : Classement.getTop()){
-					pl.sendMessage("ISLAND : " + i);
+				pl.sendMessage("§e===§5 Classement des îles §e===");
+				for(String s : Classement.getTop()){
+					pl.sendMessage(s);
 				}
 			}
 			else if(arg3[0].equals("leave"))

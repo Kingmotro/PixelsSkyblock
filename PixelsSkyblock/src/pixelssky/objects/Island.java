@@ -1,5 +1,6 @@
 package pixelssky.objects;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -146,6 +147,10 @@ public class Island {
 	public Double getLevel() {
 		return isLevel;
 	}
+	public String getStringLevel(){
+		DecimalFormat df = new DecimalFormat("### ###.##");
+		return df.format(getLevel());
+	}
 	public ArrayList<Location> getEdges(){
 		Location pos1 = new Location(Bukkit.getWorld("world"),isCenter.getX() - 125 ,0,isCenter.getZ() - 125);
 		Location pos2 = new Location(Bukkit.getWorld("world"),isCenter.getX() + 125 ,256,isCenter.getZ() + 125);
@@ -206,7 +211,7 @@ public class Island {
 				p.sendMessage("§a✔ §e Bloc le §aplus §erentable : §5" + max + " §e(§d" + String.format("%.2f", maxValue) + " §eniveaux)");
 				p.sendMessage("§4✘§e Bloc le §cmoins §erentable : §5" + min + " §e(§d" + String.format("%.2f", minValue) + " §eniveaux)");
 				p.sendMessage("");
-				p.sendMessage("§a§n▶ §e§l§nVous êtes : §5§l" + (Classement.getNB(getThis())+1) + "§e/" + IslandsManager.islands.size());
+				p.sendMessage("§a§n▶ §e§l§nVous êtes : §5§l" + (Classement.getNB(getThis())) + "§e/" + IslandsManager.islands.size());
 			}
 		});
 
