@@ -114,6 +114,7 @@ public class EventListener implements Listener {
 				//clic droit sur obsi avec 1 seau 
 				} else if(p.getItemInHand().getType() == Material.BUCKET && p.getItemInHand().getAmount() == 1 && event.getClickedBlock().getType() == Material.OBSIDIAN) {
 					event.setCancelled(true);
+					event.getClickedBlock().setType(Material.AIR);
 					p.getItemInHand().setType(Material.LAVA_BUCKET);
 				}
 			}

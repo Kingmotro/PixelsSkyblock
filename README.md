@@ -20,4 +20,4 @@ To get more information : https://discord.gg/WjMmYD7
 * add mobs dropping emerald
 * fix teleport delay
 * fix null pointer exception in leave message
-* fix Obsidian not replaced while clicking on it with a bucket
+* fix Obsidian not replaced while clicking on it with a bucket : test
