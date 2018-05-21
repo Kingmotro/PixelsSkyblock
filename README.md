@@ -17,7 +17,7 @@ To get more information : https://discord.gg/WjMmYD7
 * fix saving issues
 ** Auto-Save
 ** Duplicated islands in BDD
-* add mobs dropping emerald
+* add mobs dropping emerald : test
 * fix teleport delay
 * fix null pointer exception in leave message
-* fix Obsidian not replaced while clicking on it with a bucket : test
+* fix Obsidian not replaced while clicking on it with a bucket : done
