@@ -1,9 +1,5 @@
 package pixelssky.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,9 +13,11 @@ import org.bukkit.inventory.Merchant;
 
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.SPlayer;
+import pixelssky.utils.DistributedRandomNumberGenerator;
 import pixelssky.utils.Inventories;
 
 public class EntityListener implements Listener{
+	public static DistributedRandomNumberGenerator drng = new DistributedRandomNumberGenerator();
 	
 	@EventHandler
 	public void playerInteractEntityEvent(PlayerInteractEntityEvent event){
@@ -41,30 +39,28 @@ public class EntityListener implements Listener{
 	public void onEntityDeath(EntityDeathEvent event){
 		Location loc = event.getEntity().getLocation();
 		
-		Random randomGenerator = new Random();
 		ItemStack reward = null;
 		
-		switch(randomGenerator.nextInt(100)) {
-			//1 emerald : 40%
+		switch(drng.getDistributedRandomNumber()) {
 			case 0: reward = new ItemStack(Material.EMERALD, 1);
 					break;
-			//2 emerald : 25%
-			case 40: reward = new ItemStack(Material.EMERALD, 2);
+			case 1: reward = new ItemStack(Material.STICK, 2);
 					break;
-			//3 emerald : 10%
-			case 65: reward = new ItemStack(Material.EMERALD, 3);
+			case 2: reward = new ItemStack(Material.EMERALD, 2);
 					break;
-			//5 patates : 10%
-			case 75: reward = new ItemStack(Material.BAKED_POTATO, 5);
+			case 3: reward = new ItemStack(Material.BAKED_POTATO, 5);
 					break;
-			//1 bâton : 3%
-			case 85: reward = new ItemStack(Material.STICK, 1);
+			case 4: reward = new ItemStack(Material.EMERALD, 3);
 					break;
-			//1 cobble : 2%
-			case 88: reward = new ItemStack(Material.COBBLESTONE,1);
+			case 5: reward = new ItemStack(Material.WOOD_SPADE,10);
 					break;
-			//queuedal : 10%
-			case 90: 
+			case 6: reward = new ItemStack(Material.EMERALD,4);
+					break;
+			case 7: reward = new ItemStack(Material.COBBLESTONE,5);
+					break;
+			case 8: reward = new ItemStack(Material.EMERALD_BLOCK,1);
+					break;
+			case 9: reward = new ItemStack(Material.DIAMOND,1);
 					break;
 			default: 
 					break;
