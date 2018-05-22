@@ -42,25 +42,25 @@ public class EntityListener implements Listener{
 		ItemStack reward = null;
 		
 		switch(drng.getDistributedRandomNumber()) {
-			case 0: reward = new ItemStack(Material.EMERALD, 1);
+			case 1: reward = new ItemStack(Material.EMERALD, 1);
 					break;
-			case 1: reward = new ItemStack(Material.STICK, 2);
+			case 2: reward = new ItemStack(Material.STICK, 2);
 					break;
-			case 2: reward = new ItemStack(Material.EMERALD, 2);
+			case 3: reward = new ItemStack(Material.EMERALD, 2);
 					break;
-			case 3: reward = new ItemStack(Material.BAKED_POTATO, 5);
+			case 4: reward = new ItemStack(Material.BAKED_POTATO, 5);
 					break;
-			case 4: reward = new ItemStack(Material.EMERALD, 3);
+			case 5: reward = new ItemStack(Material.EMERALD, 3);
 					break;
-			case 5: reward = new ItemStack(Material.WOOD_SPADE,10);
+			case 6: reward = new ItemStack(Material.WOOD_SPADE,10);
 					break;
-			case 6: reward = new ItemStack(Material.EMERALD,4);
+			case 7: reward = new ItemStack(Material.EMERALD,4);
 					break;
-			case 7: reward = new ItemStack(Material.COBBLESTONE,5);
+			case 8: reward = new ItemStack(Material.COBBLESTONE,5);
 					break;
-			case 8: reward = new ItemStack(Material.EMERALD_BLOCK,1);
+			case 9: reward = new ItemStack(Material.EMERALD_BLOCK,1);
 					break;
-			case 9: reward = new ItemStack(Material.DIAMOND,1);
+			case 10: reward = new ItemStack(Material.DIAMOND,1);
 					break;
 			default: 
 					break;

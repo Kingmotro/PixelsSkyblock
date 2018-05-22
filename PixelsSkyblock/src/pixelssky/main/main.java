@@ -58,6 +58,17 @@ public final class main extends JavaPlugin {
 		EventListener.drng.addNumber(2, 100d/256d);//151
 		EventListener.drng.addNumber(1, 104d/256d);//256
 		
+		EntityListener.drng.addNumber(10, 1d/256d);	//1
+		EntityListener.drng.addNumber(9, 7d/256d);	//8
+		EntityListener.drng.addNumber(8, 12d/256d);	//20
+		EntityListener.drng.addNumber(7, 10d/256d);	//30
+		EntityListener.drng.addNumber(6, 17d/256d);	//47
+		EntityListener.drng.addNumber(5, 13d/256d);	//60
+		EntityListener.drng.addNumber(4, 25d/256d);	//85
+		EntityListener.drng.addNumber(3, 45d/256d);	//130
+		EntityListener.drng.addNumber(2, 63d/256d);	//193
+		EntityListener.drng.addNumber(1, 63d/256d);	//256
+		
 		//Ajout des enchants
 		try{
 			try {
