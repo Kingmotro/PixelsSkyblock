@@ -29,6 +29,8 @@ public class Island {
 	public static final String DIFFICULTY_NORMAL = "NORMAL";
 	public static final String DIFFICULTY_EASY = "EASY";
 	public static final String DIFFICULTY_NONE = "EXAMPLE";
+	
+	public static final int ISLAND_SIZE = 251;
 
 	private int ID = 0;
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();

@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 
 import com.boydti.fawe.FaweAPI;
 import com.boydti.fawe.util.EditSessionBuilder;
@@ -14,7 +15,7 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
-
+import com.sk89q.worldedit.Vector2D;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.entity.Entity;
@@ -22,6 +23,10 @@ import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.DataException;
+import com.sk89q.worldedit.world.biome.BaseBiome;
+
+import net.minecraft.server.v1_12_R1.BiomeBase;
+import pixelssky.objects.Island;
 
 @SuppressWarnings({"deprecation" })
 public class WEManager {
@@ -63,6 +68,13 @@ public class WEManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return es.getEntities(r);
+	}
+	public static void setBiome(int biomeID, Island i){
+		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
+		es.setBiome(new Vector2D(i.getCenter().getBlockX() & Island.ISLAND_SIZE,
+				i.getCenter().getBlockZ() & Island.ISLAND_SIZE),
+				new BaseBiome(0));	
 	}
 }

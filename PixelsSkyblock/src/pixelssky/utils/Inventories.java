@@ -7,6 +7,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import net.minecraft.server.v1_12_R1.BiomeBase;
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
@@ -67,7 +69,6 @@ public class Inventories {
 
 		return inv;
 	}
-
 	public static void run_createIslandMenu(InventoryClickEvent event){
 		try{
 
@@ -303,6 +304,7 @@ public class Inventories {
 			p.openInventory(getSubChallengeInventory(ChallengesManager.getChallenge(i.getI18NDisplayName()),sp.getIsland()));
 		}
 	}
+	
 	public static Inventory getSubChallengeInventory(Challenge ch, Island i){
 		Inventory inv = Bukkit.createInventory(null, ((ch.getSubChallenges().size())/9+1)*9, "§6§3Challenges du niveau :" + ch.getName());
 		for(Challenge c : ch.getSubChallenges()){
@@ -310,7 +312,6 @@ public class Inventories {
 		}
 		return inv;
 	}
-
 	public static void run_SubChallengesInventory(InventoryClickEvent event){
 		try
 		{
@@ -384,4 +385,22 @@ public class Inventories {
 		}
 	}
 
+	public static Inventory getBiomesMenu(){
+		
+		Inventory inv = Bukkit.createInventory(null, ((Biome.values().length)/9+1)*9, "§eChanger de biome");
+		for(int i = 0; i<Biome.values().length; i++){
+			try
+			{
+				inv.addItem(Items.get(BiomeBase.getBiome(i).toString(), Material.GRASS, (byte) 0));
+			}catch(Exception ex){
+				
+			}
+		}
+		return inv;
+	}
+	public static void run_getBiomeMenu(InventoryClickEvent event){
+		Player pl = (Player) event.getWhoClicked();
+		SPlayer p = PlayersManager.getSPlayer(pl);
+		WEManager.setBiome(event.getSlot(), p.getIsland());
+	}
 }

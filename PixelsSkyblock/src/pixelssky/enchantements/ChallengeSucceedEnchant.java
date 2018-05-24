@@ -38,7 +38,7 @@ public class ChallengeSucceedEnchant extends Enchantment{
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "Challenge réussi";
+		return "Challenge rÃ©ussi";
 	}
 
 	@Override
