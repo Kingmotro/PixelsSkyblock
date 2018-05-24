@@ -84,9 +84,8 @@ public class Inventories {
 			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				@Override
 				public void run() {
-					if(slot <2 && slot > 0){
+					if(slot <= 2 && slot > 0){
 						if(p.getIsland() != null){
-							IslandsManager.removeIsland(p.getIsland().getID());
 							DatabaseManager.deleteIsland(p.getIsland());
 							pl.getInventory().clear();
 							pl.getEnderChest().clear();

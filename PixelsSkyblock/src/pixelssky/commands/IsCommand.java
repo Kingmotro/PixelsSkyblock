@@ -85,14 +85,17 @@ public class IsCommand implements CommandExecutor {
 			{
 				if(!p.getIsland().getData("Creator").getData().toString().equals(pl.getDisplayName())){
 					p.getIsland().getMembers().remove(p.getIsland().getMembers().indexOf(p.getID()));
+					pl.getInventory().clear();
+					pl.getEnderChest().clear();
 					p.setIsland(null);
 					pl.sendMessage("§1-> §aVous avez quitté l'île");
-				}else if(p.getIsland().getMembers().equals(1)){
-					IslandsManager.removeIsland(p.getIsland().getID());
+				}else if(p.getIsland().getMembers().size() <= 1){
 					DatabaseManager.deleteIsland(p.getIsland());
+					pl.getInventory().clear();
+					pl.getEnderChest().clear();
 					p.setIsland(null);
 					pl.sendMessage("§1-> §aVous avez quitté l'île... Elle est desormais en ruines !");
-					EventListener.tpPlayers.add(pl.getUniqueId().toString());
+					//EventListener.tpPlayers.add(pl.getUniqueId().toString());
 					pl.teleport(Bukkit.getServer().getWorld("skyworld").getSpawnLocation());
 				}else
 				{

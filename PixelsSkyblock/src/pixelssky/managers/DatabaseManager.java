@@ -184,17 +184,21 @@ public class DatabaseManager {
 	}
 
 	public static void updatePlayer(SPlayer p) {
-		// ATTENTION : ne fait pas l'ajout d'�les !
+		// ATTENTION : ne fait pas l'ajout d'iles !
 		System.out.println("PixelsSkyblock : Saving Player !");
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();
 			// Request
-
-
-			stmt.executeUpdate("UPDATE `players` SET "
-					+ "`ISLAND_ID` = '" + p.getIsland().getID() + "'"
-					+ " WHERE `players`.`ID` = " + p.getID() + "; ");
+			if(p.getIsland() == null){
+				stmt.executeUpdate("UPDATE `players` SET "
+						+ "`ISLAND_ID` = '-1'"
+						+ " WHERE `players`.`ID` = " + p.getID() + "; ");
+			}else{
+				stmt.executeUpdate("UPDATE `players` SET "
+						+ "`ISLAND_ID` = '" + p.getIsland().getID() + "'"
+						+ " WHERE `players`.`ID` = " + p.getID() + "; ");
+			}
 			System.out.println(3);
 
 
@@ -213,7 +217,7 @@ public class DatabaseManager {
 				stmt.executeUpdate(
 						"INSERT INTO `player_data` (`PLAYER_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
 								+ p.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
-				
+
 			}
 			conn.close();
 
@@ -221,7 +225,7 @@ public class DatabaseManager {
 
 		}
 	}
-	
+
 	public static void writeIslandData(Island i) {
 		try {
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
@@ -261,7 +265,7 @@ public class DatabaseManager {
 
 		}
 	}
-	
+
 	public static void readPlayerData(SPlayer p) {
 		// TODO faire un update ou insert
 		try {
@@ -297,9 +301,9 @@ public class DatabaseManager {
 		try {
 			try{
 				//On essaye de l'effacer de la ram
-				IslandsManager.islands.remove(island);
+				IslandsManager.removeIsland(island.getID());
 			}catch(Exception ex){
-				
+
 			}
 			conn = DriverManager.getConnection(BDD_host, BDD_username, BDD_password);
 			stmt = conn.createStatement();

@@ -316,4 +316,10 @@ public class Island {
 	public int getPriceOffset(){
 		return (int) (isLevel / 10);
 	}
+	
+	@Override
+	public String toString(){
+		return "Île " + this.getName() + " (" + this.getDifficulty() +", membres : (" + this.getMembersToString() + "))" + " ID : " + this.getID();
+		
+	}
 }

@@ -30,8 +30,11 @@ public class IslandsManager {
 	}
 
 	public static void removeIsland(int id){
-
-		islands.remove(getIsland(id));
+		for(Island i: islands){
+			if(i.getID() == id)
+				islands.remove(i);
+		}
+		
 
 	}
 

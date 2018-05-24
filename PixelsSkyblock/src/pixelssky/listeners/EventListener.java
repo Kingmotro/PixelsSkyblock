@@ -67,7 +67,8 @@ public class EventListener implements Listener {
 		try
 		{
 			event.setQuitMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §cdéconecté(e).");
-		sp.saveData();
+			
+			sp.saveData();
 		}catch(Exception ex){
 			event.setQuitMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §adéconecté(e).");
 		}
