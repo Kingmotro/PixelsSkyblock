@@ -64,8 +64,14 @@ public class EventListener implements Listener {
 	public void quitEvent(PlayerQuitEvent event) {
 		Player pl = event.getPlayer();
 		SPlayer sp = PlayersManager.getSPlayer(pl);
-		event.setQuitMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §cdéconecté(e).");
+		try
+		{
+			event.setQuitMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §cdéconecté(e).");
 		sp.saveData();
+		}catch(Exception ex){
+			event.setQuitMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §adéconecté(e).");
+		}
+		
 		PlayersManager.removePlayer(pl);
 	}
 
