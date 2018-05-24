@@ -15,9 +15,9 @@ To get more information : https://discord.gg/WjMmYD7
 - [ ] add commands
 - [ ] add admin commands
 - [ ] fix saving issues
--- [ ] Auto-Save
--- [x] Duplicated islands in BDD
+	- [ ] Auto-Save
+	- [x] Duplicated islands in BDD
 - [ ] add mobs dropping emerald : ** more shovel than emerald :/ **
-- [ ] fix teleport delay
+- [x] fix teleport delay
 - [x] fix null pointer exception in leave message
 - [x] fix Obsidian not replaced while clicking on it with a bucket

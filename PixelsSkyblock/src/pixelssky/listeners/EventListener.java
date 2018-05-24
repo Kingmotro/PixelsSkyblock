@@ -185,6 +185,7 @@ public class EventListener implements Listener {
 							{
 								pl.teleport(event.getTo());
 							}else{
+								tpPlayers.remove(pl.getUniqueId().toString());
 								pl.sendMessage("§cAnnulé :/ (on a dit \"pas bouger\" !)");
 								pl.sendMessage("§7https://fr.wiktionary.org/wiki/bouger");
 							}
