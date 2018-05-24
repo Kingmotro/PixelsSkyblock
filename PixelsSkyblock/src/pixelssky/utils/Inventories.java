@@ -10,14 +10,12 @@ import org.bukkit.Sound;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
+
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Merchant;
-import org.bukkit.inventory.MerchantRecipe;
+
 import org.bukkit.inventory.meta.SkullMeta;
 
-import net.minecraft.server.v1_12_R1.BiomeBase;
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;

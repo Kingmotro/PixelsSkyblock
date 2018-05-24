@@ -106,7 +106,7 @@ public class DatabaseManager {
 			if (!res.isBeforeFirst()) {
 				// Si le joueur n'existe pas dans la BDD on le cr��
 				p.init(0, UUID, -1);
-				p.addOrSetData("Donn�eVide", null);
+				p.addOrSetData("DonnéeVide", null);
 				p.addRight(Right.getRight("island.invite"));
 				System.out.println("4");
 

@@ -7,13 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import pixelssky.enchantements.Enchantements;
 import pixelssky.objects.objectives.Objective;
-import pixelssky.rewards.CommandReward;
 import pixelssky.rewards.Reward;
 import pixelssky.utils.Items;
 

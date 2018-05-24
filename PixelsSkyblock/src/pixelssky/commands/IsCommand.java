@@ -7,13 +7,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pixelssky.listeners.EventListener;
-import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.managers.TutorialManager;
-import pixelssky.objects.Challenge;
+
 import pixelssky.objects.Data;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.Classement;

@@ -127,15 +127,15 @@ public class Island {
 		{
 			Location l = w.getHighestBlockAt(isSpawn).getLocation();
 			if(l.getBlockY() == 0 || l.getBlockY() == 1){
-				return w.getHighestBlockAt(getCenter()).getLocation();
+				return w.getHighestBlockAt(getCenter()).getLocation().add(0.5, 0, 0.5);
 			}else if(w.getBlockAt(l).getType() != Material.AIR){
-				return w.getHighestBlockAt(getCenter()).getLocation();
+				return w.getHighestBlockAt(getCenter()).getLocation().add(0.5, 0, 0.5);
 			}
 		}catch(Exception ex)
 		{
 
 		}
-		return isSpawn;
+		return isSpawn.add(0.5,0,0.5);
 	}
 
 	public int getID() {

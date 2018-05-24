@@ -46,7 +46,7 @@ public class Locations {
 		int y = 100;
 		int z = line * Island.ISLAND_SIZE + 125;
 		World w = Bukkit.getWorld("world");
-		return new Location(w,x,y,z);
+		return new Location(w,Double.parseDouble("" + x) + 0.5d ,Double.parseDouble("" + y),Double.parseDouble("" + z) +0.5d,0,0);
 	}
 	
 }

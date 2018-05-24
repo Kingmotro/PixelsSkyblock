@@ -23,9 +23,6 @@ import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.DataException;
-import com.sk89q.worldedit.world.biome.BaseBiome;
-
-import net.minecraft.server.v1_12_R1.BiomeBase;
 import pixelssky.objects.Island;
 
 @SuppressWarnings({"deprecation" })

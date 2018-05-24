@@ -7,7 +7,7 @@ To get more information : https://discord.gg/WjMmYD7
 ## ToDo :
 
 - [x] change biome
-- [ ] correct spawn point (middle of the block)
+- [x] correct spawn point (middle of the block)
 - [ ] change shop names
 - [ ] add shop
 - [ ] config shops in-game

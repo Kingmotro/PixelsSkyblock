@@ -5,7 +5,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.objects.Island;
 
