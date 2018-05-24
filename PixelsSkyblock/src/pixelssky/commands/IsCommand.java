@@ -7,7 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import pixelssky.listeners.EventListener;
 import pixelssky.managers.ChallengesManager;
+import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.managers.TutorialManager;
@@ -85,7 +87,15 @@ public class IsCommand implements CommandExecutor {
 					p.getIsland().getMembers().remove(p.getIsland().getMembers().indexOf(p.getID()));
 					p.setIsland(null);
 					pl.sendMessage("§1-> §aVous avez quitté l'île");
-				}else{
+				}else if(p.getIsland().getMembers().equals(1)){
+					IslandsManager.removeIsland(p.getIsland().getID());
+					DatabaseManager.deleteIsland(p.getIsland());
+					p.setIsland(null);
+					pl.sendMessage("§1-> §aVous avez quitté l'île... Elle est desormais en ruines !");
+					EventListener.tpPlayers.add(pl.getUniqueId().toString());
+					pl.teleport(Bukkit.getServer().getWorld("skyworld").getSpawnLocation());
+				}else
+				{
 					pl.sendMessage("§1-> §cLe propriétaire ne peut pas abandonner le navire !");
 				}
 				

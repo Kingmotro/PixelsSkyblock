@@ -84,8 +84,9 @@ public class Inventories {
 			Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 				@Override
 				public void run() {
-					if(slot <4 && slot > 0){
+					if(slot <2 && slot > 0){
 						if(p.getIsland() != null){
+							IslandsManager.removeIsland(p.getIsland().getID());
 							DatabaseManager.deleteIsland(p.getIsland());
 							pl.getInventory().clear();
 							pl.getEnderChest().clear();
@@ -220,7 +221,8 @@ public class Inventories {
 		}else if(event.getSlot()==16 && isAdmin){
 			//Calcul progression
 		}else if(event.getSlot()==20 && isAdmin){
-			//Biome
+			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
+			pl.openInventory(getBiomesMenu());
 		}else if(event.getSlot()==21 && isAdmin){
 			//2léments débloqués
 		}else if(event.getSlot()==24 && isAdmin){
@@ -391,7 +393,7 @@ public class Inventories {
 		for(int i = 0; i<Biome.values().length; i++){
 			try
 			{
-				inv.addItem(Items.get(BiomeBase.getBiome(i).toString(), Material.GRASS, (byte) 0));
+				inv.addItem(Items.get(Biome.values()[i].name(), Material.GRASS, (byte) 0));
 			}catch(Exception ex){
 				
 			}

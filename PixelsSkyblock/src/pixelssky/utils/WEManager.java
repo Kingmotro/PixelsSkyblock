@@ -72,9 +72,24 @@ public class WEManager {
 		return es.getEntities(r);
 	}
 	public static void setBiome(int biomeID, Island i){
+		Location loc1 = i.getEdges().get(0);
+		Location loc2 = i.getEdges().get(1);
+		
 		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
-		es.setBiome(new Vector2D(i.getCenter().getBlockX() & Island.ISLAND_SIZE,
+		int x_min = Math.min(loc1.getBlockX(), loc2.getBlockX());
+		int x_max = Math.max(loc1.getBlockX(), loc2.getBlockX());
+		int y_min = Math.min(loc1.getBlockZ(), loc2.getBlockZ());
+		int y_max = Math.max(loc1.getBlockZ(), loc2.getBlockZ());
+		int changes = 0;
+		for(int x = x_min; x <= x_max; x++){
+			for(int y = y_min; y <= y_max; y++){
+				changes +=1;
+				Bukkit.getWorld("world").setBiome(x, y, Biome.values()[biomeID]);
+			}
+		}
+		i.broadcastMessage("changements : " + changes + " to biome : " + Biome.values()[biomeID]);
+		/*es.setBiome(new Vector2D(i.getCenter().getBlockX() & Island.ISLAND_SIZE,
 				i.getCenter().getBlockZ() & Island.ISLAND_SIZE),
-				new BaseBiome(0));	
+				new BaseBiome(0));	*/
 	}
 }

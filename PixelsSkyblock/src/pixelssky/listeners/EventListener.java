@@ -102,6 +102,9 @@ public class EventListener implements Listener {
 		}else if(event.getInventory().getName().split(":")[0].equals("§eShop ")){
 			event.setCancelled(true);
 			Inventories.run_getShopMenuInventory(event);
+		}else if(event.getInventory().getName().split(":")[0].equals("§eChanger de biome")){
+			event.setCancelled(true);
+			Inventories.run_getBiomeMenu(event);
 		}
 	}
 
