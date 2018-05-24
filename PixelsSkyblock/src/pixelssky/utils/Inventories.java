@@ -216,12 +216,14 @@ public class Inventories {
 		}else if(event.getSlot()==14 && isAdmin){
 			//Virer joueur
 		}else if(event.getSlot()==16 && isAdmin){
-			//Calcul progression
+			pl.closeInventory();
+			pl.sendMessage("§e§lVotre progression : ");
+			pl.sendMessage("§bChallenges : §3" + String.format("%.2f", p.getIsland().getProgression()*100) + "§3%");
 		}else if(event.getSlot()==20 && isAdmin){
 			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
 			pl.openInventory(getBiomesMenu());
 		}else if(event.getSlot()==21 && isAdmin){
-			//2léments débloqués
+			//Eléments débloqués
 		}else if(event.getSlot()==24 && isAdmin){
 			//Ajouter externe
 		}else if(event.getSlot()==25 && isAdmin){

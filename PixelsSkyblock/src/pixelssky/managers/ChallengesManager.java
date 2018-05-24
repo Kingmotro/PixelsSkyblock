@@ -20,7 +20,7 @@ import pixelssky.rewards.StatsReward;
 
 public class ChallengesManager {
 	public static ArrayList<Challenge> challenges = new ArrayList<Challenge>();
-
+	public static int number_of_challenges = 0;
 	public static void init(){
 		File folder = new File("plugins/PixelsSky/Challenges");
 		for(File f: folder.listFiles()){
@@ -146,4 +146,5 @@ public class ChallengesManager {
 		}
 		return null;
 	}
+
 }

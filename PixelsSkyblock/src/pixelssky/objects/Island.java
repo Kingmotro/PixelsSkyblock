@@ -16,6 +16,7 @@ import org.bukkit.inventory.Merchant;
 import com.sk89q.worldedit.util.Countable;
 
 import pixelssky.managers.BlocksManager;
+import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.merchants.MerchantInventory;
@@ -322,4 +323,20 @@ public class Island {
 		return "Île " + this.getName() + " (" + this.getDifficulty() +", membres : (" + this.getMembersToString() + "))" + " ID : " + this.getID();
 		
 	}
+	
+	public double getCompleted(ArrayList<Challenge> cl){
+		double qte_completed = 0;
+		for(Challenge c: cl){
+			if(c.isCompleted(this) && !c.isCategory())
+				qte_completed += 1;
+			else if(c.isCategory())
+				qte_completed += getCompleted(c.getSubChallenges());
+		}
+		return qte_completed;
+	}
+	public double getProgression(){
+		double qte_completed = getCompleted(ChallengesManager.challenges);
+		return (qte_completed / ((double) ChallengesManager.number_of_challenges));
+	}
+	
 }

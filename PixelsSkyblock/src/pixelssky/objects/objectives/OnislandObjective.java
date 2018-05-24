@@ -86,7 +86,11 @@ public class OnislandObjective extends Objective{
 			return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eentité(s) de §6" + it_name + " §cest/sont posée(s) sur l'île";
 
 		}else{
-			return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName() + " §cest/sont posé(s) sur l'île";
+			if( !(new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName()).equals("Air"))
+				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName() + getSlabPos() + " §cest/sont posé(s) sur l'île";
+			else
+				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + Material.getMaterial(mat_ID).name() + getSlabPos() + " §cest/sont posé(s) sur l'île";
+
 		}
 
 	}
@@ -94,7 +98,19 @@ public class OnislandObjective extends Objective{
 	@Override
 	public String getDescription() {
 		if(type) return "§e-▶§6" + quantity + " §eentités de §6" + it_name + " §eposée(s) sur l'île";
-		return "§e-▶§6" + quantity + " §eitems de §6" + new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName() + " §eposé(s) sur l'île";
+		if(new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName().equals("Air"))
+			return "§e-▶§6" + quantity + " §eitems de §6" + Material.getMaterial(mat_ID).name() + " §eposé(s) sur l'île";
+		return "§e-▶§6" + quantity + " §eitems de §6" + new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName() + getSlabPos() + " §eposé(s) sur l'île";
+
+	}
+	public String getSlabPos(){
+		if(this.mat_ID == 44 || this.mat_ID == 126){
+			if(this.sub_id <= 7){
+				return " (pos. Basse) ";
+			}
+			return " (pos. Haute) ";
+		}
+		return "";
 	}
 
 }

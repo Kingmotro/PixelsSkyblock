@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import pixelssky.enchantements.Enchantements;
+import pixelssky.managers.ChallengesManager;
 import pixelssky.objects.objectives.Objective;
 import pixelssky.rewards.Reward;
 import pixelssky.utils.Items;
@@ -34,6 +35,7 @@ public class Challenge implements Comparable<Challenge> {
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();
 		}else{
+			ChallengesManager.number_of_challenges += 1;
 			obj = new ArrayList<Objective>();
 			rewards = new ArrayList<Reward>();
 		}
@@ -47,6 +49,7 @@ public class Challenge implements Comparable<Challenge> {
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();
 		}else{
+			ChallengesManager.number_of_challenges += 1;
 			obj = objectives;
 			this.rewards = rewards;
 		}
