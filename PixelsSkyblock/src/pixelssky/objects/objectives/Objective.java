@@ -6,8 +6,8 @@ import pixelssky.objects.Island;
 
 public abstract class Objective {
 	public static final int ONISLAND = 0;
-	public static final int STATS = 0;
-	public static final int INVENTORY = 0;
+	public static final int STATS = 1;
+	public static final int INVENTORY = 2;
 	
 	public int type;
 	public Objective(int type){

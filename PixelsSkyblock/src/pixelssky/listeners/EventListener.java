@@ -50,10 +50,10 @@ public class EventListener implements Listener {
 		SPlayer sp = PlayersManager.getSPlayer(pl);
 		try
 		{
-			event.setJoinMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §aconecté(e).");
+			event.setJoinMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §aconnecté(e).");
 			tpPlayers.add(pl.getUniqueId().toString());
 		}catch(Exception ex){
-			event.setJoinMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §aconecté(e).");
+			event.setJoinMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §aconnecté(e).");
 			tpPlayers.add(pl.getUniqueId().toString());
 			pl.teleport(new Location(Bukkit.getWorld("skyworld"),-20,83,-66,0,0));
 		}
@@ -66,11 +66,11 @@ public class EventListener implements Listener {
 		SPlayer sp = PlayersManager.getSPlayer(pl);
 		try
 		{
-			event.setQuitMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §cdéconecté(e).");
+			event.setQuitMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §cdéconnecté(e).");
 			
 			sp.saveData();
 		}catch(Exception ex){
-			event.setQuitMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §adéconecté(e).");
+			event.setQuitMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §adéconnecté(e).");
 		}
 		
 		PlayersManager.removePlayer(pl);

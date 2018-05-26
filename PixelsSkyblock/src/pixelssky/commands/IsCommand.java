@@ -121,15 +121,24 @@ public class IsCommand implements CommandExecutor {
 			}
 			else if(arg3[0].equals("accept"))
 			{	
-				if(!p.getIsland().getData("Creator").getData().toString().equals(pl.getDisplayName()) || p.getIsland().getMembers().size() != 1){
+				try{
+					if(!p.getIsland().getData("Creator").getData().toString().equals(pl.getDisplayName()) || p.getIsland().getMembers().size() != 1){
+						pl.sendTitle("§aVous venez d'accepter l'invation :p", "§cC'est parti!!!", 10, 20, 10);
+						p.setIsland(IslandsManager.getIsland(p.getLastIsInvite()));
+						p.getIsland().getMembers().add(p.getID());
+						pl.teleport(p.getIsland().getSpawn());
+						pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+					}else{
+						pl.sendMessage("§1-> §cLe propriétaire ne peut pas abandonner le navire ! Sauf s'il est vide !");
+					}
+				}catch(Exception ex){
 					pl.sendTitle("§aVous venez d'accepter l'invation :p", "§cC'est parti!!!", 10, 20, 10);
 					p.setIsland(IslandsManager.getIsland(p.getLastIsInvite()));
 					p.getIsland().getMembers().add(p.getID());
 					pl.teleport(p.getIsland().getSpawn());
 					pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
-				}else{
-					pl.sendMessage("§1-> §cLe propriétaire ne peut pas abandonner le navire ! Sauf s'il est vide !");
 				}
+				
 				
 			}else if(arg3[0].equals("s"))
 			{
