@@ -167,7 +167,7 @@ public class DatabaseManager {
 			stmt = conn.createStatement();
 			// Request
 
-			System.out.println("Chargement... Mise � jour : " + i.getID());
+			System.out.println("Chargement... Mise à jour : " + i.getID());
 
 			stmt.executeUpdate("UPDATE `island` SET `PLAYERS_ID` = '" + i.getMembersToString()
 			+ "', `ISLAND_CENTER` = '" + Locations.toString(i.getCenter()) + "', `ISLAND_SPAWN` = '"
@@ -234,7 +234,7 @@ public class DatabaseManager {
 			for (Data d : i.getData()) {
 				stmt.executeUpdate(
 						"INSERT INTO `island_data` (`ISLAND_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
-								+ i.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString() + "'); ");
+								+ i.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString().replaceAll("'", "\'") + "'); ");
 				System.out.println(d.getDataName() + " SAVED");
 			}
 			conn.close();

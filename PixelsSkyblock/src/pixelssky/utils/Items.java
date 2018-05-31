@@ -19,6 +19,13 @@ public class Items {
 		i.setItemMeta(m);
 		return i;
 	}
+	public static ItemStack get(Material Mat, Byte id, ArrayList<String> lore) {
+		ItemStack i = new ItemStack(Mat,1,(byte) id);;
+		ItemMeta m = i.getItemMeta();
+		m.setLore(lore);
+		i.setItemMeta(m);
+		return i;
+	}
 
 	public static ItemStack get(String ItemName, Material Mat, Byte id) {
 		ItemStack i = new ItemStack(Mat,1,(byte) id);;

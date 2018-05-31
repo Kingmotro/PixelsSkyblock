@@ -37,12 +37,13 @@ public class Classement {
 			}
 			
 		}
-		int nb = map.size();
+		int nb = map.size() + 1 ;
 		for(Entry<Double, Island> e : map.entrySet()) 
 		{ 
 			nb -= 1;
 			Island i = e.getValue();
-			classes.add("§a§l" + nb + "§e[" + i.getDifficulty() + "]" + " §b" + i.getName() + " §7" + i.getStringLevel());
+			classes.add("§a§l" + nb + " : §e[" + i.getDifficulty() + "]" + " §b" + i.getName() + " §e" + i.getStringLevel() +
+					"§7[☠ "+ i.getDeaths() + ", Challenges : " + String.format("%.2f", i.getProgression()*100)+ "%]");
 		}
 		
 		return reverseList(classes);

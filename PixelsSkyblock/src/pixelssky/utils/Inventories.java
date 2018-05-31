@@ -1,6 +1,7 @@
 package pixelssky.utils;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +16,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import org.bukkit.inventory.meta.SkullMeta;
+
+import com.sk89q.worldedit.util.Countable;
 
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
@@ -190,7 +193,7 @@ public class Inventories {
 		}else if(event.getSlot()==3){
 			pl.openInventory(getChallengesMainInventory(p.getIsland()));
 		}else if(event.getSlot()==6){
-			//Valeurs des blocks
+			pl.openInventory(getBlockValuesInventory(p.getIsland(), 0));
 		}else if(event.getSlot()==7){
 			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
 			pl.openInventory(getIslandsList(p));
@@ -403,5 +406,26 @@ public class Inventories {
 		Player pl = (Player) event.getWhoClicked();
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		WEManager.setBiome(event.getSlot(), p.getIsland());
+	}
+	public static Inventory getBlockValuesInventory(Island i, int page){
+		Inventory inv = Bukkit.createInventory(null, 9*6, "§eValeur des blocs :");
+		List<Countable<Integer>> b = i.getBlock_list();
+		for(int id = 4*9*page; id < 4*9*(page + 1); id++){
+			try{
+				ArrayList<String> lore = new ArrayList<String>();
+				DecimalFormat df = new DecimalFormat("###.##");
+				lore.add("§b=== Nombre de blocs posés ===");
+				lore.add("§e ->" + b.get(id).getAmount());
+				lore.add("§b=== Niveaux donnés (à l'unité) ===");
+				lore.add("§e ->" + df.format(i.getBlockValue(Material.getMaterial(b.get(id).getID()))));
+				lore.add("§b=== Niveaux donnés (total) ===");
+				lore.add("§e ->" + df.format((i.getBlockValue(Material.getMaterial(b.get(id).getID())))*  b.get(id).getAmount()));
+				
+				inv.addItem(Items.get(Material.getMaterial(b.get(id).getID()), (byte) 0, lore));
+			}catch(Exception ex){
+				
+			}
+		}
+		return inv;
 	}
 }

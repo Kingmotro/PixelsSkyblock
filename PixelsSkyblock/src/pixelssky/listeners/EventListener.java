@@ -106,6 +106,9 @@ public class EventListener implements Listener {
 		}else if(event.getInventory().getName().split(":")[0].equals("§eChanger de biome")){
 			event.setCancelled(true);
 			Inventories.run_getBiomeMenu(event);
+		}else if(event.getInventory().getName().equals("§eValeur des blocs :")){
+			event.setCancelled(true);
+			
 		}
 	}
 

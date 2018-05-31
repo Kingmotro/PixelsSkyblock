@@ -16,7 +16,7 @@ public class CommandReward extends Reward {
 	
 	@Override
 	public void run(Player p, Island i) {
-		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replaceAll("@PLAYER", p.getDisplayName()));
 	}
 
 	@Override

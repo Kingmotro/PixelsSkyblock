@@ -12,8 +12,10 @@ public class BlocksManager {
 	
 	public static Double getBlockValue(int ID,Countable<Integer> blocs, int total){
 		try{
-			double percent = blocs.getAmount() / Double.parseDouble(total + "");  // Pourcentage de ce type de bloc sur l'île
-			double val = 1 * (1 - percent) * getValue(Material.getMaterial(blocs.getID()).toString()); 
+			double percent = blocs.getAmount() / Double.parseDouble(total + "");  // Pourcentage de ce type de bloc sur l'ï¿½le
+			double val = 1 * (1 - percent) * getValue(Material.getMaterial(blocs.getID()).toString());
+			if (ID == 133)
+				return 0d;
 			return val;
 		}catch(Exception ex){
 			System.out.println("ERROR GET_BLOCK_VALUE : " + ex.toString());

@@ -74,7 +74,11 @@ public class Island {
 			return getData("island name").getData().toString();
 		}
 	}
-
+	public String getDeaths(){
+		if(getData("deaths") != null)
+			return getData("deaths").getData().toString();
+		return "0";
+	}
 	public ArrayList<Data> getData() {
 		return data;		
 	}
@@ -188,7 +192,7 @@ public class Island {
 				String max = "";
 				String min = "";
 				total_blocks  = total;
-				block_list = blocks;
+				setBlock_list(blocks);
 				for(Countable<Integer> block : blocks){
 					//Passage 2
 					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
@@ -214,7 +218,7 @@ public class Island {
 				p.sendMessage("§a✔ §e Bloc le §aplus §erentable : §5" + max + " §e(§d" + String.format("%.2f", maxValue) + " §eniveaux)");
 				p.sendMessage("§4✘§e Bloc le §cmoins §erentable : §5" + min + " §e(§d" + String.format("%.2f", minValue) + " §eniveaux)");
 				p.sendMessage("");
-				p.sendMessage("§a§n▶ §e§l§nVous êtes : §5§l" + (Classement.getNB(getThis())) + "§e/" + IslandsManager.islands.size());
+				p.sendMessage("§a§n▶ §e§l§nVous êtes : §5§l" + (Classement.getNB(getThis()) + 1) + "§e/" + IslandsManager.islands.size());
 			}
 		});
 
@@ -235,7 +239,7 @@ public class Island {
 
 				}
 				total_blocks  = total;
-				block_list = blocks;
+				setBlock_list(blocks);
 
 				double maxValue = 0;
 				double minValue = Integer.MAX_VALUE;
@@ -337,6 +341,14 @@ public class Island {
 	public double getProgression(){
 		double qte_completed = getCompleted(ChallengesManager.challenges);
 		return (qte_completed / ((double) ChallengesManager.number_of_challenges));
+	}
+
+	public List<Countable<Integer>> getBlock_list() {
+		return block_list;
+	}
+
+	public void setBlock_list(List<Countable<Integer>> block_list) {
+		this.block_list = block_list;
 	}
 	
 }
