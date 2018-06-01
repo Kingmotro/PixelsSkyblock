@@ -23,6 +23,10 @@ public class ChatListener implements Listener{
 			event.setMessage("§5§lDUDULLLE EST UN DIEU !");
 			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_SCREAM, 100, 100);
 		}
+		if(event.getMessage().contains("$")){
+			event.setMessage("§5§lAAA49 EST UN RICHE !");
+			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_SCREAM, 100, 100);
+		}
 		for(Player player: Bukkit.getOnlinePlayers()){
 			if(event.getMessage().contains(player.getDisplayName())){
 				player.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);

@@ -111,6 +111,9 @@ public final class main extends JavaPlugin {
 		//fly command
 		this.getCommand("fly").setExecutor(new FlyCommand());
 		
+		//afk command
+		this.getCommand("afk").setExecutor(new AfkCommand());
+		
 		//challenge command
 		this.getCommand("challenge").setExecutor(new ChallengeCommand());
 		

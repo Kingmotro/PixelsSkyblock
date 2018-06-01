@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Merchant;
 
@@ -69,4 +70,13 @@ public class EntityListener implements Listener{
 		loc.getWorld().dropItemNaturally(loc, reward);
 	}
 
+	@EventHandler
+	 public void onMove(PlayerMoveEvent event) {
+		Player p = event.getPlayer();
+		SPlayer sp =  PlayersManager.getSPlayer(p);
+		if(sp.isAfk()) {
+			sp.setAfk(false);
+			p.sendTitle("", "");
+		}
+	 }
 }

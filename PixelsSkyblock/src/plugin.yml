@@ -28,8 +28,9 @@ commands:
      description: Commande de teleportation au spawn.
      aliases: [s]
    tpa:
-     description: Commande de demande de teleportation a un joueur
+     description: Commande de demande de teleportation a un joueur.
    tpyes:
      description: Commande d'acceptation de demande de teleportation a un joueur.
      aliases: [tpaccept, tpy]
-     
+   afk:
+     description: Commande d'afk.

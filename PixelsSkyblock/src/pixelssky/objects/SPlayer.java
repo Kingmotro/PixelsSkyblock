@@ -14,6 +14,7 @@ public class SPlayer {
 	private int id;
 	private int id_last_invite = -1;
 	private String lastTpaRequest;
+	private boolean isAfk = false;
 	
 	// TODO : Get and set
 	public int getID(){
@@ -110,5 +111,13 @@ public class SPlayer {
 	
 	public String getLastTpaRequest() {
 		return lastTpaRequest;
+	}
+	
+	public void setAfk(boolean isAfk) {
+		this.isAfk = isAfk;
+	}
+	
+	public boolean isAfk() {
+		return isAfk;
 	}
 }
