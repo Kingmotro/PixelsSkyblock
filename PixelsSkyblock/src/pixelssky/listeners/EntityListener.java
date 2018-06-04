@@ -53,7 +53,7 @@ public class EntityListener implements Listener{
 					break;
 			case 5: reward = new ItemStack(Material.EMERALD, 3);
 					break;
-			case 6: reward = new ItemStack(Material.WOOD_SPADE,10);
+			case 6: reward = new ItemStack(Material.WOOD_BUTTON, 1);
 					break;
 			case 7: reward = new ItemStack(Material.EMERALD,4);
 					break;
