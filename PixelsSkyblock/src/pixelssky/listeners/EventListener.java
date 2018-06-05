@@ -124,7 +124,8 @@ public class EventListener implements Listener {
 			Island is = Locations.getIslandAt(event.getClickedBlock().getLocation());
 			if(p.getWorld().getName().equals("world")) {
 				//protection d'ile
-				if(!is.getMembers().contains(PlayersManager.getSPlayer(p).getID())){
+				SPlayer sp = PlayersManager.getSPlayer(p);
+				if(!is.getMembers().contains(PlayersManager.getSPlayer(p).getID()) && !sp.getProtectionOverride()){
 					event.setCancelled(true);
 					p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
 					p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);

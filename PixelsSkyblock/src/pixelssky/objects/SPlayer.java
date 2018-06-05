@@ -18,6 +18,7 @@ public class SPlayer {
 	private int id_last_invite = -1;
 	private String lastTpaRequest;
 	private boolean isAfk = false;
+	private boolean protectionOverride = false;
 
 	// TODO : Get and set
 	public int getID(){
@@ -149,5 +150,11 @@ public class SPlayer {
 	}
 	public boolean isAfk() {
 		return isAfk;
+	}
+	public boolean getProtectionOverride() {
+		return protectionOverride;
+	}
+	public void setProtectionOverride(boolean protectionOverride) {
+		this.protectionOverride = protectionOverride;
 	}
 }

@@ -324,8 +324,7 @@ public class Island {
 	
 	@Override
 	public String toString(){
-		return "Île " + this.getName() + " (" + this.getDifficulty() +", membres : (" + this.getMembersToString() + "))" + " ID : " + this.getID();
-		
+		return "§eÎle §b" + this.getName() + " (§7" + this.getDifficulty() +",§8 membres : (" + this.getMembersToString() + "))" + "§7 ID : §a" + this.getID();
 	}
 	
 	public double getCompleted(ArrayList<Challenge> cl){

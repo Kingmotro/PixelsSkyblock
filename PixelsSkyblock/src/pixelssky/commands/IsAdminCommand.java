@@ -6,7 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import pixelssky.managers.IslandsManager;
+import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Island;
+import pixelssky.objects.SPlayer;
 
 public class IsAdminCommand implements CommandExecutor{
 
@@ -18,6 +20,7 @@ public class IsAdminCommand implements CommandExecutor{
 			if(arg3.length == 0){
 				p.sendMessage("Aide admin : ");
 				p.sendMessage("/pxs list : Liste des îles");
+				p.sendMessage("/pxs goto [ID] : Se téléporter sur l'ile avec un ID");
 			}else
 			{
 				if(arg3[0].equals("list")){
@@ -30,6 +33,24 @@ public class IsAdminCommand implements CommandExecutor{
 							p.sendMessage("ERROR : " + ex.toString());
 						}
 					}
+				}else if(arg3[0].equals("goto") && arg3.length > 1 ){
+					try{
+						int ID = Integer.parseInt(arg3[1]);
+						p.teleport(IslandsManager.getIsland(ID).getSpawn());
+					}catch(Exception ex){
+						Island is = null;
+						for(Island i : IslandsManager.islands){
+							if(i.toString().contains(arg3[1]))
+								is = i;
+						}
+						p.teleport(is.getSpawn());
+					}
+					
+					
+				}else if(arg3[0].equals("protection")){
+					SPlayer sp = PlayersManager.getSPlayer(p);
+					sp.setProtectionOverride(!sp.getProtectionOverride());
+					p.sendMessage("§5Mode admin : §a" + sp.getProtectionOverride());
 				}
 			}
 		}catch(Exception ex){

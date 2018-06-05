@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
@@ -18,7 +17,9 @@ public class ChatListener implements Listener{
 	public void playerChatEvent(AsyncPlayerChatEvent event){
 		Player pl = event.getPlayer();
 		SPlayer p = PlayersManager.getSPlayer(pl);
+		
 		event.setMessage(event.getMessage().replaceAll("%", "%%"));
+		
 		if(event.getMessage().contains("~")){
 			event.setMessage("§5§lDUDULLLE EST UN DIEU !");
 			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_SCREAM, 100, 100);
