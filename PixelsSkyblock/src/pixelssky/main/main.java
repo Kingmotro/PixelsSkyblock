@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pixelssky.commands.AfkCommand;
 import pixelssky.commands.ChallengeCommand;
 import pixelssky.commands.FlyCommand;
 import pixelssky.commands.IsAdminCommand;

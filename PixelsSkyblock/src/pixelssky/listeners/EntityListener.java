@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Merchant;
 
 import pixelssky.managers.PlayersManager;
+import pixelssky.objects.Data;
+import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.DistributedRandomNumberGenerator;
 import pixelssky.utils.Inventories;
@@ -68,6 +70,18 @@ public class EntityListener implements Listener{
 		}
 		
 		loc.getWorld().dropItemNaturally(loc, reward);
+		if(event.getEntity().getKiller() instanceof Player){
+			SPlayer sp = PlayersManager.getSPlayer(event.getEntity().getKiller());
+			Island i = sp.getIsland();
+			if(i != null){
+				Data d = i.getData(Data.KILLED_MOBS + ":" + event.getEntity().getName());
+				if(d != null){
+					d.add(1);
+				}else{
+					i.addOrSetData(Data.KILLED_MOBS + ":" + event.getEntity().getName(), 1);
+				}
+			}
+		}
 	}
 
 	@EventHandler

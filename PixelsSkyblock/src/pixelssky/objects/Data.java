@@ -4,6 +4,12 @@ import pixelssky.utils.StringConverter;
 
 public class Data {
 	
+	public static final String DEATHS = "deaths"; //nb
+	public static final String DEATHS_BY_REASON = "deaths_by_reason"; //deaths_by_reason:RAISON -> nb
+	public static final String PLACED_BLOCKS = "placed_blocks"; //placed_blocks:BLOCK_MATERIAL -> nb
+	public static final String BROKEN_BLOCKS = "broken_blocks"; //broken_blocks:BLOCK_MATERIAL -> nb
+	public static final String KILLED_MOBS = "killed_mobs"; //killed_mobs:MOB_TYPE -> nb
+	
 	private String dataName;
 	private Object data;
 	
@@ -34,7 +40,7 @@ public class Data {
 		try{
 			 data = "" + (Double.parseDouble((String) data) + val);
 		}catch(Exception ex){
-			System.out.println("Erreur : la donnée n'est pas numérique.");
+			System.out.println("Erreur : la donnÃ©e n'est pas numÃ©rique.");
 		}
 
 	}
@@ -42,7 +48,7 @@ public class Data {
 		try{
 			 data = "" + (Double.parseDouble((String) data) - val);
 		}catch(Exception ex){
-			System.out.println("Erreur : la donnée n'est pas numérique.");
+			System.out.println("Erreur : la donnÃ©e n'est pas numÃ©rique.");
 		}
 
 	}
