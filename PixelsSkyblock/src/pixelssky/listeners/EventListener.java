@@ -14,7 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -27,6 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.objects.Data;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.DistributedRandomNumberGenerator;
@@ -288,7 +291,46 @@ public class EventListener implements Listener {
 			}
 		}
 	}
+	
 
+	@EventHandler(priority = EventPriority.HIGH)
+	public void placedBlock(BlockPlaceEvent event) {
+		try{
+			SPlayer sp = PlayersManager.getSPlayer(event.getPlayer());
+			Island i = sp.getIsland();
+			if(i != null){
+				Data d = i.getData(Data.PLACED_BLOCKS + ":" + event.getBlock().getType().toString());
+				if(d != null){
+					d.add(1);
+				}else{
+					i.addOrSetData(Data.PLACED_BLOCKS + ":" +  event.getBlock().getType().toString(), 1);
+				}
+			}
+		}catch(Exception ex){
+			
+		}
+			
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void brokenBlock(BlockBreakEvent event) {
+		try{
+			SPlayer sp = PlayersManager.getSPlayer(event.getPlayer());
+			Island i = sp.getIsland();
+			if(i != null){
+				Data d = i.getData(Data.BROKEN_BLOCKS + ":" + event.getBlock().getType().toString());
+				if(d != null){
+					d.add(1);
+				}else{
+					i.addOrSetData(Data.BROKEN_BLOCKS + ":" +  event.getBlock().getType().toString(), 1);
+				}
+			}
+		}catch(Exception ex){
+			
+		}
+			
+	}
+	
 	private final BlockFace[] faces = new BlockFace[]{
 			BlockFace.SELF,
 			BlockFace.UP,

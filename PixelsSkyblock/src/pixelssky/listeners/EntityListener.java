@@ -82,7 +82,11 @@ public class EntityListener implements Listener{
 				}
 			}
 		}
+		
+		loc.getWorld().dropItemNaturally(loc, reward);
+		
 	}
+	
 
 	@EventHandler
 	 public void onMove(PlayerMoveEvent event) {
