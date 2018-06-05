@@ -50,7 +50,7 @@ public class IsCommand implements CommandExecutor {
 				pl.sendMessage("§b/is sethome §e: régler le spawn de l'île.");
 				pl.sendMessage("§b/is top §e: classement des îles");
 				pl.sendMessage("§b/is name [nom] §e: changer le nom de l'île.");
-			}else if(arg3[0].equals("create")){
+			}else if(arg3[0].equals("create") || arg3[0].equals("restart")){
 				if(p.getIsland() != null && p.getIsland().getMembers().size() == 1 && p.getIsland().isAdmin(p.getID())){
 					pl.openInventory(Inventories.getConfirmCreateIsland());
 					pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
@@ -74,10 +74,28 @@ public class IsCommand implements CommandExecutor {
 				p.getIsland().setHome(pl.getLocation());
 			}else if(arg3[0].equals("top"))
 			{
-				pl.sendMessage("§e===§5 Classement des îles §e===");
-				for(String s : Classement.getTop()){
-					pl.sendMessage(s);
+				if(arg3.length == 1){
+					pl.sendMessage("§e===§5 Classement des îles §71->10 §e===");
+					for(int n = 0; n < 10; n++){
+						pl.sendMessage(Classement.getTop().get(n));
+					}
+				}else{
+					try{
+						int n = Integer.parseInt(arg3[1]) - 1;
+						pl.sendMessage("§e===§5 Classement des îles §7" + (n*10 + 1) + "->"+ ((n+1)*10) +"§e===");
+						
+						for(int nb = (n*10); nb < ((n+1)*10); nb++){
+							try{
+								pl.sendMessage(Classement.getTop().get(nb));
+							}catch(Exception ex){
+								
+							}		
+						}
+					}catch(Exception ex){
+						pl.sendMessage("§cCommande invalide : /is top [Numéro de page]");
+					}
 				}
+				
 			}
 			else if(arg3[0].equals("leave"))
 			{

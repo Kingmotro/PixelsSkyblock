@@ -14,13 +14,10 @@ public class AfkCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		if (arg0 instanceof Player){
-			Player p =  (Player) arg0;
-			PlayersManager.getSPlayer(p).setAfk(true);
-			Bukkit.broadcastMessage(p.getDisplayName() + "est afk");
-			if(arg3.length == 1) {
-				Bukkit.broadcastMessage("raison : " + arg3);
-			}
-			p.sendTitle("VOUS ETES AFK","");
+			Player pl =  (Player) arg0;
+			SPlayer p = PlayersManager.getSPlayer(pl);
+			p.setAfk(true, pl, arg3);
+			
 		}
 		return false;
 	}
