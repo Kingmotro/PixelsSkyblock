@@ -19,6 +19,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -310,4 +311,18 @@ public class EventListener implements Listener {
 		}
 		return false;
 	}
+	
+	@EventHandler
+	 public void onMove(PlayerMoveEvent event) {
+		Location from = event.getFrom();
+		Location to = event.getTo();
+		
+		if(from.getBlockX() != to.getBlockX() || from.getBlockY() != to.getBlockY() || from.getBlockZ() != to.getBlockZ()) {
+			Player p = event.getPlayer();
+			SPlayer sp =  PlayersManager.getSPlayer(p);
+			if(sp.isAfk()) {
+				sp.setAfk(false, p, null);
+			}
+		}
+	 }
 }

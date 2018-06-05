@@ -84,15 +84,5 @@ public class EntityListener implements Listener{
 		}
 	}
 
-	@EventHandler
-	 public void onMove(PlayerMoveEvent event) {
-		if(!event.getFrom().equals(event.getTo())) {
-			Player p = event.getPlayer();
-			SPlayer sp =  PlayersManager.getSPlayer(p);
-			if(sp.isAfk()) {
-				sp.setAfk(false);
-				p.sendTitle("", "");
-			}
-		}
-	 }
+	
 }
