@@ -148,12 +148,15 @@ public class SPlayer {
 		}
 		this.isAfk = isAfk;
 	}
+	
 	public boolean isAfk() {
 		return isAfk;
 	}
+	
 	public boolean getProtectionOverride() {
 		return protectionOverride;
 	}
+	
 	public void setProtectionOverride(boolean protectionOverride) {
 		this.protectionOverride = protectionOverride;
 	}

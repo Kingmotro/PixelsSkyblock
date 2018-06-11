@@ -18,6 +18,7 @@ import pixelssky.commands.SpawnCommand;
 import pixelssky.commands.SpeedCommand;
 import pixelssky.commands.TpaCommand;
 import pixelssky.commands.TpyesCommand;
+import pixelssky.commands.VanishCommand;
 import pixelssky.commands.gmCommand;
 import pixelssky.enchantements.Enchantements;
 import pixelssky.listeners.ChatListener;
@@ -121,12 +122,17 @@ public final class main extends JavaPlugin {
 		//spawn command
 		this.getCommand("spawn").setExecutor(new SpawnCommand());
 		
+		//tpa command
 		this.getCommand("tpa").setExecutor(new TpaCommand());
 		
+		//tpyes command
 		this.getCommand("tpyes").setExecutor(new TpyesCommand());
 		
 		//pxs command
 		this.getCommand("pxs").setExecutor(new IsAdminCommand());
+		
+		//vanish command
+		this.getCommand("vanish").setExecutor(new VanishCommand());
 		
 		//events
 		getServer().getPluginManager().registerEvents(new EventListener(), this);

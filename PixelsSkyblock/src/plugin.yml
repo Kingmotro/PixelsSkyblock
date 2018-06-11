@@ -34,3 +34,7 @@ commands:
      aliases: [tpaccept, tpy]
    afk:
      description: Commande d'afk.
+   vanish:
+     description: pour te mettre en vanish (ou un de tes amis ;) ).
+     permission: pxs.admin
+     aliases: [v]
