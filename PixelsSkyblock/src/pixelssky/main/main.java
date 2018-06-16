@@ -29,8 +29,11 @@ import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.FileManager;
 import pixelssky.managers.IslandsManager;
+import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Island;
+import pixelssky.objects.Lag;
 import pixelssky.objects.Right;
+import pixelssky.objects.SPlayer;
 import pixelssky.worldgenerator.Generator;
 
 public final class main extends JavaPlugin {
@@ -43,6 +46,7 @@ public final class main extends JavaPlugin {
 		ArrayList<String> l = FileManager.ReadAllText("plugins/PixelsSky/database.config");
 		DatabaseManager.BDD_username = l.get(0);
 		DatabaseManager.BDD_password = l.get(1);
+		DatabaseManager.createDatabase();
 		
 		Right.registerRight("island.place");
 		Right.registerRight("island.break");
@@ -140,21 +144,40 @@ public final class main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ChatListener(), this);
 		
 		System.out.println("Loaded !");
-
+		DatabaseManager.autoSave();
+		Bukkit.getLogger().fine("Enabled auto-save.");
+		syncScoreboards();
+		Bukkit.getLogger().fine("Enabled auto-scoreboard sync.");
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
+		Bukkit.getLogger().fine("Enabled Lag sync.");
 	}
 
 	@Override
 	public void onDisable() {
 		//Sauvegarde des �les
+		DatabaseManager.openConnection();
 		for(Island i: IslandsManager.islands){
 			DatabaseManager.updateIsland(i);
 		}
-
+		DatabaseManager.closeConnection();
 	}
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
 	{
 		return new Generator();
 	}
-
+	
+	public void syncScoreboards(){
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+			public void run() {
+				for(SPlayer sp: PlayersManager.players){
+					try{
+						sp.syncSB();
+					}catch(Exception ex){
+						
+					}
+				}
+			}}, 20, 20);
+	}
+	
 }
 

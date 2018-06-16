@@ -29,11 +29,11 @@ public class Classement {
 			if(i.getDifficulty().equals(Island.DIFFICULTY_HARD)){
 				map.put(i.getLevel(), i);
 			}else if(i.getDifficulty().equals(Island.DIFFICULTY_NORMAL)){
-				map.put(i.getLevel() - 500, i);
+				map.put(i.getLevel() - 99999, i);
 			}else if(i.getDifficulty().equals(Island.DIFFICULTY_EASY)){
-				map.put(i.getLevel() - 1000, i);
+				map.put(i.getLevel() - 99999, i);
 			}else{
-				map.put(i.getLevel() - 50000, i);
+				map.put(i.getLevel() - 99999, i);
 			}
 			
 		}

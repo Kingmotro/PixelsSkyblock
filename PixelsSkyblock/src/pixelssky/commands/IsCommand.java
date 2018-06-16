@@ -1,5 +1,7 @@
 package pixelssky.commands;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -74,10 +76,16 @@ public class IsCommand implements CommandExecutor {
 				p.getIsland().setHome(pl.getLocation());
 			}else if(arg3[0].equals("top"))
 			{
+				ArrayList<String> top = Classement.getTop();
 				if(arg3.length == 1){
-					pl.sendMessage("§e===§5 Classement des îles §71->10 §e===");
-					for(int n = 0; n < 10; n++){
-						pl.sendMessage(Classement.getTop().get(n));
+					try{
+						pl.sendMessage("§e===§5 Classement des îles §71->10 §e===");
+						for(int n = 0; n < 10; n++){
+							pl.sendMessage(top.get(n));
+						}
+					}catch(Exception ex)
+					{
+						//Il y a moins de 10 iles.
 					}
 				}else{
 					try{
@@ -86,7 +94,7 @@ public class IsCommand implements CommandExecutor {
 						
 						for(int nb = (n*10); nb < ((n+1)*10); nb++){
 							try{
-								pl.sendMessage(Classement.getTop().get(nb));
+								pl.sendMessage(top.get(nb));
 							}catch(Exception ex){
 								
 							}		

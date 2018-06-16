@@ -22,7 +22,12 @@ public class Locations {
 		
 	}
 	public static String toString(Location l){
-		return l.getWorld().getName() + "," + l.getX() + "," + l.getY() + "," + l.getZ() + "," + l.getPitch() + "," + l.getYaw();
+		try{
+			return l.getWorld().getName() + "," + l.getX() + "," + l.getY() + "," + l.getZ() + "," + l.getPitch() + "," + l.getYaw();
+		}catch(Exception ex){
+			System.out.println("LOCATION_GET : " + ex.toString());
+			throw new Error("Erreur de conversion : " + ex.toString());
+		}
 	}
 	
 	public static Island getIslandAt(Location l){
@@ -46,7 +51,7 @@ public class Locations {
 		int y = 100;
 		int z = line * Island.ISLAND_SIZE + 125;
 		World w = Bukkit.getWorld("world");
-		return new Location(w,Double.parseDouble("" + x) + 0.5d ,Double.parseDouble("" + y),Double.parseDouble("" + z) +0.5d,0,0);
+		return new Location(w,Double.parseDouble("" + x) ,Double.parseDouble("" + y),Double.parseDouble("" + z),0,0).add(0.5, 0.5, 0.5);
 	}
 	
 }

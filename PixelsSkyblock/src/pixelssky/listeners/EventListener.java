@@ -128,7 +128,7 @@ public class EventListener implements Listener {
 				if(!is.getMembers().contains(PlayersManager.getSPlayer(p).getID()) && !sp.getProtectionOverride()){
 					event.setCancelled(true);
 					p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
-					p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+					p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
 				//clic droit sur obsi avec 1 seau 
 				} else if(p.getItemInHand().getType() == Material.BUCKET && p.getItemInHand().getAmount() == 1 && event.getClickedBlock().getType() == Material.OBSIDIAN) {
 					event.setCancelled(true);
@@ -144,7 +144,7 @@ public class EventListener implements Listener {
 					//Si pas d'ile
 					event.setCancelled(true);
 					p.sendTitle("§c⚠§4§lAccès refusé§c⚠", "§eVous ne faites pas partie de cette île", 10,25,10);
-					p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+					p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
 				}
 			}catch(Exception ex2){
 
@@ -174,7 +174,7 @@ public class EventListener implements Listener {
 
 				
 				if(pl.hasPermission("pxs.instanttp") || pl.isOp() || tpPlayers.contains(pl.getUniqueId().toString())){
-					pl.playSound(pl.getLocation(), Sound.ENTITY_SHULKER_TELEPORT, 100, 100);
+					pl.playSound(pl.getLocation(), Sound.ENTITY_SHULKER_TELEPORT, 1, 1);
 					try{
 						tpPlayers.remove(pl.getUniqueId().toString());
 					}catch(Exception ex){
@@ -236,9 +236,9 @@ public class EventListener implements Listener {
 							w.playEffect(b.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
 							w.playEffect(b.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
 						}
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 1, 1);
 					}else if(i.isMaterialUnlocked(Material.DIAMOND_ORE) && nb == 8){
 						b.setType(Material.DIAMOND_ORE);
 						for(int k = 0; k<10; k++){
@@ -254,37 +254,37 @@ public class EventListener implements Listener {
 							w.playEffect(b.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
 							w.playEffect(b.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
 						}
-						w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 1, 1);
 					}else if(i.isMaterialUnlocked(Material.EMERALD_ORE) && nb == 7){
 						b.setType(Material.EMERALD_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 1, 1);
 					}else if(i.isMaterialUnlocked(Material.REDSTONE_ORE) && nb == 6){
 						b.setType(Material.REDSTONE_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 1, 1);
 					}else if(i.isMaterialUnlocked(Material.GOLD_ORE) && nb == 5){
 						b.setType(Material.GOLD_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BELL, 1, 1);
 					}else if(i.isMaterialUnlocked(Material.IRON_ORE) && nb == 4){
 						b.setType(Material.IRON_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 100, 100);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
 					}else if(i.isMaterialUnlocked(Material.COAL_ORE) &&  nb == 3){
 						b.setType(Material.COAL_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
 					}else if(i.isMaterialUnlocked(Material.STONE) &&  nb == 2){
 						b.setType(Material.STONE);
-						w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
 					}else if(nb == 1){
 						b.setType(Material.COBBLESTONE);
-						w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 100, 100);
+						w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
 					}else{
 
 					}

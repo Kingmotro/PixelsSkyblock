@@ -8,6 +8,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.WorldCreator;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import org.bukkit.inventory.meta.SkullMeta;
 
+import com.boydti.fawe.bukkit.wrapper.AsyncWorld;
 import com.sk89q.worldedit.util.Countable;
 
 import pixelssky.managers.ChallengesManager;

@@ -121,6 +121,7 @@ public class Challenge implements Comparable<Challenge> {
 						i.addOrSetData("completed"+ getName(),"" + true);
 						p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 100, 100);
 						i.broadcastMessage("§aChallenge complété ! " + "§2" + name);
+						Bukkit.broadcastMessage("§5L'île §d: " + i.getName() + " §5a complété le challenge :§a " + name);
 						for(int k = 0; k<10; k++){
 							p.playEffect(p.getLocation().subtract(k, k, k), Effect.SMOKE, k);
 							p.playEffect(p.getLocation().subtract(-k, -k, -k), Effect.SMOKE, k);

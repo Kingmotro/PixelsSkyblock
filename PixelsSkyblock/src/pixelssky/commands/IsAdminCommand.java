@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Island;
@@ -51,10 +52,18 @@ public class IsAdminCommand implements CommandExecutor{
 					SPlayer sp = PlayersManager.getSPlayer(p);
 					sp.setProtectionOverride(!sp.getProtectionOverride());
 					p.sendMessage("§5Mode admin : §a" + sp.getProtectionOverride());
+				}else if(arg3[0].equals("save")){
+					p.sendMessage("Sauvegarde des îles ...");
+					DatabaseManager.openConnection();
+					for(Island i: IslandsManager.islands){
+						DatabaseManager.updateIsland(i);
+					}
+					DatabaseManager.closeConnection();
 				}
 			}
 		}catch(Exception ex){
 			//CONSOLE
+			
 		}
 		return true;
 	}

@@ -14,4 +14,11 @@ public class StringConverter {
 		}
 		return d;
 	}
+	public static String convertForSB(String name, String value){
+		String s = "§d" + name + "§5 : " + value;
+		if(s.length() > 39){
+			return s.substring(0, 39);
+		}
+		return s;
+	}
 }

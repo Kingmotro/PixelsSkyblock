@@ -3,6 +3,7 @@ package pixelssky.managers;
 import java.util.ArrayList;
 
 import pixelssky.objects.Island;
+import pixelssky.utils.Locations;
 
 public class IslandsManager {
 
@@ -16,6 +17,8 @@ public class IslandsManager {
 		islands.add(i);
 		System.out.println("ADDED ISLAND ID : " + i.getID());
 		System.out.println("NB ISLANDS : " + islands.size());
+		System.out.println("IS CENTER: " + Locations.toString(i.getSpawn()));
+		System.out.println("IS CENTER: " + Locations.toString(i.getCenter()));
 	}
 
 	public static Island getIsland(int ID){

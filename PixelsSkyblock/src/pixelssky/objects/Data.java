@@ -38,15 +38,15 @@ public class Data {
 	}
 	public void add(double val){
 		try{
-			 data = "" + (Double.parseDouble((String) data) + val);
+			 data = "" + (Double.parseDouble("" + data) + val);
 		}catch(Exception ex){
-			System.out.println("Erreur : la donnée n'est pas numérique.");
+			System.out.println("Erreur : la donnée n'est pas numérique." + ex.toString());
 		}
 
 	}
 	public void rmv(double val){
 		try{
-			 data = "" + (Double.parseDouble((String) data) - val);
+			 data = "" + (Double.parseDouble("" + data) - val);
 		}catch(Exception ex){
 			System.out.println("Erreur : la donnée n'est pas numérique.");
 		}

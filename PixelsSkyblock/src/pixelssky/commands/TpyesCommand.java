@@ -23,7 +23,7 @@ public class TpyesCommand implements CommandExecutor {
 				
 				p2.sendMessage("demande acceptée");
 				
-				p2.teleport(p.getLocation());
+				p2.teleport(p.getLocation().add(0,0.5,0));
 				
 				sp.setTpaRequest(null);
 			}

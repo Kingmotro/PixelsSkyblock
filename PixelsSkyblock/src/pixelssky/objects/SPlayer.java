@@ -1,5 +1,6 @@
 package pixelssky.objects;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
@@ -7,6 +8,8 @@ import org.bukkit.entity.Player;
 
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.IslandsManager;
+import pixelssky.utils.Classement;
+import pixelssky.utils.StringConverter;
 
 public class SPlayer {
 	private String UUID;
@@ -94,6 +97,28 @@ public class SPlayer {
 			DatabaseManager.getPlayer(UUID);
 		}
 	}
+	public void syncSB(){
+		
+		try{
+			java.util.UUID uniqueId = java.util.UUID.fromString(UUID);
+			Player p = Bukkit.getPlayer(uniqueId);
+			sb.update();
+			Island i =  this.getIsland();
+			DecimalFormat df = new DecimalFormat("###.##");
+			sb.setScoreText("is_name", StringConverter.convertForSB("Nom",i.getName()), 10);
+			sb.setScoreText("is_lvl", StringConverter.convertForSB("Niveau","" + df.format(i.getLevel())), 9);
+			sb.setScoreText("is_prog", StringConverter.convertForSB("Progression","" + df.format(i.getProgression())), 8);
+			sb.setScoreText("is_deaths", StringConverter.convertForSB("Morts","" + i.getDeaths()), 7);
+			sb.setScoreText("is_pos", StringConverter.convertForSB("Classement",""+(Classement.getNB(i) +1)), 6);
+			sb.setScoreText("is_biome", StringConverter.convertForSB("Progression","" + p.getWorld().getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ()).name()), 5);
+			sb.setScoreText("is_lag", StringConverter.convertForSB("Lag",df.format(100 - Lag.getTPS() * 5)), 4);
+		}catch(Exception ex){
+			java.util.UUID uniqueId = java.util.UUID.fromString(UUID);
+			Player p = Bukkit.getPlayer(uniqueId);
+			sb = new ScoreboardObject(p);
+			syncSB();
+		}
+	}
 
 	public void saveData() {
 		// TODO : Save all player data, UUID, Island ID and rights
@@ -120,7 +145,7 @@ public class SPlayer {
 	public void setAfk(boolean isAfk, Player pl, String[] arg3) {
 		String txt = "";
 		if(isAfk == true){
-			
+
 			String reason = "§7Aucune raison";
 			if(arg3.length >= 1){
 				reason = "§7";
@@ -148,15 +173,15 @@ public class SPlayer {
 		}
 		this.isAfk = isAfk;
 	}
-	
+
 	public boolean isAfk() {
 		return isAfk;
 	}
-	
+
 	public boolean getProtectionOverride() {
 		return protectionOverride;
 	}
-	
+
 	public void setProtectionOverride(boolean protectionOverride) {
 		this.protectionOverride = protectionOverride;
 	}
