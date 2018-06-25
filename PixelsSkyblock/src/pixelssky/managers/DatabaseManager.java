@@ -386,7 +386,7 @@ public class DatabaseManager {
 
 	}
 	public static void autoSave(){
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+		Bukkit.getScheduler().scheduleAsyncRepeatingTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			public void run() {
 				openConnection();
 				for(Island i: IslandsManager.islands){

@@ -131,6 +131,7 @@ public class Island {
 		try
 		{
 			Location l = w.getHighestBlockAt(isSpawn).getLocation();
+			
 			if(l.getBlockY() == 0 || l.getBlockY() == 1){
 				return w.getHighestBlockAt(getCenter()).getLocation().add(0.5, 0.5, 0.5);
 			}else if(w.getBlockAt(l).getType() != Material.AIR){

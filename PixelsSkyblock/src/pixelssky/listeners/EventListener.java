@@ -82,38 +82,43 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void invEvent(InventoryClickEvent event){
-		if(event.getInventory().getName().equals("§6✚ §3Créer une nouvelle île")){
-			event.setCancelled(true);
-			Inventories.run_createIslandMenu(event);
-		}else if(event.getInventory().getName().equals("§6☰ §3Menu de l'île")){
-			event.setCancelled(true);
-			Inventories.run_IslandMenu(event);
-		}else if(event.getInventory().getName().equals("§6✉ §3Inviter des joueurs")){
-			event.setCancelled(true);
-			Inventories.run_PlayersInventory_invite(event);
-		}
-		else if(event.getInventory().getName().equals("§6❔ §3Recommencer une île ?")){
-			event.setCancelled(true);
-			Inventories.run_ConfirmCreateIsland(event);
-		}else if(event.getInventory().getName().equals("§6§3Liste des îles")){
-			event.setCancelled(true);
-			Inventories.run_IslandList(event);
-		}else if(event.getInventory().getName().equals("§6§3Challenges !")){
-			event.setCancelled(true);
-			Inventories.run_challengesMainInventory(event);
-		}else if(event.getInventory().getName().split(":")[0].equals("§6§3Challenges du niveau ")){
-			event.setCancelled(true);
-			Inventories.run_SubChallengesInventory(event);
-		}else if(event.getInventory().getName().split(":")[0].equals("§eShop ")){
-			event.setCancelled(true);
-			Inventories.run_getShopMenuInventory(event);
-		}else if(event.getInventory().getName().split(":")[0].equals("§eChanger de biome")){
-			event.setCancelled(true);
-			Inventories.run_getBiomeMenu(event);
-		}else if(event.getInventory().getName().equals("§eValeur des blocs :")){
-			event.setCancelled(true);
+		try{
+			if(event.getInventory().getName().equals("§6✚ §3Créer une nouvelle île")){
+				event.setCancelled(true);
+				Inventories.run_createIslandMenu(event);
+			}else if(event.getInventory().getName().equals("§6☰ §3Menu de l'île")){
+				event.setCancelled(true);
+				Inventories.run_IslandMenu(event);
+			}else if(event.getInventory().getName().equals("§6✉ §3Inviter des joueurs")){
+				event.setCancelled(true);
+				Inventories.run_PlayersInventory_invite(event);
+			}
+			else if(event.getInventory().getName().equals("§6❔ §3Recommencer une île ?")){
+				event.setCancelled(true);
+				Inventories.run_ConfirmCreateIsland(event);
+			}else if(event.getInventory().getName().equals("§6§3Liste des îles")){
+				event.setCancelled(true);
+				Inventories.run_IslandList(event);
+			}else if(event.getInventory().getName().equals("§6§3Challenges !")){
+				event.setCancelled(true);
+				Inventories.run_challengesMainInventory(event);
+			}else if(event.getInventory().getName().split(":")[0].equals("§6§3Challenges du niveau ")){
+				event.setCancelled(true);
+				Inventories.run_SubChallengesInventory(event);
+			}else if(event.getInventory().getName().split(":")[0].equals("§eShop ")){
+				event.setCancelled(true);
+				Inventories.run_getShopMenuInventory(event);
+			}else if(event.getInventory().getName().split(":")[0].equals("§eChanger de biome")){
+				event.setCancelled(true);
+				Inventories.run_getBiomeMenu(event);
+			}else if(event.getInventory().getName().equals("§eValeur des blocs :")){
+				event.setCancelled(true);
+				Inventories.run_getBlockValues(event);
+			}
+		}catch(Exception ex){
 			
 		}
+		
 	}
 
 	@EventHandler

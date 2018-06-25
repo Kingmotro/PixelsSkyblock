@@ -2,8 +2,10 @@ package pixelssky.objects;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import pixelssky.managers.DatabaseManager;
@@ -97,21 +99,51 @@ public class SPlayer {
 			DatabaseManager.getPlayer(UUID);
 		}
 	}
+	/*
+	 * Classement des îles variable :
+	 */
+
 	public void syncSB(){
-		
+
 		try{
 			java.util.UUID uniqueId = java.util.UUID.fromString(UUID);
 			Player p = Bukkit.getPlayer(uniqueId);
 			sb.update();
 			Island i =  this.getIsland();
 			DecimalFormat df = new DecimalFormat("###.##");
-			sb.setScoreText("is_name", StringConverter.convertForSB("Nom",i.getName()), 10);
-			sb.setScoreText("is_lvl", StringConverter.convertForSB("Niveau","" + df.format(i.getLevel())), 9);
-			sb.setScoreText("is_prog", StringConverter.convertForSB("Progression","" + df.format(i.getProgression())), 8);
-			sb.setScoreText("is_deaths", StringConverter.convertForSB("Morts","" + i.getDeaths()), 7);
-			sb.setScoreText("is_pos", StringConverter.convertForSB("Classement",""+(Classement.getNB(i) +1)), 6);
-			sb.setScoreText("is_biome", StringConverter.convertForSB("Progression","" + p.getWorld().getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ()).name()), 5);
-			sb.setScoreText("is_lag", StringConverter.convertForSB("Lag",df.format(100 - Lag.getTPS() * 5)), 4);
+			Date d = new Date();
+			try{
+				sb.setScoreText("is_infobar1", StringConverter.convertForSB("=-=-= §bInformation d'île §d=-=-=",""), 11);
+				if(i == null){
+					sb.setScoreText("cmd_1", StringConverter.convertForSB("Créer son île", "/is create"), 10);
+					sb.setScoreText("cmd_2", StringConverter.convertForSB("Challenges", "/c"), 9);
+					sb.setScoreText("cmd_3", StringConverter.convertForSB("Aller au spawn", "/s"), 8);
+					sb.setScoreText("desc1", StringConverter.convertForSB("2 Choix d'île : ", ""), 7);
+					sb.setScoreText("desc1", StringConverter.convertForSB("UltraHard : ", "Dur mais fun !"), 6);
+					sb.setScoreText("desc2", StringConverter.convertForSB("Normale : ", "Moyen et amusant"), 5);
+				}else{
+					sb.setScoreText("is_name", StringConverter.convertForSB("Nom",i.getName()), 10);
+					sb.setScoreText("is_lvl", StringConverter.convertForSB("Niveau","" + df.format(i.getLevel())), 9);
+					sb.setScoreText("is_prog", StringConverter.convertForSB("Progression","" + df.format(i.getProgression()*100) + "§b%"), 8);
+					sb.setScoreText("is_deaths", StringConverter.convertForSB("Morts","" + i.getDeaths()), 7);
+					try{
+						
+					
+					sb.setScoreText("is_pos", StringConverter.convertForSB("Classement",(Classement.getNB(i) +1) +""), 6);
+					}catch(Exception ex){
+						
+					}
+					sb.setScoreText("is_biome", StringConverter.convertForSB("Biome","" + p.getWorld().getBiome(p.getLocation().getBlockX(), p.getLocation().getBlockZ()).name()), 5);
+
+				}
+
+				sb.setScoreText("is_infobar2", StringConverter.convertForSB("=-= §bInformation Serveur §d-=-=",""), 4);
+				sb.setScoreText("is_lag", StringConverter.convertForSB("Lag",StringConverter.getColoredLag(Lag.getTPS())), 3);
+				sb.setScoreText("is_hour", StringConverter.convertForSB("Heure",d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()), 2);
+				sb.setScoreText("is_ping", StringConverter.convertForSB("Ping","" +((CraftPlayer) p).getHandle().ping), 1);
+			}catch(Exception ex){
+
+			}
 		}catch(Exception ex){
 			java.util.UUID uniqueId = java.util.UUID.fromString(UUID);
 			Player p = Bukkit.getPlayer(uniqueId);
@@ -121,7 +153,6 @@ public class SPlayer {
 	}
 
 	public void saveData() {
-		// TODO : Save all player data, UUID, Island ID and rights
 		DatabaseManager.writePlayerData(this);
 		DatabaseManager.updatePlayer(this);
 	}

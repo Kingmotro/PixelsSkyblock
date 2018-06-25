@@ -397,7 +397,26 @@ public class Inventories {
 		for(int i = 0; i<Biome.values().length; i++){
 			try
 			{
-				inv.addItem(Items.get(Biome.values()[i].name(), Material.GRASS, (byte) 0));
+				String n = Biome.values()[i].name();
+				Material m = Material.GRASS;
+				if(n.contains("HELL"))
+					m = Material.NETHERRACK;
+				else if(n.contains("FOREST"))
+					m = Material.WOOD;
+				else if(n.contains("HILLS"))
+					m = Material.STONE;
+				else if(n.contains("ICE"))
+					m = Material.PACKED_ICE;
+				else if(n.contains("DESERT"))
+					m = Material.SAND;
+				else if(n.contains("MESA"))
+					m = Material.CLAY;
+				else if(n.contains("VOID"))
+					m = Material.EYE_OF_ENDER;
+				else if(n.contains("FROZEN"))
+					m = Material.ICE;
+				
+				inv.addItem(Items.get(n, m, (byte) 0));
 			}catch(Exception ex){
 				
 			}
@@ -410,7 +429,7 @@ public class Inventories {
 		WEManager.setBiome(event.getSlot(), p.getIsland());
 	}
 	public static Inventory getBlockValuesInventory(Island i, int page){
-		Inventory inv = Bukkit.createInventory(null, 9*6, "§eValeur des blocs :");
+		Inventory inv = Bukkit.createInventory(null, 9*4, "§eValeur des blocs :");
 		List<Countable<Integer>> b = i.getBlock_list();
 		for(int id = 4*9*page; id < 4*9*(page + 1); id++){
 			try{
@@ -419,15 +438,31 @@ public class Inventories {
 				lore.add("§b=== Nombre de blocs posés ===");
 				lore.add("§e ->" + b.get(id).getAmount());
 				lore.add("§b=== Niveaux donnés (à l'unité) ===");
-				lore.add("§e ->" + df.format(i.getBlockValue(Material.getMaterial(b.get(id).getID()))));
+				Double nb_1 = i.getBlockValue(Material.getMaterial(b.get(id).getID()));
+				if(nb_1 != 0)
+					lore.add("§e ->" + df.format(nb_1));
+				else
+					lore.add("§e ->0");
 				lore.add("§b=== Niveaux donnés (total) ===");
-				lore.add("§e ->" + df.format((i.getBlockValue(Material.getMaterial(b.get(id).getID())))*  b.get(id).getAmount()));
+				Double nb_2 = i.getBlockValue(Material.getMaterial(b.get(id).getID()))* b.get(id).getAmount();
+				if(nb_2 != 0)
+					lore.add("§e ->" + df.format(nb_2));
+				else
+					lore.add("§e ->0");
 				
 				inv.addItem(Items.get(Material.getMaterial(b.get(id).getID()), (byte) 0, lore));
 			}catch(Exception ex){
 				
 			}
 		}
+		inv.setItem(4*9 - 2,Items.get("Page précédente :" + (page-1) , Material.WOOL, (byte) 14));
+		inv.setItem(4*9 - 1,Items.get("Page suivante :" + (page+1) , Material.WOOL, (byte) 5));
 		return inv;
+	}
+	public static void run_getBlockValues(InventoryClickEvent event){
+		Player pl = (Player) event.getWhoClicked();
+		SPlayer p = PlayersManager.getSPlayer(pl);
+		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
+		pl.openInventory(getBlockValuesInventory(p.getIsland(), Integer.parseInt(i.getItemMeta().getDisplayName().split(":")[1])));
 	}
 }
