@@ -26,14 +26,16 @@ public class Classement {
 		TreeMap<Double, Island> map = new TreeMap<Double, Island>();
 		for (Island i : IslandsManager.islands)
 		{
+			double prog = i.getProgression();
+			double lvl = i.getLevel();
 			if(i.getDifficulty().equals(Island.DIFFICULTY_HARD)){
-				map.put(i.getLevel(), i);
+				map.put(lvl + lvl * prog, i);
 			}else if(i.getDifficulty().equals(Island.DIFFICULTY_NORMAL)){
-				map.put(i.getLevel() - 99999, i);
+				map.put(lvl + lvl * prog - 99999, i);
 			}else if(i.getDifficulty().equals(Island.DIFFICULTY_EASY)){
-				map.put(i.getLevel() - 99999, i);
+				map.put(lvl + lvl * prog - 99999, i);
 			}else{
-				map.put(i.getLevel() - 99999, i);
+				map.put(lvl + lvl * prog - 99999, i);
 			}
 			
 		}
@@ -42,7 +44,7 @@ public class Classement {
 		{ 
 			nb -= 1;
 			Island i = e.getValue();
-			classes.add("§a§l" + nb + " : §e[" + i.getDifficulty() + "]" + " §b" + i.getName() + " §e" + i.getStringLevel() +
+			classes.add("§a§l" + nb + " : §e[" + i.getDifficulty() + "]" + " §b" + i.getName() + " §e" + String.format("%.2f", i.getProgression()*i.getLevel() + i.getLevel()) + " bonus : §a+" + String.format("%.2f", i.getProgression()*i.getLevel()) +
 					"§7[☠ "+ i.getDeaths() + ", Challenges : " + String.format("%.2f", i.getProgression()*100)+ "%]");
 		}
 		
@@ -53,11 +55,11 @@ public class Classement {
 		for (Island i : IslandsManager.islands)
 		{
 			if(i.getDifficulty().equals(Island.DIFFICULTY_HARD)){
-				map.put(i.getLevel(), i);
+				map.put(i.getLevel() + i.getProgression()* i.getLevel(), i);
 			}else if(i.getDifficulty().equals(Island.DIFFICULTY_NORMAL)){
-				map.put(i.getLevel() - 500, i);
+				map.put(i.getLevel()+ i.getProgression()* i.getLevel() - 99999, i);
 			}else if(i.getDifficulty().equals(Island.DIFFICULTY_EASY)){
-				map.put(i.getLevel() - 1000, i);
+				map.put(i.getLevel()+ i.getProgression()* i.getLevel() - 99999, i);
 			}
 			
 		}

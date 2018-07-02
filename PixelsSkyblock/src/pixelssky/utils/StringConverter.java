@@ -45,4 +45,7 @@ public class StringConverter {
 		else
 			return colors[5] + df.format(lag) + "§b%";
 	}
+	public static String convertStringForSB(ArrayList<String> s, int index){
+		return s.get(index);
+	}
 }

@@ -21,7 +21,7 @@ public class TpyesCommand implements CommandExecutor {
 			if(sp.getLastTpaRequest() != null) {
 				Player p2 = Bukkit.getPlayer(sp.getLastTpaRequest());
 				
-				p2.sendMessage("demande acceptée");
+				p2.sendMessage("§aDemande acceptée ...");
 				
 				p2.teleport(p.getLocation().add(0,0.5,0));
 				

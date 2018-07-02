@@ -128,20 +128,21 @@ public class Island {
 
 	public Location getSpawn() {
 		World w = Bukkit.getWorld("world");
+		Location cp = Locations.copyLocation(isSpawn);
 		try
 		{
-			Location l = w.getHighestBlockAt(isSpawn).getLocation();
 			
-			if(l.getBlockY() == 0 || l.getBlockY() == 1){
+			
+			if(cp.getBlockY() == 0 || cp.getBlockY() == 1){
 				return w.getHighestBlockAt(getCenter()).getLocation().add(0.5, 0.5, 0.5);
-			}else if(w.getBlockAt(l).getType() != Material.AIR){
+			}else if(w.getBlockAt(cp).getType() != Material.AIR){
 				return w.getHighestBlockAt(getCenter()).getLocation().add(0.5, 0.5, 0.5);
 			}
 		}catch(Exception ex)
 		{
 
 		}
-		return w.getHighestBlockAt(isSpawn).getLocation().add(0.5, 0.5, 0.5);
+		return cp.add(0.5, 0.5, 0.5);
 	}
 
 	public int getID() {
@@ -214,7 +215,7 @@ public class Island {
 				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
 				p.sendTitle("§2§lTerminé !", "", 10,10,10);
 				p.sendMessage("");
-				p.sendMessage("§a§n▶ §e§l§nNiveau de votre île : §5§l" + String.format("%.2f", isLevel));
+				p.sendMessage("§a§n▶ §e§l§nNiveau de votre île : §5§l" + String.format("%.2f", isLevel) + " §aProgression : +§a" + String.format("%.2f", isLevel * getProgression()));
 				p.sendMessage("");
 				p.sendMessage("§a✔ §e Bloc le §aplus §erentable : §5" + max + " §e(§d" + String.format("%.2f", maxValue) + " §eniveaux)");
 				p.sendMessage("§4✘§e Bloc le §cmoins §erentable : §5" + min + " §e(§d" + String.format("%.2f", minValue) + " §eniveaux)");

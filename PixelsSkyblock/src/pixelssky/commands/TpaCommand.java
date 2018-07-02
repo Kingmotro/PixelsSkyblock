@@ -19,10 +19,10 @@ public class TpaCommand implements CommandExecutor {
 
 			PlayersManager.getSPlayer(p2).setTpaRequest(p1.getDisplayName());
 
-			p2.sendMessage("demande de tpa de " + p1.getName());
-			p2.sendMessage("/tpyes pour accpeter");
+			p2.sendMessage("§d" + p1.getName() + " §5veut se téléporter à vous !");
+			p2.sendMessage("§a/tpyes pour accepter la demande");
 
-			p1.sendMessage("demande envoyée");
+			p1.sendMessage("§7En attente de confirmation ...");
 
 			return true;
 		} else {

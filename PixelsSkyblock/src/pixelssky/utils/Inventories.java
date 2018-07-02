@@ -465,4 +465,33 @@ public class Inventories {
 		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
 		pl.openInventory(getBlockValuesInventory(p.getIsland(), Integer.parseInt(i.getItemMeta().getDisplayName().split(":")[1])));
 	}
+	public static Inventory getKickInventory(SPlayer sp, Island i){
+		Inventory inv = Bukkit.createInventory(null, ((i.getMembers().size())/9+1)*9, "§cExpulser un joueur");
+		for(Player p : Bukkit.getOnlinePlayers()){
+			if(i.getMembers().contains(PlayersManager.getSPlayer(p).getID())) {
+				inv.addItem(Items.getHead(p));
+			}
+		}
+		return inv;
+	}
+	public static void run_getKickInventory(InventoryClickEvent event){
+		try {
+			Player pl = (Player) event.getWhoClicked();
+			SkullMeta skull = (SkullMeta) event.getInventory().getItem(event.getSlot()).getItemMeta();
+			Player cible = Bukkit.getPlayer(skull.getOwner());
+			SPlayer p_sender = PlayersManager.getSPlayer(pl);
+			SPlayer p_cible = PlayersManager.getSPlayer(cible);
+			Island i = p_sender.getIsland();
+			
+			i.getMembers().remove((Object) p_cible.getID());
+			p_cible.setIsland(null);
+			cible.getInventory().clear();
+			cible.getEnderChest().clear();
+			cible.sendTitle("§4Votre chef vous a exclu ...", "§cVous n'auriez pas fait quelque chose de mal ?");
+			pl.closeInventory();
+			pl.sendTitle("§aAction effectuée.", "");
+		}catch(Exception ex){
+
+		}
+	}
 }

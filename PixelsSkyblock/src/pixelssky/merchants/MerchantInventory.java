@@ -56,7 +56,7 @@ public class MerchantInventory {
 				m.setRecipes(l);
 				merchants.put(f, m);
 			}catch(Exception ex){
-				Bukkit.getLogger().severe("�7Missing shop data :" + f + " niv" + lvl);
+				Bukkit.getLogger().severe("§7Missing shop data :" + f + " niv" + lvl);
 			}
 		}
 	}

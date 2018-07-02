@@ -53,5 +53,8 @@ public class Locations {
 		World w = Bukkit.getWorld("world");
 		return new Location(w,Double.parseDouble("" + x) ,Double.parseDouble("" + y),Double.parseDouble("" + z),0,0).add(0.5, 0.5, 0.5);
 	}
+	public static Location copyLocation(Location l){
+		return new Location(l.getWorld(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch());
+	}
 	
 }

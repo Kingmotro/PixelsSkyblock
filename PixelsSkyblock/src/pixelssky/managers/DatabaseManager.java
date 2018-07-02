@@ -11,6 +11,7 @@ import org.bukkit.WorldCreator;
 
 import com.boydti.fawe.bukkit.wrapper.AsyncWorld;
 
+import net.md_5.bungee.api.ChatColor;
 import pixelssky.objects.Data;
 import pixelssky.objects.Island;
 import pixelssky.objects.Right;
@@ -211,8 +212,6 @@ public class DatabaseManager {
 						+ "`ISLAND_ID` = '" + p.getIsland().getID() + "'"
 						+ " WHERE `players`.`ID` = " + p.getID() + "; ");
 			}
-			System.out.println(3);
-
 
 			conn.close();
 		} catch (Exception ex) {
@@ -243,11 +242,15 @@ public class DatabaseManager {
 			stmt = conn.createStatement();
 			stmt.executeUpdate("DELETE FROM `island_data` WHERE `ISLAND_ID` = " + i.getID() + " ; ");
 			for (Data d : i.getData()) {
-				stmt.executeUpdate(
-						"INSERT INTO `island_data` (`ISLAND_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
-								+ i.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString().replaceAll("'", "\'") + "'); ");
-				Bukkit.getLogger().info(d.getDataName() + " SAVED");
+				try{
+					stmt.executeUpdate(
+							"INSERT INTO `island_data` (`ISLAND_ID`, `DATA_NAME`, `DATA_CONTENT`) VALUES ('"
+									+ i.getID() + "', '" + d.getDataName() + "', '" + d.getData().toString().replaceAll("'", "\'") + "'); ");
+				}catch(Exception ex){
+					
+				}
 			}
+			Bukkit.getLogger().fine(ChatColor.GREEN + "Sauvegarde de " + i.getData().size() + " données.");;
 		} catch (Exception ex) {
 
 		}
@@ -266,7 +269,6 @@ public class DatabaseManager {
 				// Chargement des �l�ments de base
 				while (res.next()) {
 					i.addOrSetData(res.getString("DATA_NAME"), res.getString("DATA_CONTENT"));
-					System.out.println(res.getString("DATA_NAME") + " LOADED");
 				}
 			}
 			conn.close();
@@ -340,21 +342,19 @@ public class DatabaseManager {
 			stmt = conn.createStatement();
 			// Request
 			Island island = new Island(0,p.getID() + ",","world,0.0,0.0,0.0,0.0,0.0", "world,0.5,100,0.5,0,0", 0);
-			System.out.println("1");
 			stmt.executeUpdate("INSERT INTO `island` (`PLAYERS_ID`, `ISLAND_CENTER`, `ISLAND_SPAWN`, `ISLAND_LEVEL`) VALUES ('"
 					+ island.getMembersToString() + "', '" + "world,0.0,0.0,0.0,0.0,0.0" + "', '"
 					+ "world,0.0,0.0,0.0,0.0,0.0" + "', '" + island.getLevel() + "'); ");
-			System.out.println("2");
+
 			ResultSet res = stmt.executeQuery("SELECT `ID` FROM `island` WHERE  `ISLAND_CENTER` = '" +Locations.toString(island.getCenter()) + "';");
-			System.out.println("3");
-			System.out.println("4");
+
 
 			while (res.next()) {
 				island.setID(res.getInt("ID"));
 				island.setCenter(Locations.getIsCenterByID(island.getID()));
 				island.setHome(Locations.getIsCenterByID(island.getID()));	
 			}
-			System.out.println("5");
+
 			updateIsland(island);
 			conn.close();
 
