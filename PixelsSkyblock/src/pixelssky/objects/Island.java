@@ -42,7 +42,7 @@ public class Island {
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
-	private TreeMap<Integer, MerchantInventory> m = new TreeMap<Integer, MerchantInventory>();
+
 	/*
 	 * IMPORTANT Placement des îles : Carré de 501 de côté 
 	 * <--- 125 blocs ---><CENTRE><--- 125 blocs --->
@@ -62,7 +62,7 @@ public class Island {
 			}
 		}
 		for(int i =0; i< 10; i++){
-			m.put(i, new MerchantInventory(i, this));
+
 		}
 		silentCalculateLevel();
 	}
@@ -295,15 +295,7 @@ public class Island {
 			return Double.MAX_VALUE;
 		}
 	}
-	public Merchant getMerchant(int lvl, String s){
-		if(isMerchantUnlocked(lvl, s)){
-			return m.get(lvl).getMerchant(s);
-		}
-		return null;
-	}
-	public MerchantInventory getMerchantInventory(int lvl, String s){
-		return m.get(lvl);
-	}
+	
 
 	public boolean isMerchantUnlocked(int lvl, String s){
 		if(this.getData("Débloqué " + s + lvl) != null || lvl == 1){

@@ -30,6 +30,7 @@ import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.FileManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.merchants.MerchantCategory;
 import pixelssky.objects.Island;
 import pixelssky.objects.Lag;
 import pixelssky.objects.Right;
@@ -150,6 +151,8 @@ public final class main extends JavaPlugin {
 		Bukkit.getLogger().fine("Enabled auto-scoreboard sync.");
 		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
 		Bukkit.getLogger().fine("Enabled Lag sync.");
+		
+		MerchantCategory.load();
 	}
 
 	@Override
@@ -160,6 +163,16 @@ public final class main extends JavaPlugin {
 			DatabaseManager.updateIsland(i);
 		}
 		DatabaseManager.closeConnection();
+		MerchantCategory.save();
+		for(MerchantCategory m: MerchantCategory.mCategories){
+			try{
+				m.npc.destroy();	
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+			
+		}
 	}
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
 	{

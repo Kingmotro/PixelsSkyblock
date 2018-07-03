@@ -30,6 +30,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
+import pixelssky.merchants.MerchantCategory;
 import pixelssky.objects.Data;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
@@ -105,9 +106,11 @@ public class EventListener implements Listener {
 			}else if(event.getInventory().getName().split(":")[0].equals("§6§3Challenges du niveau ")){
 				event.setCancelled(true);
 				Inventories.run_SubChallengesInventory(event);
-			}else if(event.getInventory().getName().split(":")[0].equals("§eShop ")){
+			}else if(event.getInventory().getName().split(":")[0].equals("§5Shop ")){
 				event.setCancelled(true);
-				Inventories.run_getShopMenuInventory(event);
+				String categ = event.getInventory().getName().split(":")[1];
+
+				MerchantCategory.get(categ).runInventory(event);
 			}else if(event.getInventory().getName().split(":")[0].equals("§eChanger de biome")){
 				event.setCancelled(true);
 				Inventories.run_getBiomeMenu(event);
