@@ -1,5 +1,8 @@
 package pixelssky.commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -57,6 +60,17 @@ public class IsAdminCommand implements CommandExecutor{
 					SPlayer sp = PlayersManager.getSPlayer(p);
 					sp.setProtectionOverride(!sp.getProtectionOverride());
 					p.sendMessage("§5Mode admin : §a" + sp.getProtectionOverride());
+				}else if(arg3[0].equals("clean")){
+					World w = Bukkit.getWorld("world");
+					int i = 0;
+					for (Chunk c : w.getLoadedChunks()){
+						c.unload(true);
+						i+=1;
+					}
+					p.sendMessage(i + " chunks déchargés");
+				}else if(arg3[0].equals("ram")){
+					p.sendMessage("§5Total :§d"+Runtime.getRuntime().totalMemory());
+					p.sendMessage("§5Libre :§d"+Runtime.getRuntime().freeMemory());
 				}else if(arg3[0].equals("save")){
 					p.sendMessage("Sauvegarde des îles ...");
 					DatabaseManager.openConnection();

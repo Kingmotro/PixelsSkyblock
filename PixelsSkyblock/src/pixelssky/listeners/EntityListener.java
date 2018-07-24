@@ -28,7 +28,7 @@ public class EntityListener implements Listener{
 		Player pl =  event.getPlayer();
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		try{
-			String pnjName = event.getRightClicked().getName().substring(2).toLowerCase();
+			String pnjName = event.getRightClicked().getName().substring(2);
 			pl.openInventory(MerchantCategory.get(pnjName).getMainMenu(p.getIsland()));
 		}catch(Exception ex){
 			ex.printStackTrace();

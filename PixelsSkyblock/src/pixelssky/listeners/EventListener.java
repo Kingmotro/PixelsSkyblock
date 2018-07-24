@@ -18,6 +18,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -69,16 +70,23 @@ public class EventListener implements Listener {
 	public void quitEvent(PlayerQuitEvent event) {
 		Player pl = event.getPlayer();
 		SPlayer sp = PlayersManager.getSPlayer(pl);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				sp.saveData();
+				PlayersManager.players.remove(sp);
+			}
+		}.runTaskLater(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), 40L);
 		try
 		{
 			event.setQuitMessage("§5[Ile §d" + sp.getIsland().getName() + "§5] §d" + pl.getDisplayName() + " §5s'est §cdéconnecté(e).");
 			
-			sp.saveData();
+			
 		}catch(Exception ex){
 			event.setQuitMessage("§5[Ile §dSans Île Fixe§5] §d" + pl.getDisplayName() + " §5s'est §adéconnecté(e).");
 		}
 		
-		PlayersManager.removePlayer(pl);
+		
 	}
 
 	@EventHandler
