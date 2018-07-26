@@ -5,12 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import org.bukkit.Bukkit;
-import org.bukkit.WorldCreator;
-
-import com.boydti.fawe.bukkit.wrapper.AsyncWorld;
-
 import net.md_5.bungee.api.ChatColor;
 import pixelssky.objects.Data;
 import pixelssky.objects.Island;
