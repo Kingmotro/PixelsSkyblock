@@ -15,7 +15,7 @@ public class SpawnCommand implements CommandExecutor{
 			Player pl = (Player) arg0;
 			pl.sendTitle("§aTéléportation au spawn", "", 10,20,10);
 			pl.teleport(Bukkit.getServer().getWorld("skyworld").getSpawnLocation());
-			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 100, 100);
 			return true;
 		}else{
 			return false;

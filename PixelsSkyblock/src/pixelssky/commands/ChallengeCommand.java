@@ -19,7 +19,7 @@ public class ChallengeCommand implements CommandExecutor{
 			SPlayer pl = PlayersManager.getSPlayer(p);
 			if(pl.getIsland() != null){
 				p.openInventory(Inventories.getChallengesMainInventory(pl.getIsland()));
-				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 100, 1000);
+				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 100, 1000);
 			}
 		}else{
 			arg0.sendMessage("La console ne peut pas effectuer cette commande.");
