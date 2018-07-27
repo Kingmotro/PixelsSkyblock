@@ -137,21 +137,21 @@ public class Challenge implements Comparable<Challenge> {
 						}
 					}else{
 						p.sendTitle("§cChallenge raté :/","§4" + name,10,10,100);
-						p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+						p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 100, 100);
 					}
 				}
 			});
 		}else{
 			p.sendTitle("§c⚠§4§lImpossible de faire§c⚠", "§eVous ne pouvez pas (re)faire ce challenge", 10,1000,10);
-			p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+			p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 100, 100);
 		}
 	}
 	public ItemStack getItem(Island i){
 		if(!isUnlocked(i)){
-			return Items.get("§4Challenge / niveau bloqué ! §c" + name, Material.BARRIER, (byte) 0);
+			return Items.get("§4Challenge / niveau bloqué ! §c" + name, Material.BARRIER);
 		}
 		if(type == Challenge.TYPE_CATEGORY){
-			return Items.get(name, m, (byte) this.i);
+			return Items.get(name, m);
 		}
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("§b▊▊▊▊▊▊▊▊   Objectif(s) ▊▊▊▊▊▊▊▊");
@@ -171,11 +171,11 @@ public class Challenge implements Comparable<Challenge> {
 				lore.add("§7Vous ne pouvez pas refaire ce challenge§l:/");
 			}
 			
-			ItemStack it = Items.get(this.name,m, (byte) this.i, lore); 
+			ItemStack it = Items.get(this.name,m, lore); 
 			it.addUnsafeEnchantment(Enchantements.VALIDATED_CHALLENGE, 1);
 			return it;
 		}else{
-			return Items.get(this.name, m, (byte) this.i, lore);
+			return Items.get(this.name, m, lore);
 		}
 	}
 	@Override
