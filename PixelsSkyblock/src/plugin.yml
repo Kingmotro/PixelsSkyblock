@@ -5,6 +5,7 @@ description: PixelsSkyblock
 authors: [Dudullle, aaa49, mcgarret2410]
 main: pixelssky.main.main
 depends: [Citizens]
+api-version: 1.13
 commands:
    is:
      description: Commande principale.

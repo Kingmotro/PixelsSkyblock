@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import pixelssky.managers.DatabaseManager;
@@ -140,7 +139,7 @@ public class SPlayer {
 				sb.setScoreText("is_infobar2", StringConverter.convertForSB("=-= §bInformation Serveur §d-=-=",""), 4);
 				sb.setScoreText("is_lag", StringConverter.convertForSB("Lag",StringConverter.getColoredLag(Lag.getTPS())), 3);
 				sb.setScoreText("is_hour", StringConverter.convertForSB("Heure",d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()), 2);
-				sb.setScoreText("is_ping", StringConverter.convertForSB("Ping","" +((CraftPlayer) p).getHandle().ping), 1);
+				//sb.setScoreText("is_ping", StringConverter.convertForSB("Ping","" +((CraftPlayer) p).getHandle().ping), 1);
 				sb.setScoreText("is_desc", StringConverter.convertForSB("NOUVEAU","La progression donne "), 0);
 				sb.setScoreText("is_desc2", StringConverter.convertForSB("->","des niveaux =D"), -1);
 			}catch(Exception ex){

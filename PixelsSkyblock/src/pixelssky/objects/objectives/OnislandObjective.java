@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.sk89q.worldedit.entity.Entity;
 import com.sk89q.worldedit.util.Countable;
+import com.sk89q.worldedit.world.block.BlockType;
 
 import pixelssky.objects.Island;
 import pixelssky.utils.WEManager;
@@ -21,17 +22,11 @@ public class OnislandObjective extends Objective{
 	String it_name;
 	int calculated_nb;
 
-	public OnislandObjective(boolean type, Material m, int quantity) {
+	public OnislandObjective(boolean type, String mat_ID, int quantity) {
 		super(Objective.ONISLAND);
 		this.type = type;
-		this.material = m;
-		this.quantity = quantity;
-
-	}
-	public OnislandObjective(boolean type, String mat_ID,int sub_id, int quantity) {
-		super(Objective.ONISLAND);
-		this.type = type;
-		this.material = Material.getMaterial(mat_ID);
+		if(!type)
+			this.material = Material.getMaterial(mat_ID);
 		this.it_name = mat_ID;
 		this.quantity = quantity;
 	}
@@ -39,11 +34,11 @@ public class OnislandObjective extends Objective{
 	@Override
 	public boolean check(Player p, Island i) {
 		if(!type){
-			List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
-			for(Countable<Integer> b: blocks){
-				if(b.getID() == mat_ID && b.getAmount() >= quantity){
+			List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
+			for(Countable<BlockType> b: blocks){
+				if(b.getID().getMaterial().equals(material) && b.getAmount() >= quantity){
 					return true;
-				}else if(b.getID() == mat_ID){
+				}else if(b.getID().getMaterial().equals(material)){
 					calculated_nb = b.getAmount();
 				}
 			}
@@ -55,7 +50,7 @@ public class OnislandObjective extends Objective{
 				int qte = 0;
 				for(Entity e: es){
 					try{
-						if(e.getState().getTypeId().toString().equalsIgnoreCase(it_name)){
+						if(e.getState().getType().toString().equalsIgnoreCase(it_name)){
 							qte += 1;
 						}
 					}catch(Exception ex){
@@ -85,10 +80,10 @@ public class OnislandObjective extends Objective{
 			return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eentité(s) de §6" + it_name + " §cest/sont posée(s) sur l'île";
 
 		}else{
-			if( !(new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName()).equals("Air"))
-				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName() + getSlabPos() + " §cest/sont posé(s) sur l'île";
+			if( !(new ItemStack(material, quantity).toString()).equals("Air"))
+				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + new ItemStack(material, quantity).toString() + " §cest/sont posé(s) sur l'île";
 			else
-				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + Material.getMaterial(mat_ID).name() + getSlabPos() + " §cest/sont posé(s) sur l'île";
+				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + material.name() + " §cest/sont posé(s) sur l'île";
 
 		}
 
@@ -97,19 +92,11 @@ public class OnislandObjective extends Objective{
 	@Override
 	public String getDescription() {
 		if(type) return "§e-▶§6" + quantity + " §eentités de §6" + it_name + " §eposée(s) sur l'île";
-		if(new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName().equals("Air"))
-			return "§e-▶§6" + quantity + " §eitems de §6" + Material.getMaterial(mat_ID).name() + " §eposé(s) sur l'île";
-		return "§e-▶§6" + quantity + " §eitems de §6" + new ItemStack(Material.getMaterial(mat_ID),quantity,(byte) sub_id).getI18NDisplayName() + getSlabPos() + " §eposé(s) sur l'île";
+		if(new ItemStack(material, quantity).toString().equals("Air"))
+			return "§e-▶§6" + quantity + " §eitems de §6" + material.toString() + " §eposé(s) sur l'île";
+		return "§e-▶§6" + quantity + " §eitems de §6" + new ItemStack(material, quantity).toString() + " §eposé(s) sur l'île";
 
 	}
-	public String getSlabPos(){
-		if(this.mat_ID == 44 || this.mat_ID == 126){
-			if(this.sub_id <= 7){
-				return " (pos. Basse) ";
-			}
-			return " (pos. Haute) ";
-		}
-		return "";
-	}
+
 
 }

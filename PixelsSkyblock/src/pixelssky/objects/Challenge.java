@@ -30,7 +30,7 @@ public class Challenge implements Comparable<Challenge> {
 	private Material m = Material.STONE;
 	private int i = 0;
 	private boolean isUnlockedByDefault = false;
-
+	
 	public Challenge(int type, String name, boolean unlocked, Material m, int i){
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();

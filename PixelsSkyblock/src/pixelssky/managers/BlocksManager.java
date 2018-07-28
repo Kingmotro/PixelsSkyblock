@@ -4,17 +4,19 @@ import java.util.ArrayList;
 
 import org.bukkit.Material;
 
+import com.sk89q.worldedit.blocks.BlockMaterial;
 import com.sk89q.worldedit.util.Countable;
+import com.sk89q.worldedit.world.block.BlockType;
 
 
 public class BlocksManager {
 	public static ArrayList<Countable<String>> blocs_values = new ArrayList<Countable<String>>();
 	
-	public static Double getBlockValue(int ID,Countable<Integer> blocs, int total){
+	public static Double getBlockValue(Material blockMaterial,Countable<BlockType> block, int total){
 		try{
-			double percent = blocs.getAmount() / Double.parseDouble(total + "");  // Pourcentage de ce type de bloc sur l'�le
-			double val = 1 * (1 - percent) * getValue(Material.getMaterial(blocs.getID()).toString());
-			if (ID == 133)
+			double percent = block.getAmount() / Double.parseDouble(total + "");  // Pourcentage de ce type de bloc sur l'�le
+			double val = 1 * (1 - percent) * getValue(blockMaterial.toString());
+			if (blockMaterial.equals(Material.EMERALD_BLOCK))
 				return 0d;
 			return val;
 		}catch(Exception ex){

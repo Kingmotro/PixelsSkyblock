@@ -194,7 +194,7 @@ public class Inventories {
 		}else if(event.getSlot()==3){
 			pl.openInventory(getChallengesMainInventory(p.getIsland()));
 		}else if(event.getSlot()==6){
-			//pl.openInventory(getBlockValuesInventory(p.getIsland(), 0));
+			pl.openInventory(getBlockValuesInventory(p.getIsland(), 0));
 		}else if(event.getSlot()==7){
 			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_GUITAR, 100, 100);
 			pl.openInventory(getIslandsList(p));
@@ -429,48 +429,49 @@ public class Inventories {
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		WEManager.setBiome(event.getSlot(), p.getIsland());
 	}
-	/*
+	
 	public static Inventory getBlockValuesInventory(Island i, int page){
 		Inventory inv = Bukkit.createInventory(null, 9*4, "§eValeur des blocs :");
-		List<Countable<Integer>> b = i.getBlock_list();
+		List<Countable<Material>> b = i.getBlock_list();
 		for(int id = 4*9*page; id < 4*9*(page + 1); id++){
 			try{
+				
 				ArrayList<String> lore = new ArrayList<String>();
 				DecimalFormat df = new DecimalFormat("###.##");
 				lore.add("§b=== Nombre de blocs posés ===");
 				lore.add("§e ->" + b.get(id).getAmount());
 				lore.add("§b=== Niveaux donnés (à l'unité) ===");
-				Double nb_1 = i.getBlockValue(Material.getMaterial(b.get(id).getID()));
+				Double nb_1 = i.getBlockValue(b.get(id).getID());
 				if(nb_1 != 0)
 					lore.add("§e ->" + df.format(nb_1));
 				else
 					lore.add("§e ->0");
 				lore.add("§b=== Niveaux donnés (total) ===");
-				Double nb_2 = i.getBlockValue(Material.getMaterial(b.get(id).getID()))* b.get(id).getAmount();
+				Double nb_2 = i.getBlockValue(b.get(id).getID())* b.get(id).getAmount();
 				if(nb_2 != 0)
 					lore.add("§e ->" + df.format(nb_2));
 				else
 					lore.add("§e ->0");
 				
-				inv.addItem(Items.get(Material.getMaterial(b.get(id).getID()), (byte) 0, lore));
+				inv.addItem(Items.get(b.get(id).getID(), lore));
 			}catch(Exception ex){
-				
+				ex.printStackTrace();
 			}
 		}
-		inv.setItem(4*9 - 2,Items.get("Page précédente :" + (page-1) , Material.WOOL, (byte) 14));
-		inv.setItem(4*9 - 1,Items.get("Page suivante :" + (page+1) , Material.WOOL, (byte) 5));
+		inv.setItem(4*9 - 2,Items.get("Page précédente :" + (page-1) , Material.RED_WOOL));
+		inv.setItem(4*9 - 1,Items.get("Page suivante :" + (page+1) , Material.GREEN_WOOL));
 		return inv;
 	}
-	*/
 	
-	/*
+	
+	
 	public static void run_getBlockValues(InventoryClickEvent event){
 		Player pl = (Player) event.getWhoClicked();
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
 		pl.openInventory(getBlockValuesInventory(p.getIsland(), Integer.parseInt(i.getItemMeta().getDisplayName().split(":")[1])));
 	}
-	*/
+	
 	public static Inventory getKickInventory(SPlayer sp, Island i){
 		Inventory inv = Bukkit.createInventory(null, ((i.getMembers().size())/9+1)*9, "§cExpulser un joueur");
 		for(Player p : Bukkit.getOnlinePlayers()){
