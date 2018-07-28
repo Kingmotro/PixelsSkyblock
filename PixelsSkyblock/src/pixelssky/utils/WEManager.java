@@ -2,6 +2,7 @@ package pixelssky.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -9,19 +10,24 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
-import com.boydti.fawe.FaweAPI;
-import com.boydti.fawe.util.EditSessionBuilder;
+import com.sk89q.jnbt.NBTInputStream;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+import com.sk89q.worldedit.command.SchematicCommands;
 import com.sk89q.worldedit.entity.Entity;
+import com.sk89q.worldedit.extent.clipboard.io.SchematicReader;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
+import com.sk89q.worldedit.regions.factory.CuboidRegionFactory;
+import com.sk89q.worldedit.regions.selector.*;
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.DataException;
+import com.sk89q.worldedit.world.block.BlockType;
+
 import pixelssky.objects.Island;
 
 @SuppressWarnings({"deprecation" })
@@ -31,39 +37,34 @@ public class WEManager {
 	
 	public static boolean pasteSchematics(World world, File file,Location origin) throws DataException, IOException, MaxChangedBlocksException
     {	
+		/*
         EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
+        
+		
+		SchematicReader sr = new SchematicReader(inputStream );
         MCEditSchematicFormat.getFormat(file).load(file).paste(es, new Vector(origin.getBlockX(), origin.getBlockY(), origin.getBlockZ()), false); 
+        */
         return true;
     }
 	
 
-	public static List<Countable<Integer>> count(World world, Location loc1, Location loc2)
+	public static List<Countable<BlockType>> count(World world, Location loc1, Location loc2)
 	{
-		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
-		CuboidSelection cbs = new CuboidSelection(world, loc1 , loc2);
+		EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession((com.sk89q.worldedit.world.World) world, -1);
+		Vector v1 = new Vector(loc1.getBlockX(), loc1.getBlockY(), loc1.getBlockZ());
+		Vector v2 = new Vector(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());
+		CuboidRegion r = new CuboidRegion((com.sk89q.worldedit.world.World) world, v1, v2);
 		
-		Region r = null;
-		try {
-			r = cbs.getRegionSelector().getRegion();
-		} catch (IncompleteRegionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		es.setFastMode(true);
 		
 		return es.getBlockDistribution(r);
 	}
 	public static List<? extends Entity> count_entities(World world, Location loc1, Location loc2)
 	{
-		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
-		CuboidSelection cbs = new CuboidSelection(world, loc1 , loc2);
-		
-		Region r = null;
-		try {
-			r = cbs.getRegionSelector().getRegion();
-		} catch (IncompleteRegionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession((com.sk89q.worldedit.world.World) world, -1);
+		Vector v1 = new Vector(loc1.getBlockX(), loc1.getBlockY(), loc1.getBlockZ());
+		Vector v2 = new Vector(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());
+		CuboidRegion r = new CuboidRegion((com.sk89q.worldedit.world.World) world, v1, v2);
 		
 		return es.getEntities(r);
 	}
@@ -71,7 +72,7 @@ public class WEManager {
 		Location loc1 = i.getEdges().get(0);
 		Location loc2 = i.getEdges().get(1);
 		
-		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
+		EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession((com.sk89q.worldedit.world.World) Bukkit.getWorld("world"), -1);
 		int x_min = Math.min(loc1.getBlockX(), loc2.getBlockX());
 		int x_max = Math.max(loc1.getBlockX(), loc2.getBlockX());
 		int y_min = Math.min(loc1.getBlockZ(), loc2.getBlockZ());

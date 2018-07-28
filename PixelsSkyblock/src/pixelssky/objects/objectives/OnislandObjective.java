@@ -16,25 +16,24 @@ import pixelssky.utils.WEManager;
 
 public class OnislandObjective extends Objective{
 	boolean type = false; //0: Blocks 1: entités
-	int mat_ID;
-	int sub_id;
+	Material material;
 	int quantity;
 	String it_name;
 	int calculated_nb;
 
-	public OnislandObjective(boolean type, int mat_ID,int sub_id, int quantity) {
+	public OnislandObjective(boolean type, Material m, int quantity) {
 		super(Objective.ONISLAND);
 		this.type = type;
-		this.mat_ID = mat_ID;
+		this.material = m;
 		this.quantity = quantity;
-		this.sub_id = sub_id;
+
 	}
 	public OnislandObjective(boolean type, String mat_ID,int sub_id, int quantity) {
 		super(Objective.ONISLAND);
 		this.type = type;
+		this.material = Material.getMaterial(mat_ID);
 		this.it_name = mat_ID;
 		this.quantity = quantity;
-		this.sub_id = sub_id;
 	}
 
 	@Override

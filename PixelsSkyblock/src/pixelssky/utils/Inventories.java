@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.boydti.fawe.bukkit.wrapper.AsyncWorld;
 import com.sk89q.worldedit.util.Countable;
 
 import pixelssky.managers.ChallengesManager;
