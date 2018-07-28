@@ -1,11 +1,10 @@
 package pixelssky.utils;
 
 import java.util.ArrayList;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -77,5 +76,20 @@ public class Items {
 		else if(price <= 18 * 64)
 			return get(Material.DIAMOND_BLOCK, price / 18);
 		return get(Material.DIAMOND_BLOCK, 64);
+	}
+	
+	public static ItemStack getHelpBook(){
+		
+        ItemStack is = get(Material.WRITTEN_BOOK);
+        BookMeta b = (BookMeta) is.getItemMeta();
+        b.setAuthor("§aPixels Crafters Network");
+        b.addPage("§6§lBienvenue sur le skyblock !\n§3Vous trouverez ici un mini guide.");
+        b.addPage("§cAttention, ce skyblock n'est pas simple !\n\n§lVous devrez suivre ce guide, Il vous explique comment BIEN commencer.");
+        b.addPage("§cPosez la terre de votre coffre de démarrage et plantez y un arbre.\n§4N'utilisez pas la cobble"
+        		+ "\n\n§cFaites le pousser avec les os.\n\n§aEnsuite agrandissez (mais avec le bois!)");
+        b.addPage("§aPour gagner d'autres blocks, faites §5§l/c §aet completez les challenges !\n§7Vous gagnerez des niveaux bonus, des joker de vie, des items SF, ...");
+        b.setTitle("§d§lIMPORTANT A LIRE");
+        is.setItemMeta(b);
+        return is;
 	}
 }
