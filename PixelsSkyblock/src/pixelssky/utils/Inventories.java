@@ -39,7 +39,7 @@ public class Inventories {
 		lore.add("§a§l Niveau :       §b★§7☆☆");
 		lore.add("§a§l Difficulté :    §b★★★");
 
-		inv.setItem(1 , Items.get("§5§lÎle ultra Hard", Material.DIRT,(byte) 0, lore));
+		inv.setItem(1 , Items.get("§5§lÎle ultra Hard", Material.DIRT, lore));
 
 		lore = new ArrayList<String>();
 		lore.add("§a§l Ressources : §b★★§7☆");
@@ -48,7 +48,7 @@ public class Inventories {
 		lore.add("§cSi vous prennez cette île vous serez");
 		lore.add("§cclassé derrière les îles ultra hard");
 
-		inv.setItem(2 , Items.get("§5§lÎle de base", Material.APPLE,(byte) 0, lore));
+		inv.setItem(2 , Items.get("§5§lÎle de base", Material.APPLE, lore));
 
 		lore = new ArrayList<String>();
 		lore.add("§a§l Ressources : §b★★★");
@@ -68,7 +68,7 @@ public class Inventories {
 
 		//inv.setItem(4 , Items.get("§5§lÎle d'exemple", Material.DIAMOND,(byte) 0, lore));
 
-		inv.setItem(8 , Items.get("§6Voir les îles existantes", Material.ANVIL,(byte) 0));
+		inv.setItem(8 , Items.get("§6Voir les îles existantes", Material.ANVIL));
 
 		return inv;
 	}
@@ -135,7 +135,7 @@ public class Inventories {
 				public void run() {
 					pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
 					pl.teleport(p.getIsland().getSpawn());
-					pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+					pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 100, 100);
 					pl.closeInventory();
 				}
 			}, 60L);
@@ -148,29 +148,29 @@ public class Inventories {
 		Inventory inv = Bukkit.createInventory(null, 9*3, "§6☰ §3Menu de l'île");
 		boolean isAdmin = p.getIsland().isAdmin(p.getID());
 
-		inv.setItem(0 , Items.get("§5§lTéléporation sur l'île", Material.BIRCH_DOOR_ITEM,(byte) 0));
-		inv.setItem(1 , Items.get("§5§lSpawn du monde", Material.NETHER_STAR,(byte) 0));
-		inv.setItem(2 , Items.get("§5§lNiveau de l'île", Material.EXP_BOTTLE,(byte) 0));
-		inv.setItem(3 , Items.get("§5§lChallenges de l'île", Material.BOOK_AND_QUILL,(byte) 0));
+		inv.setItem(0 , Items.get("§5§lTéléporation sur l'île", Material.BIRCH_DOOR));
+		inv.setItem(1 , Items.get("§5§lSpawn du monde", Material.NETHER_STAR));
+		inv.setItem(2 , Items.get("§5§lNiveau de l'île", Material.EXPERIENCE_BOTTLE));
+		inv.setItem(3 , Items.get("§5§lChallenges de l'île", Material.WRITABLE_BOOK));
 
-		inv.setItem(6 , Items.get("§5§lValeur des blocs", Material.EMERALD,(byte) 0));
-		inv.setItem(7 , Items.get("§5§lListe des îles", Material.ANVIL,(byte) 0));
-		inv.setItem(8 , Items.get("§5§lInformations de l'île", Material.EMPTY_MAP,(byte) 0));
+		inv.setItem(6 , Items.get("§5§lValeur des blocs", Material.EMERALD));
+		inv.setItem(7 , Items.get("§5§lListe des îles", Material.ANVIL));
+		inv.setItem(8 , Items.get("§5§lInformations de l'île", Material.MAP));
 
 
 		if(isAdmin){
-			inv.setItem(9 , Items.get("§5§lChanger le spawn de l'île", Material.BED,(byte) 5));
+			inv.setItem(9 , Items.get("§5§lChanger le spawn de l'île", Material.BLUE_BED));
 			inv.setItem(11 , Items.getHead("Mailbox","§5§lInviter un joueur"));
 			inv.setItem(12 , Items.getHead("Computer","§5§lAjouter un admin"));
 			inv.setItem(13 , Items.getHead("Barrier","§5§lSupprimer un admin"));
 			inv.setItem(14 , Items.getHead("X","§5§lExpulser un joueur de l'île"));
 
-			inv.setItem(16 , Items.get("§5§lProgression", Material.DIAMOND_PICKAXE,(byte) 0));
+			inv.setItem(16 , Items.get("§5§lProgression", Material.DIAMOND_PICKAXE));
 
-			inv.setItem(20 , Items.get("§5§lChanger le biome de l'île", Material.SAPLING,(byte) 0));
-			inv.setItem(21 , Items.get("§5§lVoir éléments débloqués", Material.WORKBENCH,(byte) 0));
-			inv.setItem(24 , Items.get("§5§lAjouter un membre externe à l'île", Material.CHEST,(byte) 0));
-			inv.setItem(25 , Items.get("§5§lSupprimer un membre externe", Material.APPLE,(byte) 0));
+			inv.setItem(20 , Items.get("§5§lChanger le biome de l'île", Material.OAK_SAPLING));
+			inv.setItem(21 , Items.get("§5§lVoir éléments débloqués", Material.CRAFTING_TABLE));
+			inv.setItem(24 , Items.get("§5§lAjouter un membre externe à l'île", Material.CHEST));
+			inv.setItem(25 , Items.get("§5§lSupprimer un membre externe", Material.APPLE));
 		}
 
 		return inv;
@@ -182,12 +182,12 @@ public class Inventories {
 		if(event.getSlot()==0){
 			pl.sendTitle("§aBienvenue sur votre île :)", "§cNe tombez pas !", 10,20,10);
 			pl.teleport(p.getIsland().getSpawn());
-			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 100, 100);
 			pl.closeInventory();
 		}else if(event.getSlot()==1){
 			pl.sendTitle("§aTéléportation au spawn", "", 10,20,10);
 			pl.teleport(Bukkit.getServer().getWorld("skyworld").getSpawnLocation());
-			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 100, 100);
+			pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 100, 100);
 			pl.closeInventory();
 		}else if(event.getSlot()==2){
 			p.getIsland().calculateLevel(pl);
@@ -195,9 +195,9 @@ public class Inventories {
 		}else if(event.getSlot()==3){
 			pl.openInventory(getChallengesMainInventory(p.getIsland()));
 		}else if(event.getSlot()==6){
-			pl.openInventory(getBlockValuesInventory(p.getIsland(), 0));
+			//pl.openInventory(getBlockValuesInventory(p.getIsland(), 0));
 		}else if(event.getSlot()==7){
-			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
+			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_GUITAR, 100, 100);
 			pl.openInventory(getIslandsList(p));
 		}else if(event.getSlot()==8){
 			//Infos de l'île
@@ -209,7 +209,7 @@ public class Inventories {
 				pl.closeInventory();
 			}else{
 				pl.sendTitle("§aMise à jour §cratée :(", "§cVous n'êtes pas sur votre île :/", 10,20,10);
-				pl.playSound(pl.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 100);
+				pl.playSound(pl.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 100, 100);
 				pl.closeInventory();
 			}
 		}else if(event.getSlot()==12 && isAdmin){
@@ -225,7 +225,7 @@ public class Inventories {
 			pl.sendMessage("§e§lVotre progression : ");
 			pl.sendMessage("§bChallenges : §3" + String.format("%.2f", p.getIsland().getProgression()*100) + "§3%");
 		}else if(event.getSlot()==20 && isAdmin){
-			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_GUITAR, 100, 100);
+			pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_GUITAR, 100, 100);
 			pl.openInventory(getBiomesMenu());
 		}else if(event.getSlot()==21 && isAdmin){
 			//Eléments débloqués
@@ -262,8 +262,8 @@ public class Inventories {
 
 	public static Inventory getConfirmCreateIsland(){
 		Inventory inv = Bukkit.createInventory(null, 9, "§6❔ §3Recommencer une île ?");
-		inv.setItem(2 , Items.get("§cSupprimer mon île actuelle.", Material.WOOL,(byte) 14));
-		inv.setItem(6 , Items.get("§aAnnuler.", Material.WOOL,(byte) 4));
+		inv.setItem(2 , Items.get("§cSupprimer mon île actuelle.", Material.ORANGE_WOOL));
+		inv.setItem(6 , Items.get("§aAnnuler.", Material.GREEN_WOOL));
 		return inv;
 	}
 	public static void run_ConfirmCreateIsland(InventoryClickEvent event){
@@ -284,9 +284,9 @@ public class Inventories {
 			lore.add("§e§nNombre de membres :§b " + i.getMembers().size());
 			lore.add("§e§nDifficulté :§b " + i.getData("difficulty").getData());
 			if(p.getIsland() == i){
-				inv.addItem(Items.get("§5§l▶Votre île", Material.STAINED_CLAY,(byte) new Random().nextInt(15), lore));
+				inv.addItem(Items.get("§5§l▶Votre île", Material.RED_TERRACOTTA, lore));
 			}else{
-				inv.addItem(Items.get("§5§lIle §a" + i.getName(), Material.STAINED_CLAY,(byte) new Random().nextInt(15), lore));
+				inv.addItem(Items.get("§5§lIle §a" + i.getName(), Material.GREEN_TERRACOTTA, lore));
 			}
 		}
 		return inv;
@@ -307,7 +307,7 @@ public class Inventories {
 		SPlayer sp = PlayersManager.getSPlayer(p);
 		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
 		if(i != null){
-			p.openInventory(getSubChallengeInventory(ChallengesManager.getChallenge(i.getI18NDisplayName()),sp.getIsland()));
+			p.openInventory(getSubChallengeInventory(ChallengesManager.getChallenge(i.getItemMeta().getDisplayName()),sp.getIsland()));
 		}
 	}
 	
@@ -370,7 +370,7 @@ public class Inventories {
 			try{
 			//	inv.addItem(Items.get("§5§l▶Niveau :" + (i + 1), sp.getIsland().getMerchantInventory(i + 1, shopCateg).getItemMenu(shopCateg), (byte) 0));
 			}catch(Exception ex){
-				inv.addItem(Items.get("§c§l▶Niveau bloqué :" + (i + 1), Material.BARRIER, (byte) 0));
+				inv.addItem(Items.get("§c§l▶Niveau bloqué :" + (i + 1), Material.BARRIER));
 			}
 		}
 		return inv;
@@ -404,7 +404,7 @@ public class Inventories {
 				if(n.contains("HELL"))
 					m = Material.NETHERRACK;
 				else if(n.contains("FOREST"))
-					m = Material.WOOD;
+					m = Material.OAK_LOG;
 				else if(n.contains("HILLS"))
 					m = Material.STONE;
 				else if(n.contains("ICE"))
@@ -414,11 +414,11 @@ public class Inventories {
 				else if(n.contains("MESA"))
 					m = Material.CLAY;
 				else if(n.contains("VOID"))
-					m = Material.EYE_OF_ENDER;
+					m = Material.ENDER_EYE;
 				else if(n.contains("FROZEN"))
 					m = Material.ICE;
 				
-				inv.addItem(Items.get(n, m, (byte) 0));
+				inv.addItem(Items.get(n, m));
 			}catch(Exception ex){
 				
 			}
@@ -430,6 +430,7 @@ public class Inventories {
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		WEManager.setBiome(event.getSlot(), p.getIsland());
 	}
+	/*
 	public static Inventory getBlockValuesInventory(Island i, int page){
 		Inventory inv = Bukkit.createInventory(null, 9*4, "§eValeur des blocs :");
 		List<Countable<Integer>> b = i.getBlock_list();
@@ -461,12 +462,16 @@ public class Inventories {
 		inv.setItem(4*9 - 1,Items.get("Page suivante :" + (page+1) , Material.WOOL, (byte) 5));
 		return inv;
 	}
+	*/
+	
+	/*
 	public static void run_getBlockValues(InventoryClickEvent event){
 		Player pl = (Player) event.getWhoClicked();
 		SPlayer p = PlayersManager.getSPlayer(pl);
 		ItemStack i = event.getClickedInventory().getItem(event.getSlot());
 		pl.openInventory(getBlockValuesInventory(p.getIsland(), Integer.parseInt(i.getItemMeta().getDisplayName().split(":")[1])));
 	}
+	*/
 	public static Inventory getKickInventory(SPlayer sp, Island i){
 		Inventory inv = Bukkit.createInventory(null, ((i.getMembers().size())/9+1)*9, "§cExpulser un joueur");
 		for(Player p : Bukkit.getOnlinePlayers()){
