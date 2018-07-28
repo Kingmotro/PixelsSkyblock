@@ -112,10 +112,10 @@ public class MerchantInventory {
 		}
 	}
 	
+	
 	/*
 	 * Add an item with a price
 	 */
-	@Deprecated
 	public void addItem(String itemID, int subID, int itemPrice, int qte){
 		items.add(new ItemObject(new ItemStack(Material.getMaterial(itemID), qte, (short) subID), itemPrice));
 	}

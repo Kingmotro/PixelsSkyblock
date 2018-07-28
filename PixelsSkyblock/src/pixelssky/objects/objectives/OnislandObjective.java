@@ -36,10 +36,14 @@ public class OnislandObjective extends Objective{
 		if(!type){
 			List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
 			for(Countable<BlockType> b: blocks){
-				if(b.getID().getMaterial().equals(material) && b.getAmount() >= quantity){
+				try{
+				String matName = b.getID().getItemType().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+				if(Material.getMaterial(matName).equals(material) && b.getAmount() >= quantity){
 					return true;
-				}else if(b.getID().getMaterial().equals(material)){
+				}else if(Material.getMaterial(matName).equals(material)){
 					calculated_nb = b.getAmount();
+				}}catch(Exception ex){
+					
 				}
 			}
 			return false;
@@ -81,12 +85,11 @@ public class OnislandObjective extends Objective{
 
 		}else{
 			if( !(new ItemStack(material, quantity).toString()).equals("Air"))
-				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + new ItemStack(material, quantity).toString() + " §cest/sont posé(s) sur l'île";
+				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + material.toString() + " §cest/sont posé(s) sur l'île";
 			else
 				return "§e-▶§6" + calculated_nb + "/§l" + quantity + " §eitems de §6" + material.name() + " §cest/sont posé(s) sur l'île";
 
 		}
-
 	}
 
 	@Override
@@ -94,7 +97,7 @@ public class OnislandObjective extends Objective{
 		if(type) return "§e-▶§6" + quantity + " §eentités de §6" + it_name + " §eposée(s) sur l'île";
 		if(new ItemStack(material, quantity).toString().equals("Air"))
 			return "§e-▶§6" + quantity + " §eitems de §6" + material.toString() + " §eposé(s) sur l'île";
-		return "§e-▶§6" + quantity + " §eitems de §6" + new ItemStack(material, quantity).toString() + " §eposé(s) sur l'île";
+		return "§e-▶§6" + quantity + " §eitems de §6" + material.toString() + " §eposé(s) sur l'île";
 
 	}
 

@@ -35,13 +35,13 @@ public class InventoryObjective extends Objective{
 
 	@Override
 	public String getFailMessage(Player p) {
-		return "§e-▶§4" + quantity + " §citems de §4" + new ItemStack(material, quantity).toString() + " §cest/sont requis";
+		return "§e-▶§4" + quantity + " §citems de §4" + material.toString() + " §cest/sont requis";
 
 	}
 
 	@Override
 	public String getDescription() {
-		return "§e-▶§4" + quantity + " §citems de §4" + new ItemStack(material, quantity).toString();
+		return "§e-▶§4" + quantity + " §citems de §4" + material.toString();
 	}
 
 }

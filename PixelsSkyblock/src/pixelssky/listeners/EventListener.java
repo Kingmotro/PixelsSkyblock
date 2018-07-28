@@ -18,7 +18,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -105,13 +104,13 @@ public class EventListener implements Listener {
 			else if(event.getInventory().getName().equals("§6❔ §3Recommencer une île ?")){
 				event.setCancelled(true);
 				Inventories.run_ConfirmCreateIsland(event);
-			}else if(event.getInventory().getName().equals("§6§3Liste des îles")){
+			}else if(event.getInventory().getName().equals("§6Liste des îles")){
 				event.setCancelled(true);
 				Inventories.run_IslandList(event);
-			}else if(event.getInventory().getName().equals("§6§3Challenges !")){
+			}else if(event.getInventory().getName().equals("§6Challenges !")){
 				event.setCancelled(true);
 				Inventories.run_challengesMainInventory(event);
-			}else if(event.getInventory().getName().split(":")[0].equals("§6§3Challenges du niveau ")){
+			}else if(event.getInventory().getName().split(":")[0].equals("§6Challenges du niveau ")){
 				event.setCancelled(true);
 				Inventories.run_SubChallengesInventory(event);
 			}else if(event.getInventory().getName().split(":")[0].equals("§5Shop ")){
@@ -228,7 +227,7 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onFromTo(BlockFromToEvent event){
 		Material type = event.getBlock().getType();
-		if (type == Material.WATER || type == Material.LEGACY_STATIONARY_WATER || type == Material.LAVA || type == Material.LEGACY_STATIONARY_LAVA){
+		if (type == Material.WATER || type == Material.LAVA){
 			Block b = event.getToBlock();
 			World w = b.getWorld();
 			if (b.getType() == Material.AIR){
@@ -360,8 +359,8 @@ public class EventListener implements Listener {
 	};
 
 	public boolean generatesCobble(Material type, Block b){
-		Material mirrorID1 = (type == Material.WATER || type == Material.LEGACY_STATIONARY_WATER ? Material.LAVA : Material.WATER);
-		Material mirrorID2 = (type == Material.WATER || type == Material.LEGACY_STATIONARY_WATER ? Material.LEGACY_STATIONARY_LAVA : Material.LEGACY_STATIONARY_WATER);
+		Material mirrorID1 = (type == Material.WATER || type == Material.WATER ? Material.LAVA : Material.WATER);
+		Material mirrorID2 = (type == Material.WATER || type == Material.WATER ? Material.LAVA : Material.WATER);
 		for (BlockFace face : faces){
 			Block r = b.getRelative(face, 1);
 			if (r.getType() == mirrorID1 || r.getType() == mirrorID2){

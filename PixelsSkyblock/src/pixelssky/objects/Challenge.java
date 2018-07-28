@@ -28,10 +28,10 @@ public class Challenge implements Comparable<Challenge> {
 	private int type;
 	private boolean can_redo = false;
 	private Material m = Material.STONE;
-	private int i = 0;
+
 	private boolean isUnlockedByDefault = false;
 	
-	public Challenge(int type, String name, boolean unlocked, Material m, int i){
+	public Challenge(int type, String name, boolean unlocked, Material m){
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();
 		}else{
@@ -43,9 +43,8 @@ public class Challenge implements Comparable<Challenge> {
 		this.type = type;
 		this.isUnlockedByDefault = unlocked;
 		this.m = m;
-		this.i = i;
 	}
-	public Challenge(int type, String name, ArrayList<Objective> objectives, ArrayList<Reward> rewards, boolean can_redo, Material m, int i, boolean unlocked){
+	public Challenge(int type, String name, ArrayList<Objective> objectives, ArrayList<Reward> rewards, boolean can_redo, Material m, boolean unlocked){
 		if(type == Challenge.TYPE_CATEGORY){
 			subChallenges = new ArrayList<Challenge>();
 		}else{
@@ -57,7 +56,6 @@ public class Challenge implements Comparable<Challenge> {
 		this.name = name;
 		this.type = type;
 		this.m = m;
-		this.i = i;
 		this.isUnlockedByDefault = unlocked;
 	}
 

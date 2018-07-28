@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.bukkit.Material;
 
-import com.sk89q.worldedit.blocks.BlockMaterial;
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.block.BlockType;
 

@@ -13,7 +13,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.EditSession;
@@ -33,7 +32,6 @@ import com.sk89q.worldedit.world.block.BlockType;
 
 import pixelssky.objects.Island;
 
-@SuppressWarnings({"deprecation" })
 public class WEManager {
 	public static WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
 	

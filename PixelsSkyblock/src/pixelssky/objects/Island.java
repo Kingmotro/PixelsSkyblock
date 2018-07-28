@@ -4,25 +4,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Merchant;
-
-import com.sk89q.worldedit.blocks.BlockMaterial;
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.block.BlockType;
-import com.sk89q.worldedit.world.registry.BundledBlockData;
-
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
-import pixelssky.merchants.MerchantInventory;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Locations;
 import pixelssky.utils.StringConverter;
@@ -41,7 +34,7 @@ public class Island {
 	private ArrayList<Data> data = new ArrayList<Data>();
 	private List<Countable<Material>> block_list = new ArrayList<Countable<Material>>();
 	private TreeMap<Material , Double> block_values = new TreeMap<Material,Double>();
-	private int total_blocks;
+
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
@@ -193,7 +186,7 @@ public class Island {
 							total += block.getAmount();
 							try{
 								String matName = block.getID().getItemType().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
-								block_list.add(new Countable(Material.getMaterial(matName), block.getAmount()));
+								block_list.add(new Countable<Material>(Material.getMaterial(matName), block.getAmount()));
 							}catch(Exception ex){
 								
 							}
@@ -205,7 +198,6 @@ public class Island {
 					double minValue = Integer.MAX_VALUE;
 					String max = "";
 					String min = "";
-					total_blocks  = total;
 					for(Countable<BlockType> block : blocks){
 						try{
 						String matName = block.getID().getItemType().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
@@ -224,7 +216,7 @@ public class Island {
 							}
 						}
 						}catch(Exception ex){
-							ex.printStackTrace();
+							
 						}
 					}
 					p.resetTitle();

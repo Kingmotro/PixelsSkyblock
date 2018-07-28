@@ -4,11 +4,9 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.WorldCreator;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -276,7 +274,7 @@ public class Inventories {
 	}
 
 	public static Inventory getIslandsList(SPlayer p){
-		Inventory inv = Bukkit.createInventory(null, ((IslandsManager.islands.size())/9+1)*9, "§6§3Liste des îles");
+		Inventory inv = Bukkit.createInventory(null, ((IslandsManager.islands.size())/9+1)*9, "§6Liste des îles");
 		for(Island i: IslandsManager.islands){
 			ArrayList<String> lore = new ArrayList<String>();
 			lore.add("§e§nNiveau de l'île :§b "+ i.getLevel());
@@ -295,7 +293,7 @@ public class Inventories {
 	}
 
 	public static Inventory getChallengesMainInventory(Island i){
-		Inventory inv = Bukkit.createInventory(null, ((ChallengesManager.challenges.size())/9+1)*9, "§6§3Challenges !");
+		Inventory inv = Bukkit.createInventory(null, ((ChallengesManager.challenges.size())/9+1)*9, "§6Challenges !");
 		for(Challenge c : ChallengesManager.challenges){
 			inv.addItem(c.getItem(i));
 		}
@@ -311,7 +309,7 @@ public class Inventories {
 	}
 	
 	public static Inventory getSubChallengeInventory(Challenge ch, Island i){
-		Inventory inv = Bukkit.createInventory(null, ((ch.getSubChallenges().size())/9+1)*9, "§6§3Challenges du niveau :" + ch.getName());
+		Inventory inv = Bukkit.createInventory(null, ((ch.getSubChallenges().size())/9+1)*9, "§6Challenges du niveau :" + ch.getName());
 		for(Challenge c : ch.getSubChallenges()){
 			inv.addItem(c.getItem(i));
 		}
