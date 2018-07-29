@@ -96,7 +96,8 @@ public class ChallengesManager {
 									}else if(s[0].equals("onisland")){
 										if(s[1].equals("block"))
 											obj.add(new OnislandObjective(s[1].equals("entity"), s[2],Integer.parseInt(s[3])));
-
+										else if(s[1].equals("entity"))
+											obj.add(new OnislandObjective(s[1].equals("entity"), s[2],Integer.parseInt(s[3])));
 									}else if(s[0].equals("stats")){
 										obj.add(new StatsObjective(s[1], s[2], s[3]));
 									}

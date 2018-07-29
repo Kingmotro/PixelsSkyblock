@@ -141,6 +141,10 @@ public class Island {
 		return cp.add(0.5, 0.5, 0.5);
 	}
 
+	public Location getSpawnForSave() {
+		return isSpawn;
+	}
+
 	public int getID() {
 		return ID;
 	}
@@ -173,7 +177,6 @@ public class Island {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
-				ArrayList<String> messages = new ArrayList<String>();
 				try{
 					p.resetTitle();
 					p.sendTitle("§c⚠§4§lCalcul en cours§c⚠", "§eVeuillez patienter", 10,1000,10);
@@ -185,38 +188,37 @@ public class Island {
 						if(!block.getID().getMaterial().equals(Material.AIR)){
 							total += block.getAmount();
 							try{
-								String matName = block.getID().getItemType().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+								String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
 								block_list.add(new Countable<Material>(Material.getMaterial(matName), block.getAmount()));
 							}catch(Exception ex){
-								
+
 							}
 						}
 
 					}
-					messages.add(total + " blocs comptés");
 					double maxValue = 0;
 					double minValue = Integer.MAX_VALUE;
 					String max = "";
 					String min = "";
 					for(Countable<BlockType> block : blocks){
 						try{
-						String matName = block.getID().getItemType().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
-						//Passage 2
-						if(!matName.equals(Material.AIR.toString()) && !matName.equals(Material.BEDROCK.toString()) && !matName.equals(Material.EMERALD_BLOCK.toString())){
-							Double lvl = BlocksManager.getBlockValue(Material.getMaterial(matName), block, total);
-							block_values.put(Material.getMaterial(matName), lvl);
-							isLevel += lvl * block.getAmount();
-							if(maxValue < lvl * block.getAmount()){
-								maxValue = lvl * block.getAmount();
-								max = matName;
+							String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+							//Passage 2
+							if(!matName.equals(Material.AIR.toString()) && !matName.equals(Material.BEDROCK.toString()) && !matName.equals(Material.EMERALD_BLOCK.toString())){
+								Double lvl = BlocksManager.getBlockValue(Material.getMaterial(matName), block, total);
+								block_values.put(Material.getMaterial(matName), lvl);
+								isLevel += lvl * block.getAmount();
+								if(maxValue < lvl * block.getAmount()){
+									maxValue = lvl * block.getAmount();
+									max = matName;
+								}
+								if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
+									minValue = lvl * block.getAmount();
+									min = matName;
+								}
 							}
-							if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
-								minValue = lvl * block.getAmount();
-								min = matName;
-							}
-						}
 						}catch(Exception ex){
-							
+
 						}
 					}
 					p.resetTitle();
@@ -238,43 +240,48 @@ public class Island {
 	}
 
 	public void silentCalculateLevel() {
-		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+		/*
+		Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
-				/*
-				block_values.clear();
-				isLevel = 0d;
-				List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
-				int total = 0;
-				for(Countable<BlockType> block : blocks){
-					if(!block.getID().getMaterial().equals(Material.AIR)){
-						total += block.getAmount();	
-					}
+				try{
+					long startTime = System.nanoTime();
+					block_values.clear();
+					isLevel = 0d;
+					List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
+					int total = 0;
+					for(Countable<BlockType> block : blocks){
+						if(!block.getID().getMaterial().equals(Material.AIR)){
+							total += block.getAmount();
+							try{
+								String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+								block_list.add(new Countable<Material>(Material.getMaterial(matName), block.getAmount()));
+							}catch(Exception ex){
 
-				}
-				total_blocks  = total;
-				setBlock_list(blocks);
-
-				double maxValue = 0;
-				double minValue = Integer.MAX_VALUE;
-				for(Countable<BlockType> block : blocks){
-
-					//Passage 2
-					if(!block.getID().getMaterial().equals(Material.AIR) && !block.getID().getMaterial().equals(Material.BEDROCK) && !block.getID().getMaterial().equals(Material.EMERALD_BLOCK)){
-						Double lvl = BlocksManager.getBlockValue(block.getID().getMaterial(), block, total);
-						block_values.put(block.getID().getMaterial(), lvl);
-						isLevel += lvl * block.getAmount();
-						if(maxValue < lvl * block.getAmount()){
-							maxValue = lvl * block.getAmount();
+							}
 						}
-						if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
-							minValue = lvl * block.getAmount();
+
+					}
+					for(Countable<BlockType> block : blocks){
+						try{
+							String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+							//Passage 2
+							if(!matName.equals(Material.AIR.toString()) && !matName.equals(Material.BEDROCK.toString()) && !matName.equals(Material.EMERALD_BLOCK.toString())){
+								Double lvl = BlocksManager.getBlockValue(Material.getMaterial(matName), block, total);
+								block_values.put(Material.getMaterial(matName), lvl);
+								isLevel += lvl * block.getAmount();
+							}
+						}catch(Exception ex){
+
 						}
 					}
+					long endTime = System.nanoTime();
+					long duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+					System.out.println("Calcul IS LEVEL : " + ID + " " + getName() + " temps d'execution : " + (duration / 1000000) + "ms");
+				}catch(Exception ex){
 				}
-				 */
 			}
-		});
+		},20L);*/
 
 	}
 
@@ -298,7 +305,7 @@ public class Island {
 		return false;
 	}
 
-	
+
 	public double getBlockValue(Material m){
 		try
 		{

@@ -29,6 +29,7 @@ public class OnislandObjective extends Objective{
 			this.material = Material.getMaterial(mat_ID);
 		this.it_name = mat_ID;
 		this.quantity = quantity;
+		
 	}
 
 	@Override
@@ -37,13 +38,13 @@ public class OnislandObjective extends Objective{
 			List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
 			for(Countable<BlockType> b: blocks){
 				try{
-				String matName = b.getID().getItemType().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+				String matName = b.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
 				if(Material.getMaterial(matName).equals(material) && b.getAmount() >= quantity){
 					return true;
 				}else if(Material.getMaterial(matName).equals(material)){
 					calculated_nb = b.getAmount();
 				}}catch(Exception ex){
-					
+			
 				}
 			}
 			return false;
@@ -54,7 +55,7 @@ public class OnislandObjective extends Objective{
 				int qte = 0;
 				for(Entity e: es){
 					try{
-						if(e.getState().getType().toString().equalsIgnoreCase(it_name)){
+						if(e.getState().getType().getName().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "").equalsIgnoreCase(it_name)){
 							qte += 1;
 						}
 					}catch(Exception ex){

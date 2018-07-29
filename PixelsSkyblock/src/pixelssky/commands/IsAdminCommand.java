@@ -28,7 +28,7 @@ public class IsAdminCommand implements CommandExecutor{
 				p.sendMessage("/pxs goto [ID] : Se téléporter sur l'ile avec un ID");
 				p.sendMessage("/pxs shop add [CATEG] [entityType]");
 				p.sendMessage("/pxs shop addlvl [name] [level]");
-				p.sendMessage("/pxs shop set [CATEG] [LVL] ID SUBID QTE PRICE");
+				p.sendMessage("/pxs shop set [CATEG] [LVL] ID QTE PRICE");
 				p.sendMessage("/pxs shop save");
 			}else
 			{
@@ -73,11 +73,14 @@ public class IsAdminCommand implements CommandExecutor{
 					p.sendMessage("§5Libre :§d"+Runtime.getRuntime().freeMemory());
 				}else if(arg3[0].equals("save")){
 					p.sendMessage("Sauvegarde des îles ...");
-					DatabaseManager.openConnection();
-					for(Island i: IslandsManager.islands){
-						DatabaseManager.updateIsland(i);
-					}
-					DatabaseManager.closeConnection();
+					Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+						public void run() {
+							DatabaseManager.openConnection();
+							for(Island i: IslandsManager.islands){
+								DatabaseManager.updateIsland(i);
+							}
+							DatabaseManager.closeConnection();
+						}});
 				}else if(arg3[0].equals("shop")){
 					if(arg3[1].equals("add")){
 						MerchantCategory.add(arg3[2], p.getLocation(), arg3[3]);
@@ -85,10 +88,9 @@ public class IsAdminCommand implements CommandExecutor{
 						MerchantCategory.get(arg3[2]).addMerchant(arg3[2], Integer.parseInt(arg3[4]));
 					}else if(arg3[1].equals("set")){
 						String itemID = arg3[4];
-						int subID = Integer.parseInt(arg3[5]);
 						int itemPrice = Integer.parseInt(arg3[6]);
-						int qte = Integer.parseInt(arg3[7]);
-						MerchantCategory.get(arg3[2]).getMerchant(Integer.parseInt(arg3[3])).addItem(itemID, subID, itemPrice, qte);
+						int qte = Integer.parseInt(arg3[5]);
+						MerchantCategory.get(arg3[2]).getMerchant(Integer.parseInt(arg3[3])).addItem(itemID, itemPrice, qte);
 					}else if(arg3[1].equals("save")){
 						MerchantCategory.save();
 					}
