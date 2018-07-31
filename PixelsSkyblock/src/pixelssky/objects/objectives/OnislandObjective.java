@@ -12,7 +12,9 @@ import com.sk89q.worldedit.entity.Entity;
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.block.BlockType;
 
+import pixelssky.managers.PlayersManager;
 import pixelssky.objects.Island;
+import pixelssky.objects.SPlayer;
 import pixelssky.utils.WEManager;
 
 public class OnislandObjective extends Objective{
@@ -34,41 +36,46 @@ public class OnislandObjective extends Objective{
 
 	@Override
 	public boolean check(Player p, Island i) {
-		if(!type){
-			List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
-			for(Countable<BlockType> b: blocks){
-				try{
-				String matName = b.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
-				if(Material.getMaterial(matName).equals(material) && b.getAmount() >= quantity){
-					return true;
-				}else if(Material.getMaterial(matName).equals(material)){
-					calculated_nb = b.getAmount();
-				}}catch(Exception ex){
-			
-				}
-			}
-			return false;
-		}else{
-			try{
-
-				List<Entity> es = (List<Entity>) WEManager.count_entities(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
-				int qte = 0;
-				for(Entity e: es){
+		SPlayer Sp = PlayersManager.getSPlayer(p);
+		if(!Sp.isCheckingChallenge()){
+			Sp.setIsCheckingChallenge(true);
+			if(!type){
+				List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
+				for(Countable<BlockType> b: blocks){
 					try{
-						if(e.getState().getType().getName().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "").equalsIgnoreCase(it_name)){
-							qte += 1;
-						}
-					}catch(Exception ex){
-
+					String matName = b.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+					if(Material.getMaterial(matName).equals(material) && b.getAmount() >= quantity){
+						return true;
+					}else if(Material.getMaterial(matName).equals(material)){
+						calculated_nb = b.getAmount();
+					}}catch(Exception ex){
+				
 					}
 				}
-				calculated_nb = qte;
-				if(qte >= quantity){
-					return true;
+				return false;
+			}else{
+				try{
+	
+					List<Entity> es = (List<Entity>) WEManager.count_entities(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
+					int qte = 0;
+					for(Entity e: es){
+						try{
+							if(e.getState().getType().getName().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "").equalsIgnoreCase(it_name)){
+								qte += 1;
+							}
+						}catch(Exception ex){
+	
+						}
+					}
+					calculated_nb = qte;
+					if(qte >= quantity){
+						return true;
+					}
+				}catch(Exception ex){
 				}
-			}catch(Exception ex){
+	
 			}
-
+			Sp.setIsCheckingChallenge(false);
 		}
 		return false;
 	}
