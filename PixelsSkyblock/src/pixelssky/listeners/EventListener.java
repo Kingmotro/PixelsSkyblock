@@ -223,7 +223,7 @@ public class EventListener implements Listener {
 		}
 	}
 
-
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onFromTo(BlockFromToEvent event){
 		Material type = event.getBlock().getType();
@@ -233,77 +233,80 @@ public class EventListener implements Listener {
 			if (b.getType() == Material.AIR){
 				if (generatesCobble(type, b)){
 					/* DO WHATEVER YOU NEED WITH THE COBBLE */
-					Island i = Locations.getIslandAt(b.getLocation());
-					double nb = drng.getDistributedRandomNumber();
-					System.out.println("ITEM TIRE" + nb);
-					if(i.isMaterialUnlocked(Material.OBSIDIAN) && nb == 9){
-						b.setType(Material.OBSIDIAN);
-						for(int k = 0; k<10; k++){
-							w.playEffect(b.getLocation().subtract(k, k, k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(-k, -k, -k), Effect.SMOKE, k);
-
-							w.playEffect(b.getLocation().subtract(-k, k, k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(k, k, -k), Effect.SMOKE, k);
-
-							w.playEffect(b.getLocation().subtract(-k, -k, k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(k, -k, -k), Effect.SMOKE, k);
-
-							w.playEffect(b.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
+					Bukkit.getScheduler().scheduleAsyncDelayedTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+						public void run() {
+							Island i = Locations.getIslandAt(b.getLocation());
+							double nb = drng.getDistributedRandomNumber();
+							System.out.println("ITEM TIRE" + nb);
+							if(i.isMaterialUnlocked(Material.OBSIDIAN) && nb == 9){
+								b.setType(Material.OBSIDIAN);
+								for(int k = 0; k<10; k++){
+									w.playEffect(b.getLocation().subtract(k, k, k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(-k, -k, -k), Effect.SMOKE, k);
+		
+									w.playEffect(b.getLocation().subtract(-k, k, k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(k, k, -k), Effect.SMOKE, k);
+		
+									w.playEffect(b.getLocation().subtract(-k, -k, k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(k, -k, -k), Effect.SMOKE, k);
+		
+									w.playEffect(b.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
+								}
+								w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+							}else if(i.isMaterialUnlocked(Material.DIAMOND_ORE) && nb == 8){
+								b.setType(Material.DIAMOND_ORE);
+								for(int k = 0; k<10; k++){
+									w.playEffect(b.getLocation().subtract(k, k, k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(-k, -k, -k), Effect.SMOKE, k);
+		
+									w.playEffect(b.getLocation().subtract(-k, k, k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(k, k, -k), Effect.SMOKE, k);
+		
+									w.playEffect(b.getLocation().subtract(-k, -k, k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(k, -k, -k), Effect.SMOKE, k);
+		
+									w.playEffect(b.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
+									w.playEffect(b.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
+								}
+								w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+							}else if(i.isMaterialUnlocked(Material.EMERALD_ORE) && nb == 7){
+								b.setType(Material.EMERALD_ORE);
+								w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+							}else if(i.isMaterialUnlocked(Material.REDSTONE_ORE) && nb == 6){
+								b.setType(Material.REDSTONE_ORE);
+								w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+							}else if(i.isMaterialUnlocked(Material.GOLD_ORE) && nb == 5){
+								b.setType(Material.GOLD_ORE);
+								w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+							}else if(i.isMaterialUnlocked(Material.IRON_ORE) && nb == 4){
+								b.setType(Material.IRON_ORE);
+								w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+								w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
+							}else if(i.isMaterialUnlocked(Material.COAL_ORE) &&  nb == 3){
+								b.setType(Material.COAL_ORE);
+								w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
+							}else if(i.isMaterialUnlocked(Material.STONE) &&  nb == 2){
+								b.setType(Material.STONE);
+								w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
+							}else if(nb == 1){
+								b.setType(Material.COBBLESTONE);
+								w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
+							}else{
+		
+							}
 						}
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
-					}else if(i.isMaterialUnlocked(Material.DIAMOND_ORE) && nb == 8){
-						b.setType(Material.DIAMOND_ORE);
-						for(int k = 0; k<10; k++){
-							w.playEffect(b.getLocation().subtract(k, k, k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(-k, -k, -k), Effect.SMOKE, k);
-
-							w.playEffect(b.getLocation().subtract(-k, k, k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(k, k, -k), Effect.SMOKE, k);
-
-							w.playEffect(b.getLocation().subtract(-k, -k, k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(k, -k, -k), Effect.SMOKE, k);
-
-							w.playEffect(b.getLocation().subtract(-k, k, -k), Effect.SMOKE, k);
-							w.playEffect(b.getLocation().subtract(k, -k, k), Effect.SMOKE, k);
-						}
-						w.playSound(b.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
-					}else if(i.isMaterialUnlocked(Material.EMERALD_ORE) && nb == 7){
-						b.setType(Material.EMERALD_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
-					}else if(i.isMaterialUnlocked(Material.REDSTONE_ORE) && nb == 6){
-						b.setType(Material.REDSTONE_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
-					}else if(i.isMaterialUnlocked(Material.GOLD_ORE) && nb == 5){
-						b.setType(Material.GOLD_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
-					}else if(i.isMaterialUnlocked(Material.IRON_ORE) && nb == 4){
-						b.setType(Material.IRON_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-						w.playSound(b.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
-					}else if(i.isMaterialUnlocked(Material.COAL_ORE) &&  nb == 3){
-						b.setType(Material.COAL_ORE);
-						w.playSound(b.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1, 1);
-					}else if(i.isMaterialUnlocked(Material.STONE) &&  nb == 2){
-						b.setType(Material.STONE);
-						w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
-					}else if(nb == 1){
-						b.setType(Material.COBBLESTONE);
-						w.playSound(b.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1, 1);
-					}else{
-
-					}
-
+					}, 1);
 				}
 			}
 		}
