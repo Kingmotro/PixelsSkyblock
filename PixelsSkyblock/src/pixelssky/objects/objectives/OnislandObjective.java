@@ -37,8 +37,6 @@ public class OnislandObjective extends Objective{
 	@Override
 	public boolean check(Player p, Island i) {
 		SPlayer Sp = PlayersManager.getSPlayer(p);
-		if(!Sp.isCheckingChallenge()){
-			Sp.setIsCheckingChallenge(true);
 			if(!type){
 				List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), i.getEdges().get(0), i.getEdges().get(1));
 				for(Countable<BlockType> b: blocks){
@@ -75,8 +73,6 @@ public class OnislandObjective extends Objective{
 				}
 	
 			}
-			Sp.setIsCheckingChallenge(false);
-		}
 		return false;
 	}
 

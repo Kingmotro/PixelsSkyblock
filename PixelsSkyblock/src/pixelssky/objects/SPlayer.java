@@ -23,8 +23,6 @@ public class SPlayer {
 	private String lastTpaRequest;
 	private boolean isAfk = false;
 	private boolean protectionOverride = false;
-	private boolean isCheckingChallenge = false;
-
 	// TODO : Get and set
 	public int getID(){
 		return id;
@@ -219,11 +217,4 @@ public class SPlayer {
 		this.protectionOverride = protectionOverride;
 	}
 	
-	public boolean isCheckingChallenge() {
-		return isCheckingChallenge;
-	}
-
-	public void setIsCheckingChallenge(boolean checkingChallenge) {
-		this.isCheckingChallenge = checkingChallenge;
-	}
 }
