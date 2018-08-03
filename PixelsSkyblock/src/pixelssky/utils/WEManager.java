@@ -22,8 +22,10 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-
+import com.sk89q.worldedit.command.SchematicCommands;
 import com.sk89q.worldedit.entity.Entity;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.SchematicReader;
 import com.sk89q.worldedit.regions.CuboidRegion;
 
 import com.sk89q.worldedit.util.Countable;
@@ -95,15 +97,7 @@ public class WEManager {
 	    		}
 	        }
 	    }.runTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"));
-		
-		
-		/*
-        EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
-        
-		
-		SchematicReader sr = new SchematicReader(inputStream );
-        MCEditSchematicFormat.getFormat(file).load(file).paste(es, new Vector(origin.getBlockX(), origin.getBlockY(), origin.getBlockZ()), false); 
-        */
+
         return true;
     }
 

@@ -1,8 +1,10 @@
 package pixelssky.managers;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.block.BlockType;
@@ -24,6 +26,20 @@ public class BlocksManager {
 		}
 	}
 	public static void init_values(){
+		if(!new File("plugins/PixelsSky/blocs.txt").exists()){
+			ArrayList<String> allValues = new ArrayList<String>();
+			for(Material m : Material.values()){
+				System.out.println("Created block value for : " + m.name());
+				allValues.add(m.name() + "=0");
+			}
+			for(EntityType e : EntityType.values())
+			{
+				System.out.println("Created block value for : " + e.name());
+				allValues.add(e.name() + "=0");
+			}
+			FileManager.SaveFile("plugins/PixelsSky/blocs.txt", allValues);
+		}
+		
 		System.out.println("ADDING");
 		ArrayList<String> lines = FileManager.ReadAllText("plugins/PixelsSky/blocs.txt");
 		for (String t: lines){
