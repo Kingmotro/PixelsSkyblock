@@ -45,11 +45,15 @@ public class BlocksManager {
 		for (String t: lines){
 			try
 			{
-				blocs_values.add(new Countable<String>(t.split(":")[0], Integer.parseInt(t.split(":")[1].replaceAll(" ", ""))));
+				blocs_values.add(new Countable<String>(t.split("=")[0], Integer.parseInt(t.split("=")[1].replaceAll(" ", ""))));
 			}catch(Exception ex){
-				System.out.println(ex.toString());
+				try{
+					blocs_values.add(new Countable<String>(t.split(":")[0], Integer.parseInt(t.split(":")[1].replaceAll(" ", ""))));
+				}catch(Exception ex2){
+					System.out.println(ex2.toString());
+				}
 			}
-			
+			System.out.println("§5PixelsSkyblock §a-> Loaded " + lines.size() + " values.");
 		}
 	}
 	public static Double getValue(String s){

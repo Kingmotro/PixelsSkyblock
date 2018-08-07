@@ -28,6 +28,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.sk89q.worldedit.util.eventbus.EventHandler.Priority;
+
 import pixelssky.managers.DatabaseManager;
 import pixelssky.managers.PlayersManager;
 import pixelssky.merchants.MerchantCategory;
@@ -223,8 +225,7 @@ public class EventListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onFromTo(BlockFromToEvent event){
 		Material type = event.getBlock().getType();
 		if (type == Material.WATER || type == Material.LAVA){
@@ -233,7 +234,8 @@ public class EventListener implements Listener {
 			if (b.getType() == Material.AIR){
 				if (generatesCobble(type, b)){
 					/* DO WHATEVER YOU NEED WITH THE COBBLE */
-					Bukkit.getScheduler().scheduleAsyncDelayedTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+					event.setCancelled(true);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 						public void run() {
 							Island i = Locations.getIslandAt(b.getLocation());
 							double nb = drng.getDistributedRandomNumber();
