@@ -103,7 +103,6 @@ public class WEManager {
 
 	public static List<Countable<BlockType>> count(World world, Location loc1, Location loc2)
 	{
-		 
 		EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(world),-1);
 		Vector v1 = new Vector(loc1.getBlockX(), loc1.getBlockY(), loc1.getBlockZ());
 		Vector v2 = new Vector(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());

@@ -53,8 +53,8 @@ public class BlocksManager {
 					System.out.println(ex2.toString());
 				}
 			}
-			System.out.println("§5PixelsSkyblock §a-> Loaded " + lines.size() + " values.");
 		}
+		System.out.println("§5PixelsSkyblock §a-> Loaded " + lines.size() + " values.");
 	}
 	public static Double getValue(String s){
 		try{
