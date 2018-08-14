@@ -239,7 +239,6 @@ public class EventListener implements Listener {
 						public void run() {
 							Island i = Locations.getIslandAt(b.getLocation());
 							double nb = drng.getDistributedRandomNumber();
-							System.out.println("ITEM TIRE" + nb);
 							if(i.isMaterialUnlocked(Material.OBSIDIAN) && nb == 9){
 								b.setType(Material.OBSIDIAN);
 								for(int k = 0; k<10; k++){

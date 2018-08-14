@@ -15,16 +15,15 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.boydti.fawe.FaweAPI;
+import com.boydti.fawe.util.EditSessionBuilder;
 import com.sk89q.worldedit.EditSession;
 
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.command.SchematicCommands;
 import com.sk89q.worldedit.entity.Entity;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
 
 import com.sk89q.worldedit.util.Countable;
@@ -103,7 +102,8 @@ public class WEManager {
 
 	public static List<Countable<BlockType>> count(World world, Location loc1, Location loc2)
 	{
-		EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(world),-1);
+		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build(); 
+		//EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(world),-1);
 		Vector v1 = new Vector(loc1.getBlockX(), loc1.getBlockY(), loc1.getBlockZ());
 		Vector v2 = new Vector(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());
 		CuboidRegion r = new CuboidRegion(new BukkitWorld(world), v1, v2);
@@ -114,7 +114,7 @@ public class WEManager {
 	}
 	public static List<? extends Entity> count_entities(World world, Location loc1, Location loc2)
 	{
-		EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(world), -1);
+		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build(); 
 		Vector v1 = new Vector(loc1.getBlockX(), loc1.getBlockY(), loc1.getBlockZ());
 		Vector v2 = new Vector(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());
 		CuboidRegion r = new CuboidRegion(new BukkitWorld(world), v1, v2);

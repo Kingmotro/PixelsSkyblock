@@ -27,7 +27,6 @@ public class EntityListener implements Listener{
 			String pnjName = event.getRightClicked().getName().substring(2);
 			pl.openInventory(MerchantCategory.get(pnjName).getMainMenu(p.getIsland()));
 		}catch(Exception ex){
-			ex.printStackTrace();
 		}
 	}
 	
