@@ -120,7 +120,7 @@ public class IsAdminCommand implements CommandExecutor {
 						}
 					}
 				} else if (arg3[0].equals("goto") && arg3.length > 1) {
-					System.out.println("non tu reste ici");
+					System.out.println("non tu restes ici");
 				} else if (arg3[0].equals("protection")) {
 					System.out.println("la console est deja protégée");
 				} else if (arg3[0].equals("clean")) {
