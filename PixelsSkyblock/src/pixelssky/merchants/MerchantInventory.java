@@ -1,17 +1,10 @@
 package pixelssky.merchants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantRecipe;
 
 import pixelssky.managers.FileManager;
@@ -119,12 +112,12 @@ public class MerchantInventory {
 		}
 	}
 	
+	
 	/*
 	 * Add an item with a price
 	 */
-	@Deprecated
-	public void addItem(String itemID, int subID, int itemPrice, int qte){
-		items.add(new ItemObject(new ItemStack(Material.getMaterial(itemID), qte, (short) subID), itemPrice));
+	public void addItem(String itemID, int itemPrice, int qte){
+		items.add(new ItemObject(Items.get(Material.getMaterial(itemID), qte), itemPrice));
 	}
 
 	/*
@@ -132,18 +125,18 @@ public class MerchantInventory {
 	 * Set price to 0 to remove
 	 */
 	public void setItem(String itemID, int subID, int qte, int price){
-		ItemObject it = find(itemID, subID);
+		ItemObject it = find(itemID);
 		if(it != null){
 			it.obj.setAmount(qte);
 			it.price = price;
 		}else{
-			items.add(new ItemObject(new ItemStack(Material.getMaterial(itemID), qte, (short) subID), price));
+			items.add(new ItemObject(Items.get(Material.getMaterial(itemID), qte), price));
 		}
 	}
 	
-	public ItemObject find(String itemID, int subID){
+	public ItemObject find(String itemID){
 		for(ItemObject it : items){
-			if(it.obj.getType().name().equals(itemID) && it.obj.getData().getData() == (byte) subID){
+			if(it.obj.getType().name().equals(itemID)){
 				return it;
 			}
 		}

@@ -2,8 +2,10 @@ package pixelssky.rewards;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import pixelssky.objects.Island;
+
 
 public class CommandReward extends Reward {
 	String command;
@@ -16,7 +18,12 @@ public class CommandReward extends Reward {
 	
 	@Override
 	public void run(Player p, Island i) {
-		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replaceAll("@PLAYER", p.getDisplayName()));
+		new BukkitRunnable() {
+	        public void run() {
+	        	Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replaceAll("@PLAYER", p.getDisplayName()));
+	        }
+	    }.runTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"));
+		
 	}
 
 	@Override

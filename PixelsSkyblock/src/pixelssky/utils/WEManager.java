@@ -6,65 +6,118 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.boydti.fawe.FaweAPI;
 import com.boydti.fawe.util.EditSessionBuilder;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.IncompleteRegionException;
+
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.Vector2D;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.entity.Entity;
-import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
+import com.sk89q.worldedit.regions.CuboidRegion;
+
 import com.sk89q.worldedit.util.Countable;
 import com.sk89q.worldedit.world.DataException;
+import com.sk89q.worldedit.world.block.BlockType;
+
 import pixelssky.objects.Island;
 
-@SuppressWarnings({"deprecation" })
 public class WEManager {
 	public static WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
 	
 	
 	public static boolean pasteSchematics(World world, File file,Location origin) throws DataException, IOException, MaxChangedBlocksException
     {	
-        EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
-        MCEditSchematicFormat.getFormat(file).load(file).paste(es, new Vector(origin.getBlockX(), origin.getBlockY(), origin.getBlockZ()), false); 
+		new BukkitRunnable() {
+	        public void run() {
+	        	Island i = Locations.getIslandAt(origin);
+	        	try{
+	    			Block o = world.getBlockAt(origin.getBlockX(), origin.getBlockY() -1 , origin.getBlockZ());
+	    			o.setType(Material.BEDROCK);
+	    			
+	    		}catch(Exception ex){
+	    			ex.printStackTrace();
+	    		}
+	    		
+	    		try{
+	    			Block chest = world.getBlockAt(origin);
+	    			chest.setType(Material.CHEST);
+	    			
+	    			Chest c = (Chest) chest.getState();
+	    			
+	    			c.getInventory().addItem(Items.get(Material.DIRT, 6));
+	    			c.getInventory().addItem(Items.get(Material.GRASS_BLOCK, 1));
+	    			c.getInventory().addItem(Items.get(Material.COBBLESTONE, 6));
+	    			c.getInventory().addItem(Items.get(Material.LAVA_BUCKET, 1));
+	    			c.getInventory().addItem(Items.get(Material.WATER_BUCKET, 2));
+	    			c.getInventory().addItem(Items.get(Material.APPLE, 6));
+	    			c.getInventory().addItem(Items.get(Material.OAK_SAPLING, 4));
+	    			c.getInventory().addItem(Items.get(Material.BONE, 4));
+	    			c.getInventory().addItem(Items.getHelpBook());
+	    			
+	    			
+	    			
+	    			if(i.getDifficulty().equals(Island.DIFFICULTY_NORMAL)){
+	    				Block sign = chest.getRelative(BlockFace.NORTH);
+	    				sign.setType(Material.WALL_SIGN);
+	    				Sign s = (Sign) sign.getState();
+	    				
+	    				s.setLine(0, "Cette ile n'est pas");
+	    				s.setLine(1, "l'île de base finale");
+	    				s.setLine(2, "Serveur BETA");
+	    				s.setLine(3, "1.13");
+	    				
+	    				s.update();
+	    				for(int x = -10; x <= 10; x++){
+	    					for(int z = -10; z <= 10; z++){
+	    						Block o = world.getBlockAt(origin.getBlockX() + x, origin.getBlockY() -2 , origin.getBlockZ() + z);
+	    		    			o.setType(Material.STONE);
+	    		    			
+	    		    			Block o2 = world.getBlockAt(origin.getBlockX() + x, origin.getBlockY() -1 , origin.getBlockZ() + z);
+	    		    			if(!o2.getType().equals(Material.BEDROCK))
+	    		    				o2.setType(Material.GRASS_BLOCK);
+		    				}
+	    				}
+	    				
+	    			}
+	    		}catch(Exception ex){
+	    			ex.printStackTrace();
+	    		}
+	        }
+	    }.runTask(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"));
+
         return true;
     }
-	
 
-	public static List<Countable<Integer>> count(World world, Location loc1, Location loc2)
+
+	public static List<Countable<BlockType>> count(World world, Location loc1, Location loc2)
 	{
-		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
-		CuboidSelection cbs = new CuboidSelection(world, loc1 , loc2);
+		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build(); 
+		//EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(world),-1);
+		Vector v1 = new Vector(loc1.getBlockX(), loc1.getBlockY(), loc1.getBlockZ());
+		Vector v2 = new Vector(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());
+		CuboidRegion r = new CuboidRegion(new BukkitWorld(world), v1, v2);
 		
-		Region r = null;
-		try {
-			r = cbs.getRegionSelector().getRegion();
-		} catch (IncompleteRegionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		es.setFastMode(true);
 		
 		return es.getBlockDistribution(r);
 	}
 	public static List<? extends Entity> count_entities(World world, Location loc1, Location loc2)
 	{
-		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
-		CuboidSelection cbs = new CuboidSelection(world, loc1 , loc2);
-		
-		Region r = null;
-		try {
-			r = cbs.getRegionSelector().getRegion();
-		} catch (IncompleteRegionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build(); 
+		Vector v1 = new Vector(loc1.getBlockX(), loc1.getBlockY(), loc1.getBlockZ());
+		Vector v2 = new Vector(loc2.getBlockX(), loc2.getBlockY(), loc2.getBlockZ());
+		CuboidRegion r = new CuboidRegion(new BukkitWorld(world), v1, v2);
 		
 		return es.getEntities(r);
 	}
@@ -72,7 +125,7 @@ public class WEManager {
 		Location loc1 = i.getEdges().get(0);
 		Location loc2 = i.getEdges().get(1);
 		
-		EditSession es = new EditSessionBuilder(FaweAPI.getWorld("world")).fastmode(true).build();
+		//EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(Bukkit.getWorld("world")), -1);
 		int x_min = Math.min(loc1.getBlockX(), loc2.getBlockX());
 		int x_max = Math.max(loc1.getBlockX(), loc2.getBlockX());
 		int y_min = Math.min(loc1.getBlockZ(), loc2.getBlockZ());

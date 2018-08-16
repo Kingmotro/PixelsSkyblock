@@ -4,22 +4,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Merchant;
-
 import com.sk89q.worldedit.util.Countable;
-
+import com.sk89q.worldedit.world.block.BlockType;
 import pixelssky.managers.BlocksManager;
 import pixelssky.managers.ChallengesManager;
 import pixelssky.managers.IslandsManager;
 import pixelssky.managers.PlayersManager;
-import pixelssky.merchants.MerchantInventory;
 import pixelssky.utils.Classement;
 import pixelssky.utils.Locations;
 import pixelssky.utils.StringConverter;
@@ -30,15 +26,15 @@ public class Island {
 	public static final String DIFFICULTY_NORMAL = "NORMAL";
 	public static final String DIFFICULTY_EASY = "EASY";
 	public static final String DIFFICULTY_NONE = "EXAMPLE";
-	
+
 	public static final int ISLAND_SIZE = 251;
 
 	private int ID = 0;
 	private ArrayList<Integer> playersID = new ArrayList<Integer>();
 	private ArrayList<Data> data = new ArrayList<Data>();
-	private List<Countable<Integer>> block_list;
-	private TreeMap<Integer,Double> block_values = new TreeMap<Integer,Double>();
-	private int total_blocks;
+	private List<Countable<Material>> block_list = new ArrayList<Countable<Material>>();
+	private TreeMap<Material , Double> block_values = new TreeMap<Material,Double>();
+
 	private Location isCenter;
 	private Location isSpawn;
 	private Double isLevel;
@@ -131,8 +127,8 @@ public class Island {
 		Location cp = Locations.copyLocation(isSpawn);
 		try
 		{
-			
-			
+
+
 			if(cp.getBlockY() == 0 || cp.getBlockY() == 1){
 				return w.getHighestBlockAt(getCenter()).getLocation().add(0.5, 0.5, 0.5);
 			}else if(w.getBlockAt(cp).getType() != Material.AIR){
@@ -143,6 +139,10 @@ public class Island {
 
 		}
 		return cp.add(0.5, 0.5, 0.5);
+	}
+
+	public Location getSpawnForSave() {
+		return isSpawn;
 	}
 
 	public int getID() {
@@ -177,91 +177,111 @@ public class Island {
 		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
-				p.resetTitle();
-				p.sendTitle("§c⚠§4§lCalcul en cours§c⚠", "§eVeuillez patienter", 10,1000,10);
-				block_values.clear();
-				isLevel = 0d;
-				List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
-				int total = 0;
-				for(Countable<Integer> block : blocks){
-					if(block.getID() != 0){
-						total += block.getAmount();	
-					}
+				try{
+					p.resetTitle();
+					p.sendTitle("§c⚠§4§lCalcul en cours§c⚠", "§eVeuillez patienter", 10,1000,10);
+					block_values.clear();
+					isLevel = 0d;
+					List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
+					int total = 0;
+					for(Countable<BlockType> block : blocks){
+						if(!block.getID().getMaterial().equals(Material.AIR)){
+							total += block.getAmount();
+							try{
+								String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+								block_list.add(new Countable<Material>(Material.getMaterial(matName), block.getAmount()));
+							}catch(Exception ex){
 
-				}
-				double maxValue = 0;
-				double minValue = Integer.MAX_VALUE;
-				String max = "";
-				String min = "";
-				total_blocks  = total;
-				setBlock_list(blocks);
-				for(Countable<Integer> block : blocks){
-					//Passage 2
-					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
-						Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
-						block_values.put(block.getID(), lvl);
-						isLevel += lvl * block.getAmount();
-						if(maxValue < lvl * block.getAmount()){
-							maxValue = lvl * block.getAmount();
-							max = Material.getMaterial(block.getID()).toString();
+							}
 						}
-						if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
-							minValue = lvl * block.getAmount();
-							min = Material.getMaterial(block.getID()).toString();
+
+					}
+					double maxValue = 0;
+					double minValue = Integer.MAX_VALUE;
+					String max = "";
+					String min = "";
+					for(Countable<BlockType> block : blocks){
+						try{
+							String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+							//Passage 2
+							if(!matName.equals(Material.AIR.toString()) && !matName.equals(Material.BEDROCK.toString()) && !matName.equals(Material.EMERALD_BLOCK.toString())){
+								Double lvl = BlocksManager.getBlockValue(Material.getMaterial(matName), block, total);
+								block_values.put(Material.getMaterial(matName), lvl);
+								isLevel += lvl * block.getAmount();
+								if(maxValue < lvl * block.getAmount()){
+									maxValue = lvl * block.getAmount();
+									max = matName;
+								}
+								if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
+									minValue = lvl * block.getAmount();
+									min = matName;
+								}
+							}
+						}catch(Exception ex){
+
 						}
 					}
+					p.resetTitle();
+					p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
+					p.sendTitle("§2§lTerminé !", "", 10,10,10);
+					p.sendMessage("");
+					p.sendMessage("§a§n▶ §e§l§nNiveau de votre île : §5§l" + String.format("%.2f", isLevel) + " §aProgression : +§a" + String.format("%.2f", isLevel * getProgression()));
+					p.sendMessage("");
+					p.sendMessage("§a✔ §e Bloc le §aplus §erentable : §5" + max + " §e(§d" + String.format("%.2f", maxValue) + " §eniveaux)");
+					p.sendMessage("§4✘§e Bloc le §cmoins §erentable : §5" + min + " §e(§d" + String.format("%.2f", minValue) + " §eniveaux)");
+					p.sendMessage("");
+					p.sendMessage("§a§n▶ §e§l§nVous êtes : §5§l" + (Classement.getNB(getThis()) + 1) + "§e/" + IslandsManager.islands.size());
+				}catch(Exception ex){
+					ex.printStackTrace();
 				}
-				p.resetTitle();
-				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 100);
-				p.sendTitle("§2§lTerminé !", "", 10,10,10);
-				p.sendMessage("");
-				p.sendMessage("§a§n▶ §e§l§nNiveau de votre île : §5§l" + String.format("%.2f", isLevel) + " §aProgression : +§a" + String.format("%.2f", isLevel * getProgression()));
-				p.sendMessage("");
-				p.sendMessage("§a✔ §e Bloc le §aplus §erentable : §5" + max + " §e(§d" + String.format("%.2f", maxValue) + " §eniveaux)");
-				p.sendMessage("§4✘§e Bloc le §cmoins §erentable : §5" + min + " §e(§d" + String.format("%.2f", minValue) + " §eniveaux)");
-				p.sendMessage("");
-				p.sendMessage("§a§n▶ §e§l§nVous êtes : §5§l" + (Classement.getNB(getThis()) + 1) + "§e/" + IslandsManager.islands.size());
 			}
 		});
 
 	}
 
 	public void silentCalculateLevel() {
-		Bukkit.getScheduler().runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
+		/*
+		Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), new Runnable() {
 			@Override
 			public void run() {
-				block_values.clear();
-				isLevel = 0d;
-				List<Countable<Integer>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
-				int total = 0;
-				for(Countable<Integer> block : blocks){
-					if(block.getID() != 0){
-						total += block.getAmount();	
-					}
+				try{
+					long startTime = System.nanoTime();
+					block_values.clear();
+					isLevel = 0d;
+					List<Countable<BlockType>> blocks = WEManager.count(Bukkit.getWorld("world"), getEdges().get(0), getEdges().get(1));
+					int total = 0;
+					for(Countable<BlockType> block : blocks){
+						if(!block.getID().getMaterial().equals(Material.AIR)){
+							total += block.getAmount();
+							try{
+								String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+								block_list.add(new Countable<Material>(Material.getMaterial(matName), block.getAmount()));
+							}catch(Exception ex){
 
-				}
-				total_blocks  = total;
-				setBlock_list(blocks);
-
-				double maxValue = 0;
-				double minValue = Integer.MAX_VALUE;
-				for(Countable<Integer> block : blocks){
-					//Passage 2
-					if(block.getID() !=0 && block.getID() !=7 && block.getID() !=133){
-						Double lvl = BlocksManager.getBlockValue(block.getID(), block, total);
-						block_values.put(block.getID(), lvl);
-						isLevel += lvl * block.getAmount();
-						if(maxValue < lvl * block.getAmount()){
-							maxValue = lvl * block.getAmount();
+							}
 						}
-						if(minValue > lvl * block.getAmount() && lvl * block.getAmount() !=0){
-							minValue = lvl * block.getAmount();
+
+					}
+					for(Countable<BlockType> block : blocks){
+						try{
+							String matName = block.getID().getId().toUpperCase().replaceAll(" ", "_").replaceAll("MINECRAFT:", "");
+							//Passage 2
+							if(!matName.equals(Material.AIR.toString()) && !matName.equals(Material.BEDROCK.toString()) && !matName.equals(Material.EMERALD_BLOCK.toString())){
+								Double lvl = BlocksManager.getBlockValue(Material.getMaterial(matName), block, total);
+								block_values.put(Material.getMaterial(matName), lvl);
+								isLevel += lvl * block.getAmount();
+							}
+						}catch(Exception ex){
+
 						}
 					}
+					long endTime = System.nanoTime();
+					long duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+					System.out.println("Calcul IS LEVEL : " + ID + " " + getName() + " temps d'execution : " + (duration / 1000000) + "ms");
+				}catch(Exception ex){
 				}
-
 			}
-		});
+		},20L);*/
 
 	}
 
@@ -285,17 +305,16 @@ public class Island {
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public double getBlockValue(Material m){
-		int id = m.getId();
 		try
 		{
-			return block_values.get(id);
+			return block_values.get(m);
 		}catch(Exception ex){
-			return Double.MAX_VALUE;
+			return 0;
 		}
 	}
-	
+
 
 	public boolean isMerchantUnlocked(int lvl, String s){
 		if(this.getData("Débloqué " + s + lvl) != null || lvl == 1){
@@ -315,12 +334,12 @@ public class Island {
 	public int getPriceOffset(){
 		return (int) (isLevel / 10);
 	}
-	
+
 	@Override
 	public String toString(){
 		return "§eÎle §b" + this.getName() + " (§7" + this.getDifficulty() +",§8 membres : (" + this.getMembersToString() + "))" + "§7 ID : §a" + this.getID();
 	}
-	
+
 	public double getCompleted(ArrayList<Challenge> cl){
 		double qte_completed = 0;
 		for(Challenge c: cl){
@@ -336,12 +355,12 @@ public class Island {
 		return (qte_completed / ((double) ChallengesManager.number_of_challenges));
 	}
 
-	public List<Countable<Integer>> getBlock_list() {
+	public List<Countable<Material>> getBlock_list() {
 		return block_list;
 	}
 
-	public void setBlock_list(List<Countable<Integer>> block_list) {
+	public void setBlock_list(List<Countable<Material>> block_list) {
 		this.block_list = block_list;
 	}
-	
+
 }

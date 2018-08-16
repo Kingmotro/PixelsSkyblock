@@ -108,12 +108,12 @@ public class MerchantCategory {
 		for(MerchantInventory m: merchants){
 			if(m.isUnlocked(is)){
 				try{
-					inv.addItem(Items.get("§eNiveau :" + m.getLevel(), m.getMerchant(is).get(0).getResult().getType(), (byte) 0));
+					inv.addItem(Items.get("§eNiveau :" + m.getLevel(), m.getMerchant(is).get(0).getResult().getType()));
 				}catch(Exception ex){
 					
 				}
 			}else{
-				inv.addItem(Items.get("§c§l▶Niveau bloqué :" + m.getLevel(), Material.BARRIER, (byte) 0));
+				inv.addItem(Items.get("§c§l▶Niveau bloqué :" + m.getLevel(), Material.BARRIER));
 			}
 			
 		}

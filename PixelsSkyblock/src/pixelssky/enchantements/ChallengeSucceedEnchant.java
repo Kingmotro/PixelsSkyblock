@@ -1,13 +1,16 @@
 package pixelssky.enchantements;
 
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
 public class ChallengeSucceedEnchant extends Enchantment{
 
-	public ChallengeSucceedEnchant(int id) {
-		super(id);
+	public ChallengeSucceedEnchant(String name) {
+		super(new NamespacedKey(Bukkit.getPluginManager().getPlugin("PixelsSkyblock"), name));
+		
 		// TODO Auto-generated constructor stub
 	}
 

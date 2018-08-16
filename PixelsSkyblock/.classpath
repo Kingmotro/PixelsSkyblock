@@ -3,10 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Dependencies/FastAsyncWorldEdit-bukkit-17.06.06-6554370-709-13.0.12.jar"/>
-	<classpathentry kind="lib" path="C:/Dependencies/PaperSpigot-latest.jar"/>
-	<classpathentry kind="lib" path="C:/Dependencies/worldedit-bukkit-6.1.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Dependencies/citizensapi-2.0.22-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Dependencies/spigot-latest1.13.jar"/>
+	<classpathentry kind="lib" path="C:/Dependencies/citizens-2.0.23-SNAPSHOT.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Dependencies/FastAsyncWorldEdit-bukkit-18.08.14-db65e96-1976.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

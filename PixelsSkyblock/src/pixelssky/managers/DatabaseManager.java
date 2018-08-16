@@ -5,11 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import org.bukkit.Bukkit;
-import org.bukkit.WorldCreator;
-
-import com.boydti.fawe.bukkit.wrapper.AsyncWorld;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
 import pixelssky.objects.Data;
@@ -172,7 +169,7 @@ public class DatabaseManager {
 
 			stmt.executeUpdate("UPDATE `island` SET `PLAYERS_ID` = '" + i.getMembersToString()
 			+ "', `ISLAND_CENTER` = '" + Locations.toString(i.getCenter()) + "', `ISLAND_SPAWN` = '"
-			+ Locations.toString(i.getSpawn()) + "', `ISLAND_LEVEL` = '" + i.getLevel()
+			+ Locations.toString(i.getSpawnForSave()) + "', `ISLAND_LEVEL` = '" + i.getLevel()
 			+ "' WHERE `island`.`ID` = " + i.getID() + "; ");
 
 		} catch (Exception ex) {
@@ -182,7 +179,7 @@ public class DatabaseManager {
 				System.out.println("== CALCULATING ISSUE ==");
 				System.out.println("ID -> Ok :" + i.getID()); phid++;
 				System.out.println("MembersToString -> Ok :" + i.getMembersToString()); phid++;
-				System.out.println("Is Spawn -> Ok :" + Locations.toString(i.getSpawn())); phid++;
+				System.out.println("Is Spawn -> Ok :" + Locations.toString(i.getSpawnForSave())); phid++;
 				System.out.println("Is Level -> Ok :" + i.getLevel()); phid++;
 				System.out.println("Is Center -> Ok :" + Locations.toString(i.getCenter())); phid++;
 				System.out.println("==!!! Error come from SQL !!!==");
@@ -390,7 +387,7 @@ public class DatabaseManager {
 			public void run() {
 				openConnection();
 				for(Island i: IslandsManager.islands){
-					updateIsland(i);
+			        	updateIsland(i);
 				}
 				closeConnection();
 			}}, 20*60*10, 20*60*10);

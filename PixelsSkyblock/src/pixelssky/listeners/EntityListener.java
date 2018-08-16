@@ -2,22 +2,18 @@ package pixelssky.listeners;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Merchant;
-
 import pixelssky.managers.PlayersManager;
 import pixelssky.merchants.MerchantCategory;
 import pixelssky.objects.Data;
 import pixelssky.objects.Island;
 import pixelssky.objects.SPlayer;
 import pixelssky.utils.DistributedRandomNumberGenerator;
-import pixelssky.utils.Inventories;
 import pixelssky.utils.Items;
 
 public class EntityListener implements Listener{
@@ -31,7 +27,6 @@ public class EntityListener implements Listener{
 			String pnjName = event.getRightClicked().getName().substring(2);
 			pl.openInventory(MerchantCategory.get(pnjName).getMainMenu(p.getIsland()));
 		}catch(Exception ex){
-			ex.printStackTrace();
 		}
 	}
 	
@@ -42,9 +37,9 @@ public class EntityListener implements Listener{
 		ItemStack reward = null;
 		
 		switch(drng.getDistributedRandomNumber()) {
-			case 1: reward = Items.get(Material.AIR, (byte) 0, 1) ;
+			case 1: reward = Items.get(Material.AIR, 1) ;
 					break;
-			case 2: reward = Items.get(Material.AIR, (byte) 0, 2) ;
+			case 2: reward = Items.get(Material.AIR, 2) ;
 					break;
 			case 3: reward = new ItemStack(Material.EMERALD, 1);
 					break;
@@ -52,9 +47,9 @@ public class EntityListener implements Listener{
 					break;
 			case 5: reward = new ItemStack(Material.EMERALD, 2);
 					break;
-			case 6: reward = new ItemStack(Material.WOOD_BUTTON, 1);
+			case 6: reward = new ItemStack(Material.OAK_BUTTON, 1);
 					break;
-			case 7: reward = new ItemStack(Material.WOOD_SPADE,1);
+			case 7: reward = new ItemStack(Material.WOODEN_SHOVEL,1);
 					break;
 			case 8: reward = new ItemStack(Material.COBBLESTONE,5);
 					break;

@@ -11,27 +11,34 @@ import pixelssky.objects.Island;
 import pixelssky.utils.Items;
 
 public class GiveReward extends Reward{
-	int item_ID;
-	int item_SubID;
+	Material material;
 	int quantity;
 	TreeMap<String, Integer> enchants = new TreeMap<String, Integer>();
-	
-	public GiveReward(int a, int b, int c){
-		this.item_ID = a;
-		this.item_SubID = b;
+	/**
+	 * Create REWARD
+	 * @param a Material to give
+	 * @param c Int quantity to give
+	 */
+	public GiveReward(Material a, int c){
+		this.material = a;
 		this.quantity = c;
 	}
 	
-	public GiveReward(int a, int b, int c, TreeMap<String, Integer> e){
-		this.item_ID = a;
-		this.item_SubID = b;
+	/**
+	 * 
+	 * @param a Material to give
+	 * @param c int Quantity to give
+	 * @param e	TreeMap : list of enchants.
+	 */
+	public GiveReward(Material a, int c, TreeMap<String, Integer> e){
+		this.material = a;
 		this.quantity = c;
 		this.enchants = e;
 	}
 	
 	@Override
 	public void run(Player p, Island i) {
-		ItemStack it = Items.get(Material.getMaterial(item_ID), (byte) item_SubID);
+		ItemStack it = Items.get(material);
 		it.setAmount(quantity);
 		for(String e:enchants.keySet()){
 			try{
@@ -49,7 +56,7 @@ public class GiveReward extends Reward{
 
 	@Override
 	public String getDescription() {
-		ItemStack it = Items.get(Material.getMaterial(item_ID), (byte) item_SubID);
+		ItemStack it = Items.get(material);
 		it.setAmount(quantity);
 		String enchantments = "";
 		for(String e:enchants.keySet()){
@@ -60,7 +67,7 @@ public class GiveReward extends Reward{
 				ex.printStackTrace();
 			}
 		}
-		return "§e-▶§2[Récompense] §a" + it.getI18NDisplayName() + " §a" + enchantments + " §2quantité : §a"  + quantity;
+		return "§e-▶§2[Récompense] §a" + material.toString() + " §a" + enchantments + " §2quantité : §a"  + quantity;
 	}
 
 }
